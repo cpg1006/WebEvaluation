@@ -1,0 +1,22 @@
+@startuml
+
+actor "user2" as u2
+actor "user3" as u3
+actor "currentUser" as curr
+
+rectangle "User Database" {
+  usecase "save to database" as UC1
+  usecase "Used for Comparison" as UC2
+  usecase "added to model attributes" as UC3
+  usecase "attributes added to new page" as UC4
+  usecase "get auth" as UC5
+}
+
+u3 --> UC1
+u2 --> UC2
+u2 --> UC3
+u3 --> UC2
+curr --> UC5
+UC3 --> UC4: <<includes>>
+
+@enduml

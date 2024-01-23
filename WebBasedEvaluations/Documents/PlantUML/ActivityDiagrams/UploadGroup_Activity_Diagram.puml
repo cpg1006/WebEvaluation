@@ -1,0 +1,31 @@
+@startuml
+start
+:Get User and Company Info;
+if (User has Permission?) then (yes)
+  :Try Load Excel Sheets;
+  if (File and Sheet Type Correct?) then (yes)
+    :Process Roles;
+    if (Invalid Role?) then (yes)
+      :Redirect with Role Error;
+      stop
+    endif
+    :Process Groups;
+    if (Invalid Group?) then (yes)
+      :Redirect with Group Error;
+      stop
+    endif
+    :Process Evaluators;
+    if (Invalid Evaluator?) then (yes)
+      :Redirect with Evaluator Error;
+      stop
+    endif
+    :Save Data;
+    :Redirect to adminGroups;
+  else (no)
+    :Redirect with File Type Error;
+  endif
+else (no)
+  :Redirect with Permission Error;
+endif
+stop
+@enduml

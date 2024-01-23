@@ -1,0 +1,69 @@
+@startuml EditGroupSequenceDiagram
+
+actor Admin as Admin
+participant GroupController as GroupController
+participant GroupRepository as GroupRepository
+participant RevieweeRepsoitory as RevieweeRepsoitory
+participant Reviewee as Reviewee
+participant UserRepsoitory as UserRepsoitory
+participant DepartmentRepsoitory as DepartmentRepsoitory
+participant Group as Group
+participant UserList as List
+participant User as User
+participant Authentication as Authentication
+participant evaluatorRepository as evaluatorRepository
+participant evalRoleRepository as evalRoleRepository
+participant Model as Model
+
+
+
+
+Admin -> GroupController: Groups()
+Admin -> GroupController: editGroup()
+GroupController -> Authentication: getPrincipal()
+GroupController -> UserRepsoitory: findById()
+GroupController -> User: getCompany()
+GroupController -> DepartmentRepsoitory: findByCompany()
+GroupController -> GroupRepository: findById()
+GroupController -> evaluatorRepository: findByGroupId()
+GroupController -> UserRepsoitory: findByCompany()
+GroupController -> evalRoleRepository: findAll()
+GroupController -> RevieweeRepsoitory: findByCompany()
+
+GroupController -> UserList: Size()
+loop userList.size() times
+	GroupController -> GroupRepository: getGroupSize()
+	
+	loop groupRepository.getGroupSize() times
+		GroupController -> GroupRepsoitory: getGroupSize()	
+		GroupController -> User: getId()
+		GroupController -> Group: getReviewees()
+		Group -> Reviewee: get()
+		Reviewee -> User: getUser()
+		User -> User: getId()	
+		
+		alt [if user id is in the group]
+			GroupController -> User: get()
+			GroupController -> GroupController: add()
+		end
+	end	
+	
+end
+
+GroupController -> UserList: get()
+GroupController -> User: getId()
+alt [current user is in the userList]
+	GroupController -> User: get()
+	GroupController -> GroupController: add()
+end
+
+
+GroupController -> Model: addAttributes()
+
+		
+
+
+
+
+
+@enduml

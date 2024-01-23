@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+
+<script>
+	function uploadSpinner(id) {
+		document.getElementById(id).style.visibility = 'hidden';
+		document.getElementById(id).style.display = 'none';
+		document.getElementById(id + "Load").removeAttribute("hidden");
+	}
+
+	// async function manCreateGroup(e) {
+	// 	await fetch(`${window.location.origin}/mancreategroup`, {method:"POST"})
+	// 			.then(response => response.ok ? response.json() : Promise.reject(response))
+	// 			.then(data => window.location.href = `${window.location.origin}/edit/${data[0]}`)
+	//
+	// }
+</script>
+
+<title>Groups</title>
+</head>
+<body>
+
+	<!-- EVAL ADMIN NAVBAR -->
+	<!--  NAVBAR -->
+<!--	<nav class="navbar navbar-light bg-light justify-content-center">-->
+<!--		<a class="navbar-brand" th:text=${companyName}></a>		-->
+<!--		<div class="btn-group" role="group" aria-label="Button group with nested dropdown">	-->
+<!--			<div class="navbar navbar-light bg-light justify-content-center">-->
+<!--				<span style= "padding-right:5px">-->
+<!--					<a th:href="@{/home}" class="btn btn-outline-success" type="button">Home</a>-->
+<!--				</span>		-->
+<!--				<nav th:if="${ADMIN == true}"-->
+<!--				class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<th:block th:switch="${showUserScreen}">-->
+<!--						<th:block th:case="true">-->
+<!--							<span style= "padding-right:5px">-->
+<!--								<a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}"-->
+<!--								class="btn btn-outline-success" type="button">Manage Users</a>-->
+<!--							</span>							-->
+<!--						</th:block>-->
+<!--						<th:block th:case="false">-->
+<!--							<th:block th:switch="${rolesNeedAdded}">-->
+<!--								<th:block th:case="true">-->
+<!--									<span class="d-inline-block tooltip-wrapper" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Roles must be uploaded before you can manage users." style= "padding-right:5px">-->
+<!--										<a href="#" class="btn btn-outline-success disabled" type="button">Manage Users</a>-->
+<!--									</span>-->
+<!--								</th:block>-->
+<!--								<th:block th:case="false">-->
+<!--									<span class="d-inline-block tooltip-wrapper" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Companies and their departments must be uploaded before you can manage users." style= "padding-right:5px">-->
+<!--										<a href="#" class="btn btn-outline-success disabled" type="button">Manage Users</a>-->
+<!--									</span>-->
+<!--								</th:block>-->
+<!--							</th:block>-->
+<!--						</th:block>-->
+<!--					</th:block>-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/download_log_txt}" class="btn btn-outline-success d-flex" type="button">Download Log File</a>-->
+<!--					</span>		-->
+<!--				</nav>-->
+<!--				-->
+<!--				<nav th:if="${EVAL_ADMIN == true}"-->
+<!--				class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/adminEvaluations}" class="btn btn-outline-success" type="button">Evaluation Forms</a>-->
+<!--					</span>-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/Archivegroups}" class="btn btn-outline-success" type="button">Archive</a>-->
+<!--					</span>-->
+<!--					<th:block th:switch="${hasEvals}"> -->
+<!--						<th:block th:case="yes">-->
+<!--							<span style= "padding-right:5px">-->
+<!--								<button th:onclick="|window.location.href='@{/adminGroups}'|" class="btn btn-outline-success" style="color:#ffffff; background-color:#4CAF50;" type="button">Groups</button>-->
+<!--							</span>-->
+<!--						</th:block>-->
+<!--						<th:block th:case="no">-->
+<!--							<span class="d-inline-block tooltip-wrapper" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Groups are inaccessable until at least one Evaluation Template is uploaded." style= "padding-right:5px">-->
+<!--								<a href="#" class="btn btn-outline-success disabled" type="button">Groups</a>-->
+<!--							</span>-->
+<!--						</th:block>-->
+<!--					</th:block>-->
+<!--				</nav>-->
+<!--					-->
+<!--				<nav th:if="${EVALUATOR == true}" -->
+<!--				class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/Evaluationgroups}" class="btn btn-outline-success" type="button">Evaluation Groups</a>-->
+<!--					</span>		-->
+<!--				</nav>-->
+<!--				<nav th:if="${COMPANY_ADMIN == true}" -->
+<!--				class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/adminRoles}" class="btn btn-outline-success" type="button">Manage Roles</a>-->
+<!--					</span>		-->
+<!--				</nav>-->
+<!--				<nav th:if="${SUPERUSER == true}" -->
+<!--				class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/adminCompanies}" class="btn btn-outline-success" type="button">Manage Companies</a>-->
+<!--					</span>		-->
+<!--				</nav>-->
+<!--				<nav th:if="${EVALUATOR_EVAL == true}"-->
+<!--				class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<button id="btnGroupDrop1" type="button"-->
+<!--								class="btn btn-outline-success dropdown-toggle"-->
+<!--								data-bs-toggle="dropdown" aria-expanded="false">Evaluate</button>-->
+<!--							<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">-->
+<!--								<li><a class="dropdown-item" th:href="@{/Evaluationgroups}">View Groups</a></li>-->
+<!--							</ul>-->
+<!--					</span>-->
+<!--				</nav>-->
+<!--				-->
+<!--				<nav th:if="${USER == true} AND ${SUPERUSER == false}" class="navbar navbar-light bg-light  justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/myEval}" class="btn btn-outline-success" type="button">My Evaluations</a>-->
+<!--					</span> -->
+<!--				</nav>-->
+<!--				<div class="navbar navbar-light bg-light justify-content-center">-->
+<!--					<span style= "padding-right:5px">-->
+<!--						<a th:href="@{/userSettings/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage}, sortOr=${sortOr})}"-->
+<!--							class="btn btn-outline-success" type="button">My Account</a>-->
+<!--					</span>-->
+<!--					<a th:href="@{/logout}" class="btn btn-outline-danger d-flex" type="button"> Logout </a>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</nav>-->
+	<div th:replace="./navbarFragm.html :: navbar"></div>
+	<div class="container  mt-5">
+		<div th:switch="${completed}">
+			<h2 th:case="null"></h2>
+			<div th:case="true">
+
+
+				<div class="row">
+					<div class="col">
+						<div class="alert alert-success" role="alert"
+							th:utext="'<Strong>Upload Successful!&nbsp</strong>'"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:switch="${error}">
+			<h2 th:case="null"></h2>
+			<div th:case="*">
+
+
+				<div class="row">
+					<div class="col">
+						<div class="alert alert-danger" role="alert"
+							th:utext="'<Strong>Error&nbsp</strong>' + ${error} "></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:switch="${warnings}">
+			<h2 th:case="null"></h2>
+			<div th:case="*">
+
+
+				<div th:each=" warning: ${warnings}" class="row">
+					<div class="col">
+						<div class="alert alert-warning alert-dismissible fade show"
+							role="alert">
+							<span th:utext="'<Strong>Warning&nbsp</strong>' + ${warning} "></span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"
+								aria-label="Close"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<nav class="navbar navbar-light bg-light ">
+
+					<button class="btn btn-outline-success justify-content-left"
+						type="button" data-bs-toggle="collapse" data-bs-target="#add"
+						aria-expanded="false" aria-controls="collapseExample">
+						Add Groups</button>
+					
+
+
+
+				</nav>
+			</div>
+		</div>
+
+		<div class="row">
+<div th:switch= "${groups}">
+<div th:case="null">
+<p> <strong>There are currently no groups added </strong></p>
+
+</div>
+
+</div>
+			<div class="collapse" id="add">
+				<div class="card card-body">
+					<form class="md-form" th:action="@{/uploadgroup}" method="post"
+						enctype="multipart/form-data">
+						<span id="-upload"> 
+						<H3>Upload a File</H3>
+								<div>
+									<input type="file" name="file" class="form-control" id="-file" />
+								</div> &nbsp
+								<div>
+									<button id="importBtnLoad" class="btn btn-outline-success" type="button" disabled hidden="true">
+							  			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+							 			 	Loading...
+									</button>
+									<input id="importBtn" class="btn btn-outline-success" type="submit" value="Import" onclick="uploadSpinner('importBtn')"/>
+									<button href="#"
+										onclick="!(document.getElementById('-upload').innerHTML=document.getElementById('-upload').innerHTML);"
+										class="btn btn-outline-warning">Remove
+									</button>
+								</div>
+								
+								
+							</span>
+					</form>
+
+<!--					<button class="btn btn-outline-success" th:href="@{/manageGroups}"> Manually Create Group</button>-->
+					<div class="mt-2">
+						<a th:href="@{/gotoman}" class="btn btn-outline-success" type="button">Manually Create Groups</a>
+					</div>
+<!--					<form th:action="@{/mancreategroup}" method="post" enctype="multipart/form-data"-->
+<!--						  th:object="${group}">-->
+<!--						<div class="container">-->
+<!--							<div class="row align-items-start">-->
+<!--								<div class="col" align="left"><br>-->
+<!--									<H3>Create a Group Manually</H3>-->
+<!--									<div>-->
+<!--											<label for="groupName">Group Name:</label>-->
+<!--											<input type="text" th:field="*{groupName}"-->
+<!--												   id="groupName" placeholder="Group Name">-->
+
+<!--&lt;!&ndash;											<label for="number">Number:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;											<input type="text" th:field="*{number}"&ndash;&gt;-->
+<!--&lt;!&ndash;												   id="number" placeholder="Group Number">&ndash;&gt;-->
+
+<!--											<div class="form-check form-check-inline">-->
+<!--												<input class="form-check-input" th:field="*{selfeval}" type="checkbox"-->
+<!--													   value="" id="defaultCheck1">-->
+<!--												<label class="form-check-label" for="defaultCheck1">-->
+<!--													Self Eval Required?-->
+<!--												</label>-->
+<!--											</div>-->
+
+<!--											<label for="year">Year:</label>-->
+<!--											<input type="text" th:field="*{year}" id="year" placeholder="Group Year">-->
+
+
+<!--										<input type="submit" class="btn btn-outline-success " value="Create New Group">-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</form>-->
+					
+				</div>
+			</div>
+
+		</div>
+		<div class="collapse" id="editnewgroup">
+			<div class="card card-body">
+
+			</div>
+		</div>
+
+		
+		<div style="overflow-x: auto;" th:unless="${groupsAreEmpty}">
+			<table class="table" align="center">
+				<thead>
+					<tr>
+						<th>
+							<button id="groupNumberHead" class = "btn btn-outline-success" type="button">Group</button>
+						</th>
+						<th>
+							<button id="evalFormHead" class = "btn btn-outline-success" type="button">Evaluation Form</button>
+						</th>
+						<th>
+							<button id="numEmployeesHead" class = "btn btn-outline-success" type="button">Number of Reviewees</button>
+						</th>
+						<th>
+							<button id="selfEvalHead" class = "btn btn-outline-success" type="button">Self Evaluation</button>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="group : ${groups}">
+						<td>
+							<button class="btn btn-outline-success " type="button" th:onclick="|window.location.href='@{/groupInformation/{id}(id=${group.id})}'|" th:text="${group.groupName}+' ('+${group.year}+')'"></button>	
+						</td>
+						<td>
+							<p th:if="${group.evalTemplates.isActivated}" th:text="${group.evalTemplates.name}"></p>
+							<p th:unless="${group.evalTemplates.isActivated}" th:text="${group.evalTemplates.name}+' (deactivated)'"></p>
+						</td>
+						<td>
+							<p th:text="${group.reviewee.size}"></p>
+						</td>
+						<td>
+							<p th:if="${group.selfeval}">Required</p>
+							<p th:unless="${group.selfeval}">Not Required</p>
+						</td>
+						
+						<td align="center">
+							<span style= "padding-right:5px">
+								<button class="btn btn-outline-success "  type="button" th:onclick="|window.location.href='@{/editgroup/{id}(id=${group.id})}'|">Edit</button>
+							</span>
+							<span style= "padding-right:5px">
+								<button class="btn btn-outline-success " type="button" th:onclick="|window.location.href='@{/archivegroup/{id}(id=${group.id})}'|">Archive</button>
+							</span>
+							<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#homeModal'+ ${group.id}">Delete</button>	
+						</td>
+						
+						<td align="center">						
+							<div class="modal fade" th:id="'homeModal' + ${group.id}"
+													data-bs-backdrop="static" data-bs-keyboard="false"
+													tabindex="-1"
+													th:aria-labelledby="'homeModalLabel' + ${group.id}"
+													aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title"
+												th:id="'homeModalLabel' + ${group.id}">Warning</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">Are you sure you want to delete this group</div>
+										<div class="modal-footer">
+											<button id="deleteButton" type="button"
+												class="btn btn-secondary" data-bs-dismiss="modal"
+												th:onclick="|window.location.href='@{/delete/{id}(id=${group.id})}'|">
+												Yes</button>
+											<a th:href="@{/home}" type="button"
+												class="btn btn-primary">No </a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table class="table" align="center">
+				<h4><b>Archived Groups</b></h4>
+				<thead>
+					<tr>
+						<th>
+							<button id="groupNumberHeadA" class="btn btn-outline-success" type="button">Group</button>
+						</th>
+						<th>
+							<button id="evalFormHeadA" class="btn btn-outline-success" type="button">Evaluation Form</button>
+						</th>
+						<th>
+							<button id="numEmployeesHeadA" class="btn btn-outline-success" type="button">Number of Reviewees</button>
+						</th>
+						<th>
+							<button id="selfEvalHeadA" class="btn btn-outline-success" type="button">Self Evaluation</button>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="agroup : ${archiveGroup}">
+						<td>
+							<button class="btn btn-outline-success " type="button"
+								th:onclick="|window.location.href='@{/groupInformation/{id}(id=${agroup.id})}'|"
+								th:text="${agroup.groupName}+' ('+${agroup.year}+')'"></button>
+						</td>
+						<td>
+							<p th:if="${agroup.evalTemplates.isActivated}" th:text="${agroup.evalTemplates.name}"></p>
+							<p th:unless="${agroup.evalTemplates.isActivated}"
+								th:text="${agroup.evalTemplates.name}+' (deactivated)'"></p>
+						</td>
+						<td>
+							<p th:text="${agroup.reviewee.size}"></p>
+						</td>
+						<td>
+							<p th:if="${agroup.selfeval}">Required</p>
+							<p th:unless="${agroup.selfeval}">Not Required</p>
+						</td>
+			
+						<td align="center">
+							
+							<span style="padding-right:5px">
+								<button class="btn btn-outline-success " type="button"
+									th:onclick="|window.location.href='@{/archivegroup/{id}(id=${agroup.id})}'|">Unarchive</button>
+							</span>
+							<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+								th:data-bs-target="'#homeModal'+ ${agroup.id}">Delete</button>
+						</td>
+			
+						<td align="center">
+							<div class="modal fade" th:id="'homeModal' + ${agroup.id}" data-bs-backdrop="static"
+								data-bs-keyboard="false" tabindex="-1" th:aria-labelledby="'homeModalLabel' + ${agroup.id}"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" th:id="'homeModalLabel' + ${agroup.id}">Warning</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"
+												aria-label="Close"></button>
+										</div>
+										<div class="modal-body">Are you sure you want to delete this group</div>
+										<div class="modal-footer">
+											<button id="deleteButton" type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal"
+												th:onclick="|window.location.href='@{/delete/{id}(id=${agroup.id})}'|">
+												Yes</button>
+											<a th:href="@{/home}" type="button" class="btn btn-primary">No </a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+
+
+</body>
+</html>
+

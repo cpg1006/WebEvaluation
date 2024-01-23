@@ -1,0 +1,22 @@
+@startuml
+Actor GroupController as GroupController
+participant GroupRepository as GroupRepository
+participant Company as Company
+participant EvaluatorRepository as EvaluatorRepository
+participant Evaluator as Evaluator
+participant User as User
+participant EvalRole as EvalRole
+
+GroupRepository -> Group : findById(groupId)
+Group -> Company : getCompany()
+EvaluatorRepository -> Evaluator : findByCompanyId(company.getId())
+EvaluatorRepository -> Evaluator : findByGroupId(groupId)
+User -> Evaluator : user
+Group -> Evaluator : group
+EvalRole -> Evaluator : level
+
+
+List -> User : newEvals
+User -> Evaluator : getUser()
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+left to right direction
+
+actor Admin
+
+rectangle "Remove User From Group" {
+
+usecase "remove User" as UC1
+usecase "get Group" as UC2
+usecase "get Reviewee" as UC3
+usecase "delete User from Group" as UC4
+
+
+UC1 .> UC2 : includes
+UC1 .> UC3 : includes
+UC1 .> UC4 : extends
+
+}
+Admin --> UC1
+
+
+@enduml

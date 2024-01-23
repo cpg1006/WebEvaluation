@@ -1,0 +1,85 @@
+@startuml
+class Role {
+    - Long id
+    - String name
+    - Boolean activated
+    - Set<User> users
+    - Set<Privilege> privileges
+    - Company company
+
+    + Role()
+    + Role(String, Company)
+    + Role(String, Privilege, Company)
+    + Role(String, User, Privilege, Company)
+    + Role(String, Set<User>, Set<Privilege>, Company)
+    + Set<Company> readableCompanies()
+    + Set<Company> writableCompanies()
+    + Set<Company> deletableCompanies()
+    + Set<Company> evalableCompanies()
+    + Set<User> readableUsers()
+    + Set<User> writableUsers()
+    + Set<User> deletableUsers()
+    + Set<User> evalableUsers()
+    + Set<Department> readableDepartments()
+    + Set<Department> writableDepartments()
+    + Set<Department> deletableDepartments()
+    + Set<Department> evalableDepartments()
+    + Set<Location> readableLocations()
+    + Set<Location> writableLocations()
+    + Set<Location> deletableLocations()
+    + Set<Location> evalableLocations()
+    + Set<LocationGroup> readableLocationGroups()
+    + Set<LocationGroup> writableLocationGroups()
+    + Set<LocationGroup> deletableLocationGroups()
+    + Set<LocationGroup> evalableLocationGroups()
+    + Set<Role> containsRoles(Collection<Role>)
+    + boolean contains(Role)
+    + boolean addPrivilege(Privilege)
+    + boolean removePrivilege(Privilege)
+    + boolean addUser(User)
+    + boolean removeUser(User)
+    + Company getCompany()
+    + void setCompany(Company)
+    + Long getId()
+    + void setId(Long)
+    + String getName()
+    + void setName(String)
+    + Set<User> getUsers()
+    + void setUsers(Set<User>)
+    + Set<Privilege> getPrivileges()
+    + void setPrivileges(Set<Privilege>)
+    + String getNameAndCompany()
+    + boolean compareTo(Role)
+    + void setActivation(Boolean)
+    + Boolean getActivation()
+}
+
+class User {
+    ...
+}
+
+class Privilege {
+    ...
+}
+
+class Company {
+    ...
+}
+
+class Department {
+    ...
+}
+
+class Location {
+    ...
+}
+
+class LocationGroup {
+    ...
+}
+
+Role "1" *-- "*" User : users
+Role "*" *-- "*" Privilege : privileges
+Role "1" -- "1" Company : company
+
+@enduml

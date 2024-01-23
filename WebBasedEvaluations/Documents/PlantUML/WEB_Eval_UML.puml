@@ -1,0 +1,2449 @@
+@startuml
+interface edu.sru.WebBasedEvaluations.repository.EvaluationLogRepository {
+~ Iterable<EvaluationLog> findByReviewee(long)
+~ Iterable<EvaluationLog> findByIdNotNull(Long)
+~ List<EvaluationLog> findByevaluator(Evaluator)
+~ EvaluationLog findByEvaluatorAndReviewee(Evaluator,Reviewee)
+~ EvaluationLog findByEvaluatorId(EvaluatorId)
+~ List<EvaluationLog> findByEvaluatorCompany(Company)
+~ EvaluationLog findByEvaluatorIdAndRevieweeId(long,long)
+}
+interface edu.sru.WebBasedEvaluations.repository.CompanyRepository {
++ Company findByCompanyName(String)
++ Company findById(long)
++ Object findAll(Sort)
++ List<Company> findAll()
+}
+class edu.sru.WebBasedEvaluations.service.AdminMethodsService {
+- UserRepository userRepository
+- RoleRepository roleRepo
+- Logger log
+- {static} int PASSWORDSIZE
+- UserService service
++ <<Create>> AdminMethodsService(UserRepository,RoleRepository)
++ List<User> sortCheck(String,List<User>,Integer,Model)
++ String capitalize(String)
++ boolean hasSpace(String)
++ boolean checkAndUpdate(User,HttpSession)
++ void validate(Object,Errors)
++ void adminUserPageItems(String,String,String,Integer,Model,String,Integer,Integer,Authentication)
++ List<User> pageCalc(List<User>,Integer,Integer,String,String,Model)
++ User comparingMethod(long,User,User,Model)
++ {static} Model pageNavbarPermissions(User,Model,EvaluatorRepository,EvaluationRepository)
++ {static} Model addingOrEditingUser(User,LocationRepository,DepartmentRepository,RoleRepository,CompanyRepository,Model)
++ {static} Model addingOrEditingCompany(User,LocationRepository,DepartmentRepository,RoleRepository,CompanyRepository,Model)
+}
+class edu.sru.WebBasedEvaluations.company.Department {
+- Long id
+- Boolean activated
+- String name
+- Company company
+- User deptHead
+- List<Location> locations
+- List<Group> groups
+- List<EvalTemplates> evalTemplates
+- List<User> users
+- List<Privilege> privileges
++ <<Create>> Department()
++ <<Create>> Department(Company)
++ <<Create>> Department(User,Location,String,Privilege,User,Company)
++ <<Create>> Department(List<User>,List<Location>,String,List<Privilege>,Company)
++ void addPrivilege(Privilege)
++ boolean removePrivilege(Privilege)
++ boolean addUser(User)
++ boolean addUsers(List<User>)
++ boolean removeUser(User)
++ boolean addTemplate(EvalTemplates)
++ boolean addTemplates(List<EvalTemplates>)
++ boolean removeTemplate(EvalTemplates)
++ void addLocation(Location)
++ void addLocations(List<Location>)
++ boolean removeLocation(Location)
++ Company getCompany()
++ void setCompany(Company)
++ List<EvalTemplates> getEvalTemplates()
++ void setEvalTemplates(List<EvalTemplates>)
++ User getDeptHead()
++ void setDeptHead(User)
++ String getName()
++ Long getId()
++ void setId(Long)
++ List<Privilege> getPrivileges()
++ void setPrivileges(List<Privilege>)
++ void setName(String)
++ List<Location> getLocations()
++ void setLocations(List<Location>)
++ List<User> getUsers()
++ void setUsers(List<User>)
++ List<Group> getGroups()
++ void setGroups(List<Group>)
++ void setActivation(Boolean)
++ Boolean getActivation()
+}
+interface edu.sru.WebBasedEvaluations.repository.EvaluationRepository {
+~ List<EvalTemplates> findByNameIn(List<String>)
+~ List<EvalTemplates> findByCompany(Company)
+~ long count()
+~ EvalTemplates findByNameAndCompany(String,Company)
+}
+class edu.sru.WebBasedEvaluations.service.UserService {
+- UserRepository userRepository
++ List<User> getAllUsers()
++ List<User> getByKeyword(String,Company)
++ List<User> getBySetCount(List<User>,int,int)
++ List<User> sorting(List<User>,String,Integer)
+}
+class edu.sru.WebBasedEvaluations.company.LocationGroup {
+- Long id
+- String name
+- List<Location> locations
+- List<Privilege> privileges
+- Company company
+- int numLocations
++ <<Create>> LocationGroup()
++ <<Create>> LocationGroup(String,Location,Company)
++ <<Create>> LocationGroup(List<Location>,List<Privilege>,String,Company)
++ <<Create>> LocationGroup(Location,Privilege,String,Company)
++ <<Create>> LocationGroup(List<Location>)
++ <<Create>> LocationGroup(Location)
++ void addPrivilege(Privilege)
++ boolean removePrivilege(Privilege)
++ void addLocation(Location)
++ boolean removeLocation(Location)
++ void addLocations(List<Location>)
++ Long getId()
++ void setId(Long)
++ String getName()
++ void setName(String)
++ Company getCompany()
++ void setCompany(Company)
++ List<Privilege> getPrivileges()
++ void setPrivileges(List<Privilege>)
++ List<Location> getLocations()
++ void setLocations(List<Location>)
++ int getNumLocations()
++ void setNumLocations(int)
+}
+class edu.sru.WebBasedEvaluations.controller.HomePage {
+~ Authentication auth
+- UserRepository userRepository
+- EvaluatorRepository evaluatorRepository
+- DepartmentRepository departmentRepository
+- EvaluationRepository evaluationRepository
+- Logger log
+- EvaluationRepository evalFormRepo
++ <<Create>> HomePage(UserRepository,EvaluatorRepository,EvaluationRepository)
++ String base()
++ String login()
++ String manageGroups()
++ String loginLoging(Authentication)
++ String home(Authentication,User,Model)
++ ResponseEntity<Resource> downloadEvalExcel()
+}
+class edu.sru.WebBasedEvaluations.controller.SelfEvaluationControllerTest {
+~ SelfEvaluationController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void submitSelfEvalTest()
++ void viewSelfEvalTest()
++ void saveSelfEvalForm()
+}
+class edu.sru.WebBasedEvaluations.company.CompanyTest {
+~ {static} String name
+~ {static} Company co
++ {static} void initialize()
++ void activationTest()
++ void addLocationTest()
++ void addLocationsTest()
++ void removeLocationTest()
++ void addUserTest()
++ void addUsersTest()
++ void removeUserTest()
++ void getIdTest()
++ void setIdTest()
++ void getCompanyNameTest()
++ void setCompanyNameTest()
++ void getNumEmployeesTest()
++ void setNumEmployeesTest()
++ void getNumLocationsTest()
++ void setNumLocationsTest()
+}
+class edu.sru.WebBasedEvaluations.service.AdminMethodsServiceTest {
+- {static} User user
+- {static} User user2
+- {static} User user3
+~ UserRepository userRepo
+~ RoleRepository roleRepo
+~ AdminMethodsService adminMeth
++ {static} void newUser()
++ void firstNameTest()
++ void adminMethoCapTest()
++ void adminMethoSpaceTest()
+}
+class edu.sru.WebBasedEvaluations.EvalForm.EvaluationTest {
+~ {static} String evalID
+~ {static} String title
+~ {static} String description
+~ {static} String warning
+~ {static} String error
+~ {static} String group
+~ {static} Section section
+~ {static} ComputeRange range
+~ {static} List<Section> sectionList
+~ {static} List<String> warnings
+~ {static} List<String> errors
+~ {static} List<String> groupsList
+~ {static} List<ComputeRange> computeRanges
+~ {static} Evaluation eval
+~ {static} void begin()
++ void getEvalID()
++ void setEvalID()
++ void getTitle()
++ void setTitle()
++ void getDescription()
++ void setDescription()
++ void getCompleted()
++ void setCompleted()
++ void getComputeTotals()
++ void setComputeTotals()
++ void getGroupsList()
++ void addGroup()
++ void clearGroupsList()
++ void addError()
++ void getError()
++ void getErrorCount()
++ void getErrors()
++ void addWarning()
++ void getWarning()
++ void getWarningCount()
++ void getWarnings()
++ void addSection()
++ void getSection()
++ void getSectionCount()
++ void getSections()
++ void setComputeRanges()
++ void addComputeRange()
++ void getComputeRange()
++ void getComputeRangeCount()
+}
+class edu.sru.WebBasedEvaluations.domain.Reviewee {
+- Long id
+- Group group
+- String name
+- User user
+- Company company
+- List<EvaluationLog> evalutationLog
+- SelfEvaluation selfEvaluation
++ <<Create>> Reviewee()
++ <<Create>> Reviewee(Group,String,User)
++ Long getId()
++ void setId(Long)
++ Group getGroup()
++ void setGroup(Group)
++ String getName()
++ void setName(String)
++ User getUser()
++ void setUser(User)
++ List<EvaluationLog> getEvalutationLog()
++ void setEvalutationLog(List<EvaluationLog>)
++ SelfEvaluation getSelfEvaluation()
++ void setSelfEvaluation(SelfEvaluation)
++ String toString()
+}
+class edu.sru.WebBasedEvaluations.evalform.ParseEvaluation {
++ {static} Evaluation parseEvaluation(Evaluation,String)
+}
+class edu.sru.WebBasedEvaluations.domain.revieweelist {
+}
+class edu.sru.WebBasedEvaluations.company.DepartmentTest {
+~ {static} long id
+~ {static} String newName
+~ {static} User user
+~ {static} List<User> users
+~ {static} Location loc
+~ {static} String name
+~ {static} Privilege priv
+~ {static} List<Location> locations
+~ {static} Location newloc
+~ {static} List<Privilege> Privilegies
+~ {static} Company co
+~ {static} Department dep
++ {static} void initialize()
++ void activationTest()
++ void addPrivilegeTest()
++ void removePrivilegeTest()
++ void addUserTest()
++ void addUsersTest()
++ void removeUserTest()
++ void addLocationTest()
++ void addLocationsTest()
++ void removeLocationTest()
++ void getNameTest()
++ void getIdTest()
++ void setIdTest()
++ void getPrivilegesTest()
++ void setPrivilegesTest()
++ void setNameTest()
++ void getLocationsTest()
++ void setLocationsTest()
++ void getUsersTest()
++ void setUsersTest()
+}
+class edu.sru.WebBasedEvaluations.domain.ArchiveTest {
+~ {static} Archive archive
+~ {static} Archive invalidArchive
+~ {static} Date date
+~ {static} void setup()
++ void getIdTest()
++ void getDateEditedTest()
++ void getPathTest()
++ void getRevieweeTest()
++ void getRoleTest()
++ void getEvaluatorTest()
++ void nullValuesTest()
++ void Test()
+}
+class edu.sru.WebBasedEvaluations.domain.EvaluationLog {
+- long id
+- Date dateEdited
+- Evaluator evaluator
+- Reviewee reviewee
+- byte[] path
+- byte[] attach
+- Boolean auth
+- String attachname
+- Boolean completed
++ <<Create>> EvaluationLog()
++ <<Create>> EvaluationLog(Evaluator)
++ <<Create>> EvaluationLog(Evaluator,Reviewee)
++ Evaluator getEvaluator()
++ void setEvaluator(Evaluator)
++ Reviewee getReviewee()
++ void setReviewee(Reviewee)
++ byte[] getPath()
++ void setPath(byte[])
++ long getId()
++ void setId(long)
++ Date getDateEdited()
++ void setDateEdited(Date)
++ Boolean getAuth()
++ void setAuth(Boolean)
++ Boolean getCompleted()
++ void setCompleted(Boolean)
++ byte[] getAttach()
++ void setAttach(byte[])
++ String getAttachname()
++ void setAttachname(String)
+}
+class edu.sru.WebBasedEvaluations.company.CityTest {
+~ long id
+~ {static} String name
+~ {static} int locations
+~ {static} Province parent
+~ {static} Country grandparent
+~ {static} Location child
+~ {static} Company co
+~ {static} LocationGroup locGroup
+~ {static} City city
++ {static} void initialize()
++ void addLocationTest()
++ void addLocationsTest()
++ void removeLocationTest()
++ void getIdTest()
++ void setIdTest()
++ void getCityNameTest()
++ void setCityNameTest()
++ void getNumLocationsTest()
++ void setNumLocationsTest()
++ void getParentProvinceTest()
++ void setParentProvinceTest()
++ void getChildLocationsTest()
++ void setChildLocationsTest()
+}
+class edu.sru.WebBasedEvaluations.controller.AddUserControllerTest {
+- {static} User user
+~ BindingResult result
+~ Model model
+~ UserRepository userRepo
+~ RoleRepository roleRepo
+~ CompanyRepository companyRepo
+~ LocationRepository locationRepo
+~ DepartmentRepository deptRepo
+- {static} Company co
+~ Authentication auth
+~ MultipartFile file
+~ AddUserController controller
+- int port
+- TestRestTemplate restTemplate
++ {static} void newUser()
++ void addUserTest()
++ void SanityCheckTest()
++ void uploadUser2Test()
+}
+class edu.sru.WebBasedEvaluations.evalform.ComputeRange {
+- {static} long serialVersionUID
+- String rangeName
+- double rangeValMin
+- double rangeValMax
++ <<Create>> ComputeRange()
++ <<Create>> ComputeRange(double,double,String)
++ String getRangeName()
++ void setRangeName(String)
++ double getRangeValMin()
++ void setRangeValMin(double)
++ double getRangeValMax()
++ void setRangeValMax(double)
+}
+class edu.sru.WebBasedEvaluations.configuration.PDFConfiguration {
++ ClassLoaderTemplateResolver emailTemplateResolver()
+}
+class edu.sru.WebBasedEvaluations.controller.CompanyController {
+- UserRepository userRepo
+- EvaluatorRepository evaluatorRepo
+- CompanyRepository companyRepo
+- LocationRepository locationRepo
+- LocationGroupRepository locGroupRepo
+- DepartmentRepository deptRepo
+- WorldRepository worldRepo
+- ContinentRepository continentRepo
+- CountryRepository countryRepo
+- ProvinceRepository provinceRepo
+- CityRepository cityRepo
+- RoleRepository roleRepo
+- EvaluationRepository evalFormRepo
+- AdminMethodsService adminMethodsService
+- String TEMP_FILES_PATH
+- Logger log
++ <<Create>> CompanyController()
++ String addCompany(Model,Authentication)
++ String addCompany(Company,BindingResult,Model,Authentication)
++ Object uploadCompany(MultipartFile,RedirectAttributes,Authentication)
++ String showUpdateForm(long,long,Company,Model,Authentication)
++ String updateCompany(long,long,Model,Authentication,Company)
++ String removeUser(long,long,long,Model,Authentication)
++ String reactivateUser(long,long,long,Model,Authentication)
++ String removeLocation(long,long,Model,Authentication)
++ String reactivateLocation(long,long,Model,Authentication)
++ String removeDepartment(long,long,long,Model,Authentication)
++ String reactivateDepartment(long,long,long,Model,Authentication)
++ String deactivateCompany(long,Model,Authentication)
++ String reactivateCompany(long,Model,Authentication)
++ Set<Company> getChildList(Company)
++ User getAdminUser(Company)
+}
+interface edu.sru.WebBasedEvaluations.repository.RevieweeRepository {
+~ String findNameById(long)
+~ String findGroupById(long)
+~ List<Reviewee> findByCompany(Company)
+~ List<Reviewee> findBygroup_Id(long)
+~ List<Reviewee> findBygroup(Group)
+~ List<Reviewee> findByUser_Id(long)
+~ Reviewee findById(long)
+~ Reviewee findByNameAndCompany(String,Company)
+~ List<Reviewee> findByuser_Id(long)
+~ List<Reviewee> findByGroupNumberAndCompany(int,Company)
+~ Reviewee findByUserId(long)
+}
+interface edu.sru.WebBasedEvaluations.repository.PrivilegeRepository {
++ Privilege findByName(String)
+}
+class edu.sru.WebBasedEvaluations.controller.EvalFormController {
+- EvaluationRepository evalFormRepo
+- EvaluationLogRepository evalLogRepo
+- GroupRepository groupRepo
+- UserRepository userRepo
+- DepartmentRepository deptRepo
+- EvaluatorRepository evaluatorRepo
+- Evaluation eval
+- XSSFWorkbook apacheWorkbook
+- Set<Department> depts
+- String WINDOWS_FILES_PATH
+- String MAC_FILES_PATH
+- String workingFilesPath
+- Logger log
+~ <<Create>> EvalFormController(EvaluationRepository,EvaluationLogRepository,GroupRepository,UserRepository,DepartmentRepository)
++ String adminEvaluations(Model,Authentication)
++ Object uploadEvalTemplate(MultipartFile,RedirectAttributes,Authentication)
++ RedirectView saveEvalTemplate(Evaluation,Model,Authentication)
++ ResponseEntity<Resource> downloadEvalResults(String)
++ ResponseEntity<Resource> downloadEvalExcel(String)
++ ResponseEntity<Resource> downloadErrorLog(String)
++ Object deactivateEvalTemplate(String,Authentication)
++ Object reactivateEvalTemplate(String,Authentication)
+}
+class edu.sru.WebBasedEvaluations.domain.Role {
+- Long id
+- String name
+- Boolean activated
+- Set<User> users
+- Set<Privilege> privileges
+- Company company
++ <<Create>> Role()
++ <<Create>> Role(String,Company)
++ <<Create>> Role(String,Privilege,Company)
++ <<Create>> Role(String,User,Privilege,Company)
++ <<Create>> Role(String,Set<User>,Set<Privilege>,Company)
++ Set<Company> readableCompanies()
++ Set<Company> writableCompanies()
++ Set<Company> deletableCompanies()
++ Set<Company> evalableCompanies()
++ Set<User> readableUsers()
++ Set<User> writableUsers()
++ Set<User> deletableUsers()
++ Set<User> evalableUsers()
++ Set<Department> readableDepartments()
++ Set<Department> writableDepartments()
++ Set<Department> deletableDepartments()
++ Set<Department> evalableDepartments()
++ Set<Location> readableLocations()
++ Set<Location> writableLocations()
++ Set<Location> deletableLocations()
++ Set<Location> evalableLocations()
++ Set<LocationGroup> readableLocationGroups()
++ Set<LocationGroup> writableLocationGroups()
++ Set<LocationGroup> deletableLocationGroups()
++ Set<LocationGroup> evalableLocationGroups()
++ Set<Role> containsRoles(Collection<Role>)
++ boolean contains(Role)
++ boolean addPrivilege(Privilege)
++ boolean removePrivilege(Privilege)
++ boolean addUser(User)
++ boolean removeUser(User)
++ Company getCompany()
++ void setCompany(Company)
++ Long getId()
++ void setId(Long)
++ String getName()
++ void setName(String)
++ Set<User> getUsers()
++ void setUsers(Set<User>)
++ Set<Privilege> getPrivileges()
++ void setPrivileges(Set<Privilege>)
++ String getNameAndCompany()
++ boolean compareTo(Role)
++ void setActivation(Boolean)
++ Boolean getActivation()
+}
+class edu.sru.WebBasedEvaluations.controller.AddDepartmentController {
+- UserRepository userRepository
+- RoleRepository roleRepo
+- CompanyRepository companyRepo
+- LocationRepository locationRepo
+- DepartmentRepository deptRepo
+- AdminMethodsService adminMethodsService
+- EvaluatorRepository evalRepo
+- EvaluationRepository evalFormRepo
+- Logger log
+- String WINDOWS_FILES_PATH
+- String MAC_FILES_PATH
+- String workingFilesPath
++ <<Create>> AddDepartmentController(UserRepository,RoleRepository,CompanyRepository,LocationRepository,DepartmentRepository)
++ String addDepartment(long,long,Department,BindingResult,Model,Authentication,HttpSession)
+}
+class edu.sru.WebBasedEvaluations.service.UserServiceImpl {
+- UserRepository userRepository
+- PasswordTokenRepository passwordTokenRepository
++ void saveVerificationTokenForUser(String,User)
+}
+class edu.sru.WebBasedEvaluations.controller.GroupController {
+- Logger log
+- GroupRepository groupRepository
+- UserRepository userRepository
+- GroupService groupService
+- DepartmentRepository deptRepo
+- EvaluatorRepository evaluatorRepository
+- EvaluationLogRepository evaluationLogRepository
+- RevieweeRepository revieweeRepository
+- EvalRoleRepository evalRoleRepository
+- EvaluationRepository evaluationRepository
+- EvaluationRepository evalFormRepo
+- ArchiveRepository archiveRepository
+- CompanyRepository companyRepo
+- UserRepository userRepo
+- AdminMethodsService adminMethodsService
+- String TEMP_FILES_PATH
++ <<Create>> GroupController(GroupRepository,UserRepository,EvaluatorRepository,RevieweeRepository,EvaluationLogRepository,EvalRoleRepository,EvaluationRepository,EvaluationRepository,ArchiveRepository,CompanyRepository,UserRepository)
++ String addSave(Group,long[],long,long,long,BindingResult,Model)
++ Object groupInformation(RedirectAttributes,long,Model)
++ Object addUserGroup(long,long,Model,Authentication)
++ Object editgroup(RedirectAttributes,long,Model,Authentication)
++ String change(long,RedirectAttributes,Group,Model,Authentication)
++ String addUserToGroup(Reviewee,long)
++ Object createGroup(String,RedirectAttributes,Authentication)
++ Object uploadgroup(MultipartFile,RedirectAttributes,Authentication)
++ String uploadgroup(Model)
++ String evalGroups(Model,Authentication)
++ String Groups(Model,Authentication)
++ String deleteUser(long,Model)
++ ResponseEntity<Resource> downloadEvalGroupResults(long)
++ String editGroupUser(long,long,Model,Authentication)
++ String updateUser(long,User,long,Model,Authentication)
++ String removeUserGroup(long,long,Model,Authentication)
+}
+interface edu.sru.WebBasedEvaluations.repository.ProvinceRepository {
++ Province findByProvinceName(String)
++ Province findById(long)
++ Object findAll(Sort)
+}
+interface edu.sru.WebBasedEvaluations.repository.RoleRepository {
++ Role findByNameAndCompany(String,Company)
++ List<Role> findByCompany(Company)
+}
+class edu.sru.WebBasedEvaluations.controller.SelfEvaluationController {
+- RevieweeRepository revieweeRepository
+- UserRepository userRepository
+- SelfEvaluationRepository selfEvaluationRepository
+- EvaluationLogRepository evaluationLogRepository
+- EvaluationRepository evalFormRepo
+- Logger log
+~ <<Create>> SelfEvaluationController(RevieweeRepository,UserRepository,SelfEvaluationRepository,EvaluationLogRepository,EvaluationRepository)
++ Object submitselfeval(long,Authentication,Model,RedirectAttributes)
++ Object viewselfeval(long,String,Authentication,Model)
++ String saveselfEvalForm(Evaluation,BindingResult,String[],boolean,long,Authentication,Model,RedirectAttributes)
+}
+class edu.sru.WebBasedEvaluations.domain.ResetPassword {
+- String email
+- String password
+- String passwordCheck
+- String oldPassword
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
++ String getPasswordCheck()
++ void setPasswordCheck(String)
++ void setOldPassword(String)
++ String getOldPassword()
+}
+class edu.sru.WebBasedEvaluations.controller.AddUserController {
+- UserRepository userRepository
+- RoleRepository roleRepo
+- CompanyRepository companyRepo
+- LocationRepository locationRepo
+- DepartmentRepository deptRepo
+- AdminMethodsService adminMethodsService
+- EvaluatorRepository evalRepo
+- EvaluationRepository evalFormRepo
+- Logger log
+- String WINDOWS_FILES_PATH
+- String MAC_FILES_PATH
+- String workingFilesPath
++ <<Create>> AddUserController(UserRepository,RoleRepository,CompanyRepository,LocationRepository,DepartmentRepository)
++ String addUser(User,BindingResult,Model,Authentication,String,Integer,String,Integer,Integer,HttpSession)
++ Object uploaduser2(MultipartFile,RedirectAttributes,Integer,User,Model,String,String,Integer,Integer,Authentication)
++ void createSkippedUsersExcel(List<ImmutablePair<User,Boolean>>)
++ ResponseEntity<Resource> downloadSkippedUsersExcel()
+}
+class edu.sru.WebBasedEvaluations.domain.CreateDatasetTest {
+~ {static} Evaluation testEvaluation
+~ {static} List<Evaluation> completedEvals
+~ {static} CreateDataset createDataset
+~ {static} void setup()
+~ void createTestPieDatasetTest()
+~ void createTestDatasetTest()
++ void createPieDatasetTest()
++ void createDefaultDatasetTest()
++ void createPieDatasetIndividualTest()
++ void createDefaultDatasetIndividualTest()
++ void createPieDatasetGroupTest()
++ void createDefaultDatasetGroupTest()
++ void createPieDatasetSelfTest()
++ void Test()
+}
+class edu.sru.WebBasedEvaluations.domain.Evaluator {
+~ long id
+- User user
+- Group group
+- boolean sync
+- boolean preview
+- EvalRole level
+- List<EvaluationLog> evalutationLog
+- Company company
++ <<Create>> Evaluator()
++ <<Create>> Evaluator(User,Group,EvalRole,Company)
++ long getId()
++ void setId(long)
++ Company getCompany()
++ void setCompany(Company)
++ User getUser()
++ void setUser(User)
++ Group getGroup()
++ void setGroup(Group)
++ List<EvaluationLog> getEvalutationLog()
++ void setEvalutationLog(List<EvaluationLog>)
++ void appendEvalutationLog(EvaluationLog)
++ EvalRole getLevel()
++ void setLevel(EvalRole)
++ boolean isSync()
++ void setSync(boolean)
++ boolean isPreview()
++ void setPreview(boolean)
+}
+class edu.sru.WebBasedEvaluations.controller.RevieweeControllerTest {
+~ RevieweeController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void getrevieweeTest()
++ void getrevieweegrouptest()
+}
+class edu.sru.WebBasedEvaluations.controller.GroupControllerTest {
+~ GroupController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void addSaveTest()
++ void editGroupTest()
++ void updateTest()
++ void uploadGroupTest()
++ void uploadingGroupTest()
++ void evalGroups()
++ void GroupsTest()
++ void deleteUserTest()
++ void downloadEvalGroupResultsTest()
+}
+class edu.sru.WebBasedEvaluations.domain.PasswordResetTokenTest {
+~ {static} PasswordResetToken passResTok
+~ {static} void setup()
++ void getTokenTest()
++ void getUserTest()
++ void getUserIdResetTest()
++ void getExpireTimeTest()
++ void getExpiredDateTest()
+}
+interface edu.sru.WebBasedEvaluations.repository.WorldRepository {
++ World findById(long)
++ Object findAll(Sort)
++ World findByName(String)
+}
+class edu.sru.WebBasedEvaluations.controller.EvalFormControllerTest {
+~ EvalFormController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void adminEvaluationsTest()
++ void uploadEvalTemplateTest()
++ void saveEvalTemplateTest()
++ void downloadEvalResultsTest()
++ void downloadEvalExcelTest()
++ void downloadErrorLogTest()
++ void deleteEvalTemplateTest()
+}
+class edu.sru.WebBasedEvaluations.company.LocationTest {
+~ {static} long id
+~ {static} String locationName
+~ {static} City parentCity
+~ {static} City homeCity
+~ {static} City newCity
+~ {static} Company co
+~ {static} LocationGroup locGroup
+~ {static} List<User> users
+~ {static} User user
+~ {static} List<Department> departments
+~ {static} Department newDepartment
+~ {static} Location loc
++ {static} void initialize()
++ void activationTest()
++ void addDeptTest()
++ void removeDeptTest()
++ void getLocGroupTest()
++ void setLocGroupTest()
++ void getDepartmentsTest()
++ void setDepartmentsTest()
++ void addUserTest()
++ void addUsersTest()
++ void removeUserTest()
++ void getLocationNameTest()
++ void setLocationNameTest()
++ void getParentCityTest()
++ void setParentCityTest()
++ void getNumEmployeesTest()
++ void setNumEmployeesTest()
++ void getIdTest()
++ void setIdTest()
++ void getHomeCityTest()
++ void setHomeCityTest()
++ void getCompanyTest()
++ void setCompanyTest()
++ void getUsersTest()
++ void setUsersTest()
+}
+class edu.sru.WebBasedEvaluations.domain.EvaluatorIdTest {
+~ {static} long groupIdTest
+~ {static} int levelTest
+~ {static} EvaluatorId evalId
+~ {static} void setup()
++ void getGroupIdTest()
++ void getLevelTest()
+}
+class edu.sru.WebBasedEvaluations.EvalForm.QuestionTest {
+~ {static} String qText
+~ {static} String qDescription
+~ {static} String qToolTip
+~ {static} String qToolTipVal
+~ {static} String qToolTipMarker
+~ {static} String qResponseType
+~ {static} String qResponse
+~ {static} String contolledByStr
+~ {static} List<String> responseOpt
+~ {static} List<String> responseList
+~ {static} List<ComputeRange> computeRanges
+~ {static} ComputeRange range
+~ {static} int row
+~ {static} int col
+~ {static} int questID
+~ {static} Integer visControlledBy
+~ {static} Integer visControls
+~ {static} boolean required
+~ {static} Question que
+~ {static} void begin()
++ void getQTextTest()
++ void setQTextTest()
++ void getQDescriptionTest()
++ void setQDescriptionTest()
++ void getQToolTipTest()
++ void setQToolTipTest()
++ void getQToolTipValTest()
++ void setQToolTipValTest()
++ void getQToolTipMarkerTest()
++ void setQToolTipMarkerTest()
++ void getQResponseTypeTest()
++ void setQResponseTypeTest()
++ void getRowTest()
++ void setRowTest()
++ void getColTest()
++ void setColTest()
++ void getQuestIDTest()
++ void setQuestIDTest()
++ void getQResponseTest()
++ void setQResponseTest()
++ void getRequiredTest()
++ void setRequiredTest()
++ void getVisControlledByTest()
++ void setVisControlledByTest()
++ void getVisControlsTest()
++ void setVisControlsTest()
++ void getContolledByStrTest()
++ void setContolledByStrTest()
++ void addOptionTest()
++ void setOptionsTest()
++ void getOptionTest()
++ void getOptionCountTest()
++ void getOptionsTest()
++ void addResponseTest()
++ void getResponseTest()
++ void getResponsesTest()
++ void clearResponseListTest()
++ void clearAllResponsesTest()
++ void getResponseCountTest()
++ void responseListIsEmptyTest()
++ void presentInResponsesTest()
++ void setComputeRangesTest()
++ void addComputeRangeTest()
++ void getComputeRangeTest()
++ void getComputeRangeCountTest()
++ void getComputeRangesTest()
+}
+class edu.sru.WebBasedEvaluations.WebBasedEvaluationsApplication {
++ {static} void main(String[])
+}
+class edu.sru.WebBasedEvaluations.InitUsers {
++ <<Create>> InitUsers()
++ void createBaseUsers(ConfigurableApplicationContext)
+}
+interface edu.sru.WebBasedEvaluations.repository.UserRepository {
++ User findByEmail(String)
++ User findByName(String)
++ User findByFirstName(String)
++ User findByLastName(String)
++ User findByCompanyName(String)
++ User findByid(long)
+~ List<User> findByKeywordAndCompany(String,Long)
++ Object findAll(Sort)
+~ List<User> findByCompany(Company)
+}
+class edu.sru.WebBasedEvaluations.evalform.Section {
+- {static} long serialVersionUID
+- String secName
+- String secDescription
+- String secToolTip
+- String secToolTipVal
+- String secToolTipMarker
+- List<Question> questionList
++ <<Create>> Section()
++ String getSecName()
++ void setSecName(String)
++ String getSecDescription()
++ void setSecDescription(String)
++ String getSecToolTip()
++ void setSecToolTip(String)
++ String getSecToolTipVal()
++ void setSecToolTipVal(String)
++ String getSecToolTipMarker()
++ void setSecToolTipMarker(String)
++ void addQuestion(Question)
++ Question getQuestion(int)
++ int getQuestionCount()
++ List<Question> getQuestions()
++ int getMaxColumns()
++ String getRowClass()
++ boolean hasDropdownQuestions()
++ int getSectionMaxPoints()
++ int getSectionEarnedPoints()
++ double getSectionScore()
++ List<String> processSecToolTip()
+}
+class edu.sru.WebBasedEvaluations.controller.AddRolesController {
+- UserRepository userRepo
+- RoleRepository roleRepo
+- EvaluatorRepository evaluatorRepo
+- DepartmentRepository deptRepo
+- LocationRepository locRepo
+- LocationGroupRepository locGroupRepo
+- PrivilegeRepository privRepo
+- EvaluationRepository evalFormRepo
+- CompanyRepository compRepo
+- CityRepository cityRepo
+- ProvinceRepository provRepo
+- CountryRepository cntryRepo
+- AdminMethodsService adminMethodsService
+- String TEMP_FILES_PATH
+- Logger log
++ String addRoles(Model,Authentication)
++ Object roleInformation(RedirectAttributes,long,Model,Authentication)
++ Object uploadRoles(MultipartFile,RedirectAttributes,Authentication)
++ String privName(Company,Department,boolean,boolean,boolean,boolean)
+}
+class edu.sru.WebBasedEvaluations.evalform.PdfGenarator {
+- TemplateEngine templateEngine
++ void createPdf(String,Map)
+}
+class edu.sru.WebBasedEvaluations.company.Location {
+- Long id
+- Boolean activated
+- String locationName
+- Company company
+- LocationGroup locGroup
+- City parentCity
+- int numEmployees
+- List<Department> departments
+- List<User> users
++ <<Create>> Location()
++ <<Create>> Location(String,City,Company,LocationGroup)
++ <<Create>> Location(City,int,List<User>,String,Company,LocationGroup,Department)
++ <<Create>> Location(City,int,User,String,Company,LocationGroup,List<Department>)
++ boolean addDept(Department)
++ boolean removeDept(long)
++ boolean addUser(User)
++ boolean addUsers(List<User>)
++ boolean removeUser(User)
++ String getLocationName()
++ void setLocationName(String)
++ City getParentCity()
++ void setParentCity(City)
++ int getNumEmployees()
++ void setNumEmployees(int)
++ Long getId()
++ void setId(Long)
++ City getHomeCity()
++ Company getCompany()
++ void setCompany(Company)
++ List<User> getUsers()
++ void setUsers(List<User>)
++ LocationGroup getLocGroup()
++ void setLocGroup(LocationGroup)
++ List<Department> getDepartments()
++ void setDepartments(List<Department>)
++ void setActivation(Boolean)
++ Boolean getActivation()
+}
+class edu.sru.WebBasedEvaluations.domain.EvalTemplates {
+~ long id
+~ String name
+- Company company
+- Set<Department> depts
+~ byte[] eval
+~ byte[] excelFile
+- boolean activated
++ <<Create>> EvalTemplates()
++ <<Create>> EvalTemplates(Company)
++ <<Create>> EvalTemplates(String,byte[],byte[],Company)
++ <<Create>> EvalTemplates(String,byte[],byte[],Company,Department)
++ <<Create>> EvalTemplates(String,byte[],byte[],Company,Set<Department>)
++ <<Create>> EvalTemplates(String,byte[],Company)
++ boolean addDept(Department)
++ boolean addDepts(Collection<Department>)
++ boolean removeDept(Department)
++ String getName()
++ void setName(String)
++ Set<Department> getDepts()
++ void setDepts(Set<Department>)
++ void setId(long)
++ byte[] getEval()
++ void setEval(byte[])
++ byte[] getExcelFile()
++ void setExcelFile(byte[])
++ Company getCompany()
++ void setCompany(Company)
++ long getId()
++ boolean isActivated()
++ void setActivated(boolean)
+}
+class edu.sru.WebBasedEvaluations.domain.CreateDataset {
++ DefaultPieDataset createTestPieDataset()
++ DefaultCategoryDataset createTestDataset()
++ DefaultPieDataset createPieDataset(List<Evaluation>)
++ DefaultCategoryDataset createDefaultDataset(List<Evaluation>)
++ DefaultPieDataset createPieDatasetIndividual(List<Evaluation>)
++ DefaultCategoryDataset createDefaultDatasetIndividual(List<Evaluation>)
++ DefaultPieDataset createPieDatasetGroup(List<Evaluation>)
++ DefaultCategoryDataset createDefaultDatasetGroup(List<Evaluation>)
++ DefaultPieDataset createPieDatasetSelf(List<Evaluation>)
+}
+interface edu.sru.WebBasedEvaluations.repository.ContinentRepository {
++ Continent findByContinentName(String)
++ Continent findById(long)
++ Object findAll(Sort)
+}
+class edu.sru.WebBasedEvaluations.domain.MyUserDetailsTest {
+~ {static} User user
+~ {static} MyUserDetails myUserDetails
+~ {static} Role role
+~ {static} void setup()
+~ void getAuthoritiesTest()
+~ void getPassword()
+~ void getIDTest()
+~ void getRolesTest()
+~ void getUsernameTest()
+~ void isAccountNonExpiredTest()
+~ void isAccountNonLockedTest()
+~ void isCredentialsNonExpiredTest()
+~ void isEnabledTest()
+}
+interface edu.sru.WebBasedEvaluations.repository.SelfEvaluationRepository {
+~ SelfEvaluation findByRevieweeUser_Id(long)
+~ SelfEvaluation findByReviewee(Reviewee)
+}
+class edu.sru.WebBasedEvaluations.domain.Archive {
+- long id
+- Date dateEdited
+- String evaluator
+- String role
+- String reviewee
+- byte[] path
++ <<Create>> Archive()
++ <<Create>> Archive(EvaluationLog)
++ <<Create>> Archive(SelfEvaluation)
++ long getId()
++ Date getDateEdited()
++ void setDateEdited(Date)
++ String getEvaluator()
++ void setEvaluator(String)
++ String getRole()
++ void setRole(String)
++ String getReviewee()
++ void setReviewee(String)
++ byte[] getPath()
++ void setPath(byte[])
+}
+class edu.sru.WebBasedEvaluations.controller.UserControllerTest {
+~ UserController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void homeTest()
++ void editSettingsTest()
++ void showUpdateFormTest()
++ void updateUserTest()
++ void deleteUserTest()
++ void changeUserTest()
+}
+class edu.sru.WebBasedEvaluations.domain.ResetPasswordTest {
+~ {static} ResetPassword resetPass
+~ {static} void setup()
+~ void getEmailTest()
+~ void getPasswordTest()
+~ void getPasswordCheckTest()
+}
+class edu.sru.WebBasedEvaluations.company.CountryTest {
+~ {static} long id
+~ {static} String name
+~ {static} int numProv
+~ {static} Continent parent
+~ {static} Province child
+~ {static} List<Province> provincies
+~ {static} Country country
++ {static} void initialize()
++ void addProvinceTest()
++ void addProvincesTest()
++ void removeProvinceTest()
++ void getIdTest()
++ void setIdTest()
++ void getCountryNameTest()
++ void setCountryNameTest()
++ void getNumProvincesTest()
++ void setNumProvincesTest()
++ void getParentContinentTest()
++ void setParentContinentTest()
++ void getChildProvincesTest()
++ void setChildProvincesTest()
+}
+class edu.sru.WebBasedEvaluations.company.World {
+- Long id
+- String name
+- int numContinents
+- List<Continent> childContinents
++ <<Create>> World()
++ <<Create>> World(String)
++ <<Create>> World(int,List<Continent>,String)
++ <<Create>> World(int,Continent,String)
++ boolean addContinent(Continent)
++ boolean addContinent(List<Continent>)
++ boolean removeContinent(long)
++ Long getId()
++ String getName()
++ void setName(String)
++ void setId(Long)
++ int getNumContinents()
++ void setNumContinents(int)
++ List<Continent> getChildContinents()
++ void setChildContinents(List<Continent>)
+}
+class edu.sru.WebBasedEvaluations.company.Company {
+- Long id
+- String companyName
+- int numEmployees
+- int numLocations
+- String orgHierarchy
+- Boolean activated
+- Long parentId
+- String parentCompanyName
+- Set<User> users
+- Set<Privilege> privs
+- Set<Location> locations
+- Set<LocationGroup> locationGroups
+- Set<EvalRole> evalRoles
+- Set<Reviewee> reviewees
+- Set<Group> evalGroups
+- Set<Role> roles
+- Set<Group> groups
+- Set<EvalTemplates> evalTemplates
+- Set<Department> departments
+- Company parentCompany
+- Set<Company> childCompanies
++ <<Create>> Company()
++ <<Create>> Company(String)
++ boolean addLocationGroup(LocationGroup)
++ boolean addLocationGroups(Collection<LocationGroup>)
++ boolean removeLocationGroup(LocationGroup)
++ boolean addDepartment(Department)
++ boolean addDeparmetns(Collection<Department>)
++ boolean removeDepartment(Department)
++ boolean addPrivilege(Privilege)
++ boolean addPrivss(Collection<Privilege>)
++ boolean removePriv(Privilege)
++ boolean addReviewee(Reviewee)
++ boolean addReviewees(Collection<Reviewee>)
++ boolean removeReviewee(Reviewee)
++ boolean addGroup(Group)
++ boolean addGroups(Collection<Group>)
++ boolean removeGroup(Group)
++ String getDefaultRoleName()
++ Role getRoleByName(String)
++ boolean addRole(Role)
++ boolean addRoles(List<Role>)
++ boolean removeRole(Role)
++ boolean addEvalRole(EvalRole)
++ boolean removeEvalRole(EvalRole)
++ boolean addLocation(Location)
++ boolean addLocations(List<Location>)
++ boolean removeLocation(Location)
++ boolean addUser(User)
++ boolean addUsers(List<User>)
++ boolean removeUser(User)
++ Set<Privilege> getPrivs()
++ Set<EvalTemplates> getEvalTemplates()
++ void setEvalTemplates(Set<EvalTemplates>)
++ Set<Department> getDepartments()
++ void setDepartments(Set<Department>)
++ void setPrivs(Set<Privilege>)
++ Set<EvalRole> getEvalRoles()
++ Set<Group> getEvalGroups()
++ void setEvalGroups(Set<Group>)
++ Set<Group> getGroups()
++ void setGroups(Set<Group>)
++ void setEvalRoles(Set<EvalRole>)
++ void setLocations(Set<Location>)
++ Set<Reviewee> getReviewees()
++ void setReviewees(Set<Reviewee>)
++ Long getId()
++ Set<Role> getRoles()
++ void setRoles(Set<Role>)
++ void setId(Long)
++ String getCompanyName()
++ void setCompanyName(String)
++ int getNumEmployees()
++ void setNumEmployees(int)
++ int getNumLocations()
++ Set<Location> getLocations()
++ void setLocations(HashSet<Location>)
++ void setNumLocations(int)
++ Set<User> getUsers()
++ void setUsers(Set<User>)
++ String getHierarchy()
++ void setHierarchy(String)
++ void setParent(Company)
++ void setParent(Long)
++ Long getParentId()
++ void addChildCompany(Company)
++ String dumpChildren()
++ Set<Company> getChildren()
++ void setActivation(Boolean)
++ Boolean getActivation()
++ String getParentCompanyName()
++ void setParentCompanyName(String)
+}
+interface edu.sru.WebBasedEvaluations.repository.EvaluatorRepository {
+~ List<Evaluator> findByUser(User)
+~ List<Evaluator> findByUserId(long)
+~ List<Evaluator> findByGroupId(long)
+~ Optional<Evaluator> findById(long)
+~ List<Evaluator> findByUserIdAndGroupId(Long,long)
+~ List<Evaluator> findByLevelLevelAndGroupId(int,long)
+~ List<Evaluator> findByLevelLevelAndGroupNumberAndCompany(int,int,Company)
+~ void deleteByGroupId(long)
+~ Boolean existsBylevelAndGroup(EvalRole,Group)
+}
+interface edu.sru.WebBasedEvaluations.repository.ArchiveRepository {
+}
+class edu.sru.WebBasedEvaluations.domain.SelfEvaluationTest {
+~ {static} SelfEvaluation selfEval
+~ {static} void setup()
+~ void getRevieweeTest()
+~ void getPathTest()
+~ void getIdTest()
+~ void getDateEdited()
+~ void getCompleted()
+}
+class edu.sru.WebBasedEvaluations.evalform.Question {
+- {static} long serialVersionUID
+- String qText
+- String qDescription
+- String qToolTip
+- String qToolTipVal
+- String qToolTipMarker
+- String qResponseType
+- String qResponse
+- String contolledByStr
+- List<String> responseOpt
+- List<String> responseList
+- List<ComputeRange> computeRanges
+- int row
+- int col
+- int questID
+- Integer visControlledBy
+- Integer visControls
+- boolean required
++ <<Create>> Question()
++ String getQText()
++ void setQText(String)
++ String getQDescription()
++ void setQDescription(String)
++ String getQToolTip()
++ void setQToolTip(String)
++ String getQToolTipVal()
++ void setQToolTipVal(String)
++ String getQToolTipMarker()
++ void setQToolTipMarker(String)
++ String getQResponseType()
++ void setQResponseType(String)
++ int getRow()
++ void setRow(int)
++ int getCol()
++ void setCol(int)
++ int getQuestID()
++ void setQuestID(int)
++ String getQResponse()
++ void setQResponse(String)
++ boolean getRequired()
++ void setRequired(boolean)
++ Integer getVisControlledBy()
++ void setVisControlledBy(int)
++ Integer getVisControls()
++ void setVisControls(Integer)
++ String getContolledByStr()
++ void setContolledByStr(String)
++ void addOption(String)
++ void setOptions(List<String>)
++ String getOption(int)
++ int getOptionCount()
++ List<String> getOptions()
++ void addResponse(String)
++ String getResponse(int)
++ List<String> getResponses()
++ void clearResponseList()
++ void clearAllResponses()
++ int getResponseCount()
++ boolean responseListIsEmpty()
++ boolean presentInResponses(String)
++ void setComputeRanges(List<ComputeRange>)
++ void addComputeRange(ComputeRange)
++ ComputeRange getComputeRange(int)
++ int getComputeRangeCount()
++ List<ComputeRange> getComputeRanges()
++ int getQuestionMaxPointsNaSensitive()
++ int getQuestionMaxPoints()
++ int getQuestionEarnedPoints()
++ String computeResultString(double)
++ List<String> processQuestionToolTip(String)
+}
+class edu.sru.WebBasedEvaluations.domain.RevieweeTest {
+~ {static} Reviewee revTest
+~ {static} Company co
+~ {static} void setup()
+~ void getIdTest()
+~ void getGroupTest()
+~ void getNameTest()
+~ void getUserTest()
+~ void getEvalutationLogTest()
+~ void getSelfEvaluationTest()
+}
+interface edu.sru.WebBasedEvaluations.service.VerificationService {
+~ void saveVerificationTokenForUser(String,User)
+}
+class edu.sru.WebBasedEvaluations.domain.EvaluatorTest {
+~ {static} Evaluator eval
+~ List<EvaluationLog> evalLog
+~ {static} EvaluationLog log
+~ {static} User user
+~ {static} Group group
+~ {static} EvalRole level
+~ {static} Company co
+~ {static} void setup()
++ void getIdTest()
++ void getUserTest()
++ void getGroupTest()
++ void getEvalutationLogTest()
++ void appendEvalutationLogTest()
++ void getLevelTest()
++ void isSyncTest()
++ void isPreviewTest()
+}
+class edu.sru.WebBasedEvaluations.evalform.GenerateEvalReport {
++ {static} void generateReport(Evaluation,List<Evaluation>,String,String)
+- {static} String loadQuestions(Workbook,Evaluation)
+- {static} List<Evaluation> averageScoresPerReviewee(List<Evaluation>)
+- {static} void addRecord(Workbook,Evaluation,int)
+- {static} void addTotals(Workbook,int,int,int)
+}
+class edu.sru.WebBasedEvaluations.excel.ExcelRead_group {
++ {static} XSSFWorkbook loadFile(MultipartFile)
++ {static} String checkStringType(XSSFCell)
++ {static} boolean checkBooleanType(XSSFCell)
++ {static} int checkIntType(XSSFCell)
++ {static} long checkLongType(XSSFCell)
+}
+class edu.sru.WebBasedEvaluations.integration.ServiceIntegrationTest {
+}
+class edu.sru.WebBasedEvaluations.domain.GroupTest {
+~ {static} int groupNum
+~ {static} Boolean selfEval
+~ {static} Reviewee rev
+- {static} User user
+~ {static} Company co
+~ {static} Group group
+~ {static} void setup()
++ void getIdTest()
++ void getRevieweeTest()
++ void getEvaluatorTest()
++ void appendRevieweeTest()
++ void getEvalTemplatesTest()
++ void getEvalstartTest()
++ void getSelfevalTest()
+}
+class edu.sru.WebBasedEvaluations.company.ContinentTest {
+~ {static} String name
+~ {static} int numCountires
+~ {static} World parent
+~ {static} Country child
+~ {static} long id
+~ {static} World planet
+~ {static} List<Country> countries
+~ {static} Continent continent
++ {static} void initialize()
++ void addCountryTest()
++ void addCountryListTest()
++ void removeCountryTest()
++ void getIdTest()
++ void setIdTest()
++ void getContinentNameTest()
++ void setContinentNameTest()
++ void getNumCountriesTest()
++ void setNumCountriesTest()
++ void getParentWorldTest()
++ void setParentWorldTest()
++ void getChildCountriesTest()
++ void setChildCountriesTest()
+}
+interface edu.sru.WebBasedEvaluations.repository.CountryRepository {
++ Country findByCountryName(String)
++ Country findById(long)
++ Object findAll(Sort)
+}
+class edu.sru.WebBasedEvaluations.controller.HomePageTest {
+~ HomePage controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void baseTest()
++ void loginTest()
++ void loginLogingTest()
++ void homeTest()
++ void downloadEvalExcelTest()
+}
+class edu.sru.WebBasedEvaluations.controller.DataVisualizationControllerTest {
+~ DataVisualizationController controller
+- int port
+- TestRestTemplate restTemplate
++ void sanityCheckTest()
++ void showSQLPageTest()
++ void handlePieChartSQLTest()
++ void handleRingChartSQLTest()
++ void handleBarChartTest()
++ void handleAreaChartTest()
++ void handlePieChartSQLIndividualTest()
++ void handleRingChartSQLIndividualTest()
++ void handleBarChartSQLIndividualTest()
++ void handleBarAreaSQLIndividualTest()
++ void handlePieChartGroupSQLTest()
++ void handleRingChartGroupSQLTest()
++ void handleBarChartGroupSQLTest()
++ void handleAreaChartGroupSQLTest()
++ void handlePieChartSelfTest()
++ void handleRingChartSelf()
++ void handleBarChartSelf()
++ void handleAreaChartSelfTest()
++ void handlePdfReportsTest()
+}
+class edu.sru.WebBasedEvaluations.domain.EvalTemplatesTest {
+~ {static} EvalTemplates evalTemplate
+~ {static} Company company
+~ {static} void setup()
+~ void getNameTest()
+~ void getEvalTest()
+~ void getExcelFileTest()
+}
+class edu.sru.WebBasedEvaluations.excel.ExcelTest {
+- {static} XSSFWorkbook wb
+- {static} XSSFWorkbook wbTest
+- {static} XSSFSheet sheet
+- {static} XSSFSheet sheetTest
++ {static} void newSheet()
++ void loadFileTest()
++ void checkStringTest()
++ void checkIntTest()
++ void checkLongTest()
+}
+class edu.sru.WebBasedEvaluations.domain.EvaluatorId {
+- long groupId
+- int level
++ <<Create>> EvaluatorId()
++ <<Create>> EvaluatorId(long,int)
++ long getGroupId()
++ void setGroupId(long)
++ int getLevel()
++ void setLevel(int)
+}
+class edu.sru.WebBasedEvaluations.EvalFormTests {
+- Evaluation eval
+- int questions
++ void initialize()
++ void testEvalSectionCount()
++ void testEvalQuestionCount()
++ void testEvalTotalQuestionCount()
++ void testSectionHasDropdownQuestions()
++ void testComputeRanges()
++ void testDropdownOptionsMaxPoints()
++ void testDropdownOptionsEarnedPoints()
++ void testSectionScoringWithDropdownsQResponse3()
++ void testSectionScoringWithDropdownsQResponseNA()
++ void testSectionScoringWithDropdownsValueInvalidQResponse()
++ void testSectionTooltipProcessing()
+}
+class edu.sru.WebBasedEvaluations.configuration.MailSenderConfiguration {
++ JavaMailSender javaMailSender()
+}
+class edu.sru.WebBasedEvaluations.controller.RolesController {
+- UserRepository userRepo
+- RoleRepository roleRepo
+- LocationRepository locRepo
+- DepartmentRepository deptRepo
+- PrivilegeRepository privRepo
++ Object rolesEdit(long,Model,Authentication)
++ Object removeUser(long,Model,Authentication)
++ Object removeDepartment(long,long,Model,Authentication)
++ Object addUserToRole(User,long)
++ Object addDepartmentToRole(Department,long,Authentication)
++ Object toggleRead(long,long,long,Authentication)
++ Object toggleWrite(long,long,long,Authentication)
++ Object toggleEditEvaluator(long,long,long,Authentication)
++ String setNewPrivName(Company,Department,boolean,boolean,boolean,boolean)
++ Object toggleRoleActivation(long,Authentication)
+}
+class edu.sru.WebBasedEvaluations.domain.SelfEvaluation {
+- long id
+- Date dateEdited
+- Reviewee reviewee
+- byte[] path
+- boolean completed
++ <<Create>> SelfEvaluation()
++ <<Create>> SelfEvaluation(Reviewee)
++ Reviewee getReviewee()
++ void setReviewee(Reviewee)
++ byte[] getPath()
++ void setPath(byte[])
++ long getId()
++ void setId(long)
++ Date getDateEdited()
++ void setDateEdited(Date)
++ boolean getCompleted()
++ void setCompleted(boolean)
+}
+class edu.sru.WebBasedEvaluations.controller.ResetPasswordControllerTest {
+~ ResetPasswordController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void resetPasswordTest()
++ void firstResetPasswordTest()
++ void resetSentTest()
++ void showChangePasswordPageTest()
++ void updateRecoveryTest()
++ void emailSentConfirmTest()
+}
+class edu.sru.WebBasedEvaluations.domain.MyUserDetails {
+- User user
+- String userName
+- String password
+- Role role
+- long Id
+- List<GrantedAuthority> authorities
+- List<User> usersUnderAuth
+- List<Department> deptsUnderAuth
+- List<Location> locsUnderAuth
++ <<Create>> MyUserDetails(User)
++ Collection<? extends GrantedAuthority> getAuthorities()
++ List<User> getUsers()
++ String getUserName()
++ void setUserName(String)
++ long getId()
++ void setId(long)
++ List<User> getUsersUnderAuth()
++ void setUsersUnderAuth(List<User>)
++ List<Department> getDeptsUnderAuth()
++ void setDeptsUnderAuth(List<Department>)
++ List<Location> getLocsUnderAuth()
++ void setLocsUnderAuth(List<Location>)
++ void setPassword(String)
++ void setAuthorities(List<GrantedAuthority>)
++ String getPassword()
++ long getID()
++ String getUsername()
++ Role getRole()
++ void setRole(Role)
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
++ User getUser()
++ void setUser(User)
+}
+class edu.sru.WebBasedEvaluations.controller.ArchiveControllerTest {
+~ ArchiveController controller
+- int port
+- TestRestTemplate restTemplate
++ void sanityCheckTest()
++ void evalGroupsTest()
++ void ViewViewArchiveTest()
+}
+class edu.sru.WebBasedEvaluations.controller.EvaluatorControllerTest {
+~ EvaluatorController controller
+- int port
+- TestRestTemplate restTemplate
++ void SanityCheckTest()
++ void submitEvalTest()
++ void previewEvalTest()
++ void downloadTest()
++ void saveEvalFormTest()
+}
+interface edu.sru.WebBasedEvaluations.repository.CityRepository {
++ City findByCityName(String)
++ City findById(long)
++ Object findAll(Sort)
+}
+class edu.sru.WebBasedEvaluations.domain.RevieweeListTest {
+}
+class edu.sru.WebBasedEvaluations.configuration.SecurityConfiguration {
+- {static} String ADMIN
+- {static} String EVALUATOR_EVAL
+- {static} String EVAL_ADMIN
+- {static} String EVALUATOR
+- {static} String USER
+- UserDetailsService userDetailsService
+~ AuthenticationProvider authenticationProvider()
+# void configure(HttpSecurity)
+}
+class edu.sru.WebBasedEvaluations.evalform.GenerateEvalReportPoi {
+- {static} int TITLE_ROW_INDEX
+- {static} int SEC_HEAD_ROW_INDEX
+- {static} int DATA_HEAD_ROW_INDEX
+- {static} int RECORDS_START_ROW_INDEX
+- {static} int DATA_COL_WIDTH
+- {static} XSSFFont fontBold
+- {static} XSSFFont fontNormal
+- {static} XSSFFont fontTitle
+- {static} short COLOR_YELLOW
+- {static} short COLOR_ORANGE
+- {static} short COLOR_BLUE
+- {static} short COLOR_GREEN
+- {static} short COLOR_RED
+- {static} CellStyle styleHeadTitle
+- {static} CellStyle styleHeadNormal
+- {static} CellStyle styleHeadQuestion
+- {static} CellStyle styleHeadComputeSec
+- {static} CellStyle styleHeadSection
+- {static} CellStyle styleHeadTotals
+- {static} CellStyle styleData
+- {static} CellStyle styleDataNoBorder
+- {static} CellStyle styleDataGood
+- {static} CellStyle styleDataBad
+- {static} CellStyle styleDataCompute
+- {static} CellStyle styleDataTotals
+- {static} CellStyle styleDataRowTotals
+- {static} CellStyle styleDataComputeKey
+- {static} CellStyle styleDataTotalsKey
+- {static} CellStyle styleDataRowTotalsKey
++ {static} void generateReport(Evaluation,List<Evaluation>,String,String)
+- {static} void initializeStyle(XSSFWorkbook)
+- {static} String dropToolTipFormatting(String)
+- {static} String loadQuestions(XSSFWorkbook,Evaluation)
+- {static} List<Evaluation> averageScoresPerReviewee(List<Evaluation>)
+- {static} void addRecord(XSSFWorkbook,Evaluation,int)
+- {static} void addTotals(XSSFWorkbook,int,int,int,Evaluation)
+}
+class edu.sru.WebBasedEvaluations.domain.User {
+- Long id
+- String name
+- String firstName
+- String lastName
+- String suffixName
+- String email
+- String password
+- boolean resetP
+- String companyName
+- String roleName
+- boolean companySuperUser
+- boolean superUser
+- boolean adminEval
+- Boolean activated
+- Set<Evaluator> evaluator
+- Company company
+- Set<Location> locations
+- Role role
+- Set<Department> subDepartments
+- Set<Department> departments
+- String dateOfHire
+- String jobTitle
+- String divisionBranch
+- String departmentName
+- String supervisor
++ <<Create>> User()
++ <<Create>> User(String,String,String,String,String,int,String,String,String,String,String,Company,Role,boolean,boolean)
++ <<Create>> User(String,String,String,String,String,int,String,String,String,String,Company,Location,Department,Role,boolean,boolean)
++ <<Create>> User(String,String,String,String,String,int,String,String,String,String,Company,Set<Location>,Set<Department>,Role,boolean,boolean)
++ String toString()
++ String getDepartmentNames()
++ void addSubDept(Department)
++ void addSubDepts(Set<Department>)
++ boolean removesubDept(Department)
++ boolean hasRead()
++ boolean isAdminEval()
++ void setAdminEval(boolean)
++ boolean hasWrite()
++ boolean hasDelete()
++ boolean hasEvaluator()
++ boolean hasEditEvalPerm()
++ void addLocation(Location)
++ void addLocations(List<Location>)
++ boolean removeLocation(Location)
++ String getPrivilegeNames()
++ boolean removeDepartment(Department)
++ void addDepartment(Department)
++ Role getRole()
++ void setRole(Role)
++ void setDepartments(Set<Department>)
++ boolean isCompanySuperUser()
++ void setCompanySuperUser(boolean)
++ boolean isSuperUser()
++ void setSuperUser(boolean)
++ Set<Evaluator> getEvaluator()
++ void setEvaluator(Set<Evaluator>)
++ String getPassword()
++ void setPassword(String)
++ void setEncryptedPassword(String)
++ Long getId()
++ void setId(Long)
++ String getName()
++ void setName(String)
++ String getEmail()
++ void setEmail(String)
++ boolean isEvaluator()
++ Set<Department> getDepartments()
++ String getDepartmentName()
++ void setDepartmentName(String)
++ Set<Location> getLocations()
++ void setLocations(Set<Location>)
++ String getRoleName()
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ String getSuffixName()
++ void setSuffixName(String)
++ boolean getReset()
++ void setReset(boolean)
++ boolean isResetP()
++ void setResetP(boolean)
++ String getDateOfHire()
++ Set<Department> getSubDepartments()
++ void setSubDepartments(Set<Department>)
++ void setDateOfHire(String)
++ String getJobTitle()
++ void setJobTitle(String)
++ String getSupervisor()
++ void setSupervisor(String)
++ String getCompanyName()
++ void setCompanyName(String)
++ String getDivisionBranch()
++ void setDivisionBranch(String)
++ Long getCompanyID()
++ Company getCompany()
++ void setCompany(Company)
++ String getLocationsAsString()
++ void setActivation(Boolean)
++ Boolean getActivation()
+}
+class edu.sru.WebBasedEvaluations.controller.RevieweeController {
+- EvaluatorRepository evaluatorRepository
+- UserRepository userRepository
+- EvaluationLogRepository evaluationLogRepository
+- RevieweeRepository revieweeRepository
+- EvaluationRepository evalFormRepo
+- EvalRoleRepository roleRepository
+- GroupRepository groupRepository
+- Logger log
++ <<Create>> RevieweeController(GroupRepository,EvaluatorRepository,UserRepository,EvaluationLogRepository,RevieweeRepository,EvaluationRepository,EvalRoleRepository,EvaluationRepository)
++ Object getreviewee(Model,Authentication)
++ Object getrevieweegroup(Model,long,Authentication)
+}
+class edu.sru.WebBasedEvaluations.service.EmailSenderService {
+- JavaMailSender mailSender
++ void sendSimpleEmail(String,String,String)
+}
+class edu.sru.WebBasedEvaluations.domain.EvaluationLogTest {
+~ User user
+~ {static} EvaluationLog evalLog
+~ {static} void setup()
++ void getEvaluatorTest()
++ void getRevieweeTest()
++ void getPathTest()
++ void getId()
++ void getDateEdited()
++ void getAuthTest()
++ void getCompletedTest()
++ void getAttachTest()
++ void getAttachnameTest()
+}
+class edu.sru.WebBasedEvaluations.evalform.Evaluation {
+- {static} long serialVersionUID
+- String evalID
+- String title
+- String description
+- String companyName
+- Set<String> deptNamesList
+- String deptNamesString
+- List<Section> sectionList
+- List<String> warnings
+- List<String> errors
+- List<String> groupsList
+- List<ComputeRange> computeRanges
+- boolean completed
+- boolean computeTotals
+- boolean activated
++ <<Create>> Evaluation(String)
++ <<Create>> Evaluation()
++ void addDeptName(String)
++ String getEvalID()
++ Set<String> getDeptNamesList()
++ void setDeptNamesList(Set<String>)
++ String getDeptNamesString()
++ void setDeptNamesString(String)
++ String getCompanyName()
++ void setCompanyName(String)
++ void setEvalID(String)
++ String getTitle()
++ void setTitle(String)
++ String getDescription()
++ void setDescription(String)
++ boolean getCompleted()
++ void setCompleted(boolean)
++ boolean getComputeTotals()
++ void setComputeTotals(boolean)
++ List<String> getGroupsList()
++ void addGroup(String)
++ void clearGroupsList()
++ void addError(String)
++ String getError(int)
++ int getErrorCount()
++ List<String> getErrors()
++ void addWarning(String)
++ String getWarning(int)
++ int getWarningCount()
++ List<String> getWarnings()
++ void addSection(Section)
++ Section getSection(int)
++ int getSectionCount()
++ List<Section> getSections()
++ void setComputeRanges(List<ComputeRange>)
++ void addComputeRange(ComputeRange)
++ ComputeRange getComputeRange(int)
++ int getComputeRangeCount()
++ List<ComputeRange> getComputeRanges()
++ void printEvaluation()
++ Question getQuestionById(int)
++ Section getSectionByName(String)
++ void saveResponses(String[])
++ List<Integer> verifyCompleted()
++ void updateCompute()
++ void processToolTips()
++ void checkErrors()
++ void populatePreload(User,Group)
++ boolean isActivated()
++ void setActivated(boolean)
+}
+class edu.sru.WebBasedEvaluations.configuration.SecurityConfigTest {
+}
+class edu.sru.WebBasedEvaluations.integration.RepositoryIntegrationTest {
+- MockMvc mvc
+- UserRepository repo
+- ObjectMapper objectMapper
+- {static} Company co
++ void givenUsers_whenGetUsers_thenUserExists()
+}
+interface edu.sru.WebBasedEvaluations.repository.DepartmentRepository {
++ Department findByNameAndCompany(String,Company)
++ Department findById(long)
++ Object findAll(Sort)
++ Set<Department> findByCompany(Company)
+~ long getDepartmentId(Department,long)
+}
+interface edu.sru.WebBasedEvaluations.repository.LocationRepository {
++ Location findByLocationName(String)
++ Location findByLocationNameAndCompany(String,Company)
++ Location findById(long)
++ Object findAll(Sort)
++ Set<Location> findByCompany(Company)
+}
+class edu.sru.WebBasedEvaluations.company.Continent {
+- Long id
+~ String continentName
+- int numCountries
+- World parentWorld
+- List<Country> childCountries
++ <<Create>> Continent()
++ <<Create>> Continent(String,World)
++ <<Create>> Continent(String,int,World,List<Country>)
++ <<Create>> Continent(String,int,World,Country)
++ boolean addCountry(Country)
++ boolean addCountry(List<Country>)
++ boolean removeCountry(Long)
++ Long getId()
++ void setId(Long)
++ String getContinentName()
++ void setContinentName(String)
++ int getNumCountries()
++ void setNumCountries(int)
++ World getParentWorld()
++ void setParentWorld(World)
++ List<Country> getChildCountries()
++ void setChildCountries(List<Country>)
+}
+class edu.sru.WebBasedEvaluations.EvalForm.ComputeRangeTest {
+~ {static} ComputeRange range
+~ {static} String name
+~ {static} double min
+~ {static} double max
+~ {static} void begin()
++ void getRangeNameTest()
++ void setRangeNameTest()
++ void getRangeValMinTest()
++ void setRangeValMin()
++ void getRangeValMax()
++ void setRangeValMax()
+}
+interface edu.sru.WebBasedEvaluations.repository.EvalRoleRepository {
+~ EvalRole findByNameAndCompany(String,Company)
+~ List<EvalRole> findByCompany(Company)
+}
+class edu.sru.WebBasedEvaluations.integration.ControllerIntegrationTest {
+}
+class edu.sru.WebBasedEvaluations.controller.ResetPasswordController {
+- EmailSenderService service
+- PasswordTokenRepository passwordTokenRepository
+- UserRepository userRepository
+- AdminMethodsService adminMethodsService
+- Logger log
+- {static} int PASSWORDSIZE
++ String resetPassword(Model)
++ String firstResetPassword(Authentication,ResetPassword,Model)
++ String resetSent(ResetPassword,Model)
++ String showChangePasswordPage(Model,ResetPassword,String)
++ String updateRecovery(long,User,ResetPassword,String,Model)
++ void emailSentConfirm(Model)
+}
+class edu.sru.WebBasedEvaluations.userDTO.UserDTO {
+- String firstName
+- String lastname
+- String suffix
+- String email
+- Date dateOfHire
+}
+class edu.sru.WebBasedEvaluations.controller.EvaluatorController {
+- EvaluatorRepository evaluatorRepository
+- UserRepository userRepository
+- EvaluationLogRepository evaluationLogRepository
+- RevieweeRepository revieweeRepository
+- EvaluationRepository evalFormRepo
+- EvalRoleRepository roleRepository
+- Logger log
++ <<Create>> EvaluatorController(EvaluatorRepository,UserRepository,EvaluationLogRepository,RevieweeRepository,EvaluationRepository,EvalRoleRepository,EvaluationRepository)
++ Object submiteval(long,Authentication,Model)
++ Object previeweval(RedirectAttributes,long,Authentication,Model)
++ ResponseEntity<byte[]> download(RedirectAttributes,long,Authentication,Model)
++ String saveEvalForm(Evaluation,String[],boolean,long,Authentication,RedirectAttributes,MultipartFile)
+}
+class edu.sru.WebBasedEvaluations.controller.DataVisualizationController {
+- UserRepository userRepository
+- EvaluationRepository evalFormRepo
+- EvaluatorRepository evaluatorRepository
+- EvaluationLogRepository evaluationLogRepository
+- GroupRepository groupRepository
+- RevieweeRepository revieweeRepository
+- SelfEvaluationRepository selfEvalRepo
+- Logger log
++ <<Create>> DataVisualizationController(UserRepository,EvaluationRepository,EvaluatorRepository,EvaluationLogRepository,GroupRepository,EvalRoleRepository,RevieweeRepository,SelfEvaluationRepository)
++ String showSQLPage(long,Model)
++ void handlePieChartSQL(long,HttpServletResponse,Model)
++ void handleRingChartSQL(long,HttpServletResponse)
++ void handlebarChartSQL(long,HttpServletResponse)
++ void handleareaChartSQL(long,HttpServletResponse)
++ void handlePieChartSQLIndividual(long,HttpServletResponse,Model)
++ void handleRingChartSQLIndividual(long,HttpServletResponse,Model)
++ void handleBarChartSQLIndividual(long,HttpServletResponse,Model)
++ void handleBarAreaSQLIndividual(long,HttpServletResponse,Model)
++ void handlePieChartGroupSQL(long,HttpServletResponse,Model)
++ void handleRingChartGroupSQL(long,HttpServletResponse,Model)
++ void handleBarChartGroupSQL(long,HttpServletResponse,Model)
++ void handleareaChartGroupSQL(long,HttpServletResponse,Model)
++ void handlePieChartSelf(long,HttpServletResponse,Model)
++ void handleRingChartSelf(long,HttpServletResponse,Model)
++ void handleBarChartSelf(long,HttpServletResponse,Model)
++ void handleAreaChartSelf(long,HttpServletResponse,Model)
++ ResponseEntity<Resource> handlePdfReports(long,HttpServletResponse,Model,HttpServletRequest)
+}
+class edu.sru.WebBasedEvaluations.controller.UserController {
+- UserRepository userRepository
+- EvaluatorRepository evaluatorRepository
+- EvaluationRepository evaluationRepository
+- DepartmentRepository departmentRepository
+- Authentication auth
+- RoleRepository roleRepo
+- LocationRepository locationRepo
+- DepartmentRepository deptRepo
+- EvaluationRepository evalFormRepo
+- CompanyRepository companyRepo
+- AddUserController addUserController
+- Logger log
+- AdminMethodsService adminMethodsService
+- UserService service
++ <<Create>> UserController(UserRepository,EvaluatorRepository,EvaluationRepository,AddUserController)
++ String home(Authentication,User,Model,String,Integer,String,Integer,Integer)
++ String editSettings(Authentication,Model)
++ String showUpdateForm(long,Integer,String,String,Integer,Integer,User,Model,Authentication)
++ String updateUser(long,Integer,String,String,Integer,Integer,User,Model,Authentication)
++ Object deleteUser(long,String,Integer,Model,String,Integer,Integer,User,RedirectAttributes,Authentication)
++ String changeUser(Authentication,long,User,Model)
+}
+class edu.sru.WebBasedEvaluations.domain.PasswordResetToken {
+- {static} int EXPIRATION
+- long id
+- String token
+- long userID
+- LocalDate localDate
+- LocalTime expireTime
+- User user
++ <<Create>> PasswordResetToken(String,User)
++ <<Create>> PasswordResetToken()
++ String getToken()
++ void setToken(String)
++ User getUser()
++ void setUser(User)
++ long getUserIdReset()
++ void setUserIdReset(long)
++ void setExpireTime(LocalDate,LocalTime)
++ LocalTime getExpireTime()
++ LocalDate getExpiredDate()
+}
+class edu.sru.WebBasedEvaluations.service.MyUserDetailsServiceTest {
++ void loadUserByUsernameTests()
+}
+class edu.sru.WebBasedEvaluations.company.Country {
+- Long id
+~ String countryName
+- int numProvinces
+- Continent parentContinent
+- List<Province> childProvinces
++ <<Create>> Country()
++ <<Create>> Country(String,Continent)
++ <<Create>> Country(String,int,Continent,List<Province>)
++ <<Create>> Country(String,int,Continent,Province)
++ boolean addProvince(Province)
++ boolean addProvinces(List<Province>)
++ boolean removeProvince(Province)
++ Long getId()
++ void setId(Long)
++ String getCountryName()
++ void setCountryName(String)
++ int getNumProvinces()
++ void setNumProvinces(int)
++ Continent getParentContinent()
++ void setParentContinent(Continent)
++ List<Province> getChildProvinces()
++ void setChildProvinces(List<Province>)
+}
+interface edu.sru.WebBasedEvaluations.repository.PasswordTokenRepository {
++ PasswordResetToken findByToken(String)
++ User findByid(long)
+}
+interface edu.sru.WebBasedEvaluations.repository.GroupRepository {
+~ List<Group> findByevaluatorUserId(long)
+~ Group findById(long)
+~ Group findByGroupName(String)
+~ Group findByNumberAndCompany(int,Company)
+~ List<Group> findByCompany(Company)
+~ List<Group> findByevaluatorUserId(long,Sort)
+~ int getGroupSize(long)
+}
+class edu.sru.WebBasedEvaluations.company.Province {
+- Long id
+~ String provinceName
+- int numCities
+- Country parentCountry
+- List<City> childCities
++ <<Create>> Province()
++ <<Create>> Province(String,Country)
++ <<Create>> Province(String,int,Country,List<City>)
++ <<Create>> Province(String,int,Country,City)
++ boolean addCity(City)
++ boolean addCities(List<City>)
++ boolean removeCity(long)
++ Long getId()
++ void setId(Long)
++ String getProvinceName()
++ void setProvinceName(String)
++ int getNumCities()
++ void setNumCities(int)
++ Country getParentCountry()
++ void setParentCountry(Country)
++ List<City> getChildCities()
++ void setChildCities(List<City>)
+}
+class edu.sru.WebBasedEvaluations.company.City {
+- Long id
+~ String cityName
+- int numLocations
+- Province parentProvince
+- List<Location> childLocations
++ <<Create>> City()
++ <<Create>> City(String,Province)
++ <<Create>> City(String,int,Province,List<Location>)
++ <<Create>> City(String,int,Province,Location)
++ boolean addLocation(Location)
++ boolean addLocations(List<Location>)
++ boolean removeLocation(Location)
++ Long getId()
++ void setId(Long)
++ String getCityName()
++ void setCityName(String)
++ int getNumLocations()
++ void setNumLocations(int)
++ Province getParentProvince()
++ void setParentProvince(Province)
++ List<Location> getChildLocations()
++ void setChildLocations(List<Location>)
+}
+class edu.sru.WebBasedEvaluations.domain.Group {
+- Long id
+- int number
+- String groupName
+- int year
+- Company company
+- List<Department> departments
+- Boolean evalstart
+- Boolean selfeval
+- List<Reviewee> reviewees
+- List<Evaluator> evaluator
+- EvalTemplates evalTemplates
++ <<Create>> Group()
++ <<Create>> Group(Company)
++ <<Create>> Group(Boolean,Company,int)
++ void setGroup(List<Reviewee>)
++ List<Department> getDepartments()
++ void setDepartments(List<Department>)
++ List<Reviewee> getReviewees()
++ void setReviewees(List<Reviewee>)
++ void setId(Long)
++ Set<User> getUsers()
++ int getNumber()
++ void setNumber(int)
++ int getGroupNumber()
++ void setGroupNumber(int)
++ String getGroupName()
++ void setGroupName(String)
++ int getYear()
++ void setYear(int)
++ Long getId()
++ void setGroupNum(int)
++ long getRevieweeId(int)
++ List<Reviewee> getReviewee()
++ void setReviewee(List<Reviewee>)
++ List<Evaluator> getEvaluator()
++ void appendReviewee(Reviewee)
++ EvalTemplates getEvalTemplates()
++ void setEvalTemplates(EvalTemplates)
++ void setEvaluator(List<Evaluator>)
++ Boolean getEvalstart()
++ void setEvalstart(Boolean)
++ Boolean getSelfeval()
++ void setSelfeval(Boolean)
++ Company getCompany()
++ void setCompany(Company)
+}
+class edu.sru.WebBasedEvaluations.domain.UserTest {
+~ {static} User user
+~ {static} void setup()
++ void activationTest()
+~ void getPasswordTest()
+~ void getIdTest()
+~ void getNameTest()
+~ void getEmailTest()
+~ void getFirstNameTest()
+~ void getLastNameTest()
+~ void getSuffixNameTest()
+~ void getResetTest()
+~ void isResetPTest()
+~ void getDateOfHireTest()
+~ void getJobTitleTest()
+~ void getSupervisorTest()
+~ void getCompanyNameTest()
+~ void getDivisionBranchTest()
+}
+class edu.sru.WebBasedEvaluations.domain.EvalRole {
+- Long id
+- int level
+- String name
+- Set<Evaluator> evaluator
+- Company company
++ <<Create>> EvalRole()
++ <<Create>> EvalRole(String,int,Company)
++ Company getCompany()
++ void setCompany(Company)
++ Long getId()
++ String getName()
++ void setName(String)
++ Set<Evaluator> getEvaluator()
++ void setEvaluator(Set<Evaluator>)
++ int getLevel()
++ void setLevel(int)
+}
+class edu.sru.WebBasedEvaluations.domain.RoleTest {
+~ {static} Role role
+~ {static} HashSet<Role> roles
+~ {static} Privilege p
+~ {static} Company testCo
+~ {static} User user
+~ {static} Department dep
+~ {static} Location loc
+~ {static} LocationGroup locG
+~ {static} void setup()
++ void readableCompaniesTest()
++ void writableCompaniesTest()
++ void deletableCompaniesTest()
++ void evalableCompaniesTest()
++ void readableUsersTest()
++ void writableUsersTest()
++ void deletableUsersTest()
++ void evalableUsersTest()
++ void readableDepartmentsTest()
++ void writableDepartmentsTest()
++ void deletableDepartmentsTest()
++ void evalableDepartmentsTest()
++ void readableLocationsTest()
++ void writableLocationsTest()
++ void deletableLocationsTest()
++ void evalableLocationsTest()
++ void readableLocationGroupsTest()
++ void writableLocationGroupsTest()
++ void deletableLocationGroupsTest()
++ void evalableLocationGroupsTest()
++ void containsRolesTest()
++ void activationTest()
++ void containsTest()
++ void addRemovePrivilegeTest()
++ void addRemoveUserTest()
++ void setGetCompanyTest()
++ void setGetId()
++ void setGetName()
++ void setGetUsers()
++ void setGetPrivileges()
++ void compareToTest()
+}
+interface edu.sru.WebBasedEvaluations.repository.LocationGroupRepository {
++ LocationGroup findById(long)
++ Object findAll(Sort)
++ LocationGroup findByCompanyAndName(Company,String)
+}
+class edu.sru.WebBasedEvaluations.service.MyUserDetailsService {
+- UserRepository userRepository
+- UserService service
+- MessageSource messages
+- RoleRepository roleRepository
++ UserDetails loadUserByUsername(String)
+}
+class edu.sru.WebBasedEvaluations.controller.ArchiveController {
+- GroupRepository groupRepository
+- UserRepository userRepository
+- EvaluatorRepository evaluatorRepository
+- EvaluationLogRepository evaluationLogRepository
+- RevieweeRepository revieweeRepository
+- EvalRoleRepository roleRepository
+- EvaluationRepository evaluationRepository
+- EvaluationRepository evalFormRepo
+- ArchiveRepository archiveRepository
++ <<Create>> ArchiveController(ArchiveRepository,GroupRepository,UserRepository,EvaluatorRepository,RevieweeRepository,EvaluationLogRepository,EvalRoleRepository,EvaluationRepository,EvaluationRepository)
++ String evalGroups(Model,Authentication)
++ String ViewViewArchive(long,Model,Authentication)
+}
+class edu.sru.WebBasedEvaluations.company.WorldTest {
+~ {static} World world
+~ {static} int numContinents
+~ {static} long id
+~ {static} Continent con
+~ {static} List<Continent> childContinents
+~ {static} String name
++ {static} void initialize()
++ void addContinentTest()
++ void addContinentsTest()
++ void removeContinentTest()
++ void getIdTest()
++ void setIdTest()
++ void getNumContinentsTest()
++ void setNumContinentsTest()
++ void getChildContinentsTest()
++ void setChildContinentsTest()
+}
+class edu.sru.WebBasedEvaluations.domain.Privilege {
++ Long id
+- boolean r
+- boolean w
+- boolean d
+- boolean editEvaluator
+- String name
+- List<Role> roles
+- List<Department> depts
+- List<LocationGroup> locationGroups
+- Set<Company> companies
+- HashSet<User> users
+- HashSet<Location> locations
++ <<Create>> Privilege()
++ <<Create>> Privilege(String,Role,boolean,boolean,boolean,boolean)
++ <<Create>> Privilege(String,Role,LocationGroup,Department,Company,boolean,boolean,boolean,boolean)
++ <<Create>> Privilege(String,List<Role>,List<LocationGroup>,List<Department>,Set<Company>,boolean,boolean,boolean,boolean)
++ <<Create>> Privilege(String,List<User>,List<Location>,Set<Company>,boolean,boolean,boolean,boolean)
++ boolean containsLoc(Location)
++ Set<Location> getLocations()
++ void addCompany(Company)
++ boolean removeCompany(Company)
++ void addLocGroup(LocationGroup)
++ boolean removeLocGroup(LocationGroup)
++ void addDept(Department)
++ boolean removeDept(Department)
++ boolean addRole(Role)
++ boolean removeRole(Role)
++ boolean getRead()
++ boolean getEditEvaluator()
++ void setEditEvaluator(boolean)
++ Set<Company> getCompanies()
++ void setCompanies(Set<Company>)
++ boolean isR()
++ void setR(boolean)
++ boolean isW()
++ void setW(boolean)
++ boolean isD()
++ void setD(boolean)
++ boolean getEditEvaluate()
++ void setEvaluate(boolean)
++ void setRead(boolean)
++ boolean getWrite()
++ void setWrite(boolean)
++ boolean getDelete()
++ void setDelete(boolean)
++ List<Department> getDepts()
++ void setDepts(List<Department>)
++ List<LocationGroup> getLocationGroups()
++ void setLocationGroups(List<LocationGroup>)
++ Long getId()
++ void setId(Long)
++ String getName()
++ void setName(String)
++ List<Role> getRoles()
++ void setRoles(List<Role>)
++ HashSet<User> getUsers()
++ void setUsers(HashSet<User>)
++ void addUser(User)
++ void addLocation(Location)
+}
+class edu.sru.WebBasedEvaluations.service.GroupService {
+- GroupRepository groupRepository
++ Group updateDeletedUser(List<Reviewee>,long)
+}
+class edu.sru.WebBasedEvaluations.company.LocationGroupTest {
+~ {static} Location loc
+~ {static} Privilege priv
+~ {static} long id
+~ {static} Company co
+~ {static} List<Privilege> privs
+~ {static} List<Location> locs
+~ {static} LocationGroup group
++ {static} void initialize()
++ void addPrivilegeTest()
++ void removePrivilegeTest()
++ void addLocationTest()
++ void removeLocationTest()
++ void addLocationsTest()
++ void getIdTest()
++ void setIdTest()
++ void getPrivilegesTest()
++ void setPrivilegesTest()
++ void getLocationsTest()
++ void setLocationsTest()
++ void getNumLocationsTest()
++ void setNumLocationsTest()
+}
+class edu.sru.WebBasedEvaluations.domain.EvalRoleTest {
+~ List<Evaluator> evaluator
+~ Evaluator testEvaluator
+~ {static} EvalRole evalRole
+~ {static} void setup()
++ void getNameTest()
++ void getEvaluatorTest()
++ void Test()
+}
+class edu.sru.WebBasedEvaluations.domain.PrivilegeTest {
+~ {static} Role role
+~ {static} Privilege p
+~ {static} Company testCo
+~ {static} User user
+~ {static} Department dep
+~ {static} Location loc
+~ {static} LocationGroup locG
+~ {static} void setup()
++ void addRemoveCompanyTest()
++ void addRemoveLocGroupTest()
++ void addRemoveDeptTest()
++ void addRemoveRoleTest()
++ void getReadTest()
++ void getSetEditEvaluatorTest()
++ void getSetCompaniesTest()
++ void isSetGetRTest()
++ void isSetGetWTest()
++ void isSetGetDTest()
++ void getEditEvaluateTest()
++ void setEvaluateTest()
++ void getSetDeptsTest()
++ void getSetLocationGroupsTest()
++ void getSetIdTest()
++ void getSetNameTest()
++ void getSetRolesTest()
+}
+class edu.sru.WebBasedEvaluations.company.ProvienceTest {
+~ {static} Province pro
+~ {static} String name
+~ {static} String newName
+~ {static} int numCities
+~ {static} long id
+~ {static} Country parentCountry
+~ {static} Country country
+~ {static} City city
+~ {static} List<City> cities
++ {static} void initialize()
++ void addCity()
++ void addCities()
++ void removeCity()
++ void getId()
++ void setId()
++ void getProvinceName()
++ void setProvinceName()
++ void getNumCities()
++ void setNumCities()
++ void getParentCountry()
++ void setParentCountry()
++ void getChildCities()
++ void setChildCities()
+}
+class edu.sru.WebBasedEvaluations.service.EvaluatorService {
+}
+
+
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.EvaluationLogRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.CompanyRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.EvaluationRepository
+java.io.Serializable <|.. edu.sru.WebBasedEvaluations.evalform.ComputeRange
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.RevieweeRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.PrivilegeRepository
+edu.sru.WebBasedEvaluations.service.VerificationService <|.. edu.sru.WebBasedEvaluations.service.UserServiceImpl
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.ProvinceRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.RoleRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.WorldRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.UserRepository
+java.io.Serializable <|.. edu.sru.WebBasedEvaluations.evalform.Section
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.ContinentRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.SelfEvaluationRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.EvaluatorRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.ArchiveRepository
+java.io.Serializable <|.. edu.sru.WebBasedEvaluations.evalform.Question
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.CountryRepository
+java.io.Serializable <|.. edu.sru.WebBasedEvaluations.domain.EvaluatorId
+org.springframework.security.core.userdetails.UserDetails <|.. edu.sru.WebBasedEvaluations.domain.MyUserDetails
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.CityRepository
+org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter <|-- edu.sru.WebBasedEvaluations.configuration.SecurityConfiguration
+java.io.Serializable <|.. edu.sru.WebBasedEvaluations.evalform.Evaluation
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.DepartmentRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.LocationRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.EvalRoleRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.PasswordTokenRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.GroupRepository
+org.springframework.data.repository.CrudRepository <|-- edu.sru.WebBasedEvaluations.repository.LocationGroupRepository
+org.springframework.security.core.userdetails.UserDetailsService <|.. edu.sru.WebBasedEvaluations.service.MyUserDetailsService
+@enduml

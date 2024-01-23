@@ -1,0 +1,32 @@
+@startuml EditGroupSequenceDiagram
+
+actor Admin as Admin
+participant GroupController as GroupController
+participant User as User
+participant Company as Company
+participant GroupRepository as GroupRepository
+participant Authentication as Authentication
+participant UserRepository as UserRepository
+participant EvalRoleRepository as EvalRoleRepository
+participant EvaluationLogRepository as EvaluationLogRepository
+participant Model as Model
+participant AdminMethodService as AdminMethodService
+
+
+
+Admin -> GroupController: Groups()
+GroupController -> Authentication: getPrincipal()
+GroupController -> UserRepsoitory: findById()
+GroupController -> User: getCompany()
+GroupController -> GroupRepository: findByCompany()
+GroupController -> EvalRoleRepository: findByCompany()
+GroupController -> UserRepsoitory: findByCompany()
+GroupController -> User: getCompany()
+User -> Company: getRoles()
+GroupController -> User: getCompany()
+User -> Company: getDepartments()
+GroupController -> Model: addAttributes()
+GroupController -> AdminMethodService: pageNavbarPermissions()
+
+
+@enduml

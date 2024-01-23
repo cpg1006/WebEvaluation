@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+actor User
+
+rectangle "Evaluation System" {
+
+  usecase "Create Evaluation" as UC1
+  usecase "Add Department Name" as UC2
+  usecase "Set Evaluation Details" as UC3
+  usecase "Manage Sections" as UC4
+  usecase "Manage Groups" as UC5
+  usecase "Manage Errors and Warnings" as UC6
+  usecase "Save Responses" as UC7
+  usecase "Verify Completion" as UC8
+  usecase "Update Compute" as UC9
+  usecase "Process ToolTips" as UC10
+  usecase "Check Errors" as UC11
+  usecase "Populate Preload Data" as UC12
+  usecase "Print Evaluation" as UC13
+
+  User --> UC1
+  User --> UC2
+  User --> UC3
+  User --> UC4
+  User --> UC5
+  User --> UC6
+  User --> UC7
+  User --> UC8
+  User --> UC9
+  User --> UC10
+  User --> UC11
+  User --> UC12
+  User --> UC13
+
+  UC1 <.. UC2 : <<include>>
+  UC1 <.. UC3 : <<include>>
+  UC7 ..> UC8 : <<extend>>
+  UC8 ..> UC9 : <<extend>>
+  UC9 <.. UC10 : <<include>>
+  UC11 <.. UC12 : <<include>>
+
+}
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+actor User
+actor Evaluator_Admin
+actor System
+
+rectangle "Group Management System" {
+
+  usecase "Create Group" as UC1
+  usecase "Edit Group Details" as UC2
+  usecase "Delete Group" as UC3
+  usecase "List Groups" as UC4
+  usecase "View Group Details" as UC5
+  usecase "Assign Members" as UC6
+  usecase "Remove Members" as UC7
+
+  User --> UC4
+  User --> UC5
+  Evaluator_Admin --> UC1
+  Evaluator_Admin --> UC2
+  Evaluator_Admin --> UC3
+  Evaluator_Admin --> UC6
+  Evaluator_Admin --> UC7
+  UC1 <.. UC6 : <<include>>
+
+}
+@enduml

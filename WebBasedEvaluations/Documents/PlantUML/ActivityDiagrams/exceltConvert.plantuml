@@ -1,0 +1,49 @@
+@startuml
+
+start
+:Load XSSFWorkbook;
+:XSSFSheets sheet1, sheet2, sheet;
+:XSSFWorkbook groups, users;
+:XSSFSheets rvees, rvrs, lvls, newsheet;
+:XSSFRow anomalyfirstrow, nrow;
+:int newrow = 1;
+:int newcol = 0;
+:String[] names = {"FIRST NAME", "LAST NAME", "TITLE", "EMAIL", "PASSWORD", "ROLE", "RESET", "DATE OF HIRE",
+                    "JOB TITLE", "DEPT", "DEPT MANAGER", "COMPANY NAME", "DIVISION/BRANCH"};
+:int r;
+
+if (XSSFWorkbook is loaded) then (yes)
+    :Create new sheets;
+    :Create newsheet row;
+    :Create title row in newsheet;
+
+    while (newcol < names.length)
+        :Set cell value;
+        :Increment newcol;
+    endwhile
+
+    :Reset newcol;
+
+    :Set anomalyfirstrow values;
+    :Increment newrow;
+    
+    :Call convFieldUsers;
+    :Increment r;
+    
+    :Call convEvalUsers;
+    
+    :Write users workbook to file;
+    
+    :Call convGroupReviewees;
+    :Call findGroupEvals;
+    :Call lvlNameSheet;
+    
+    :Write groups workbook to file;
+    
+    stop
+else (no)
+    :Handle error;
+    stop
+endif
+
+@enduml

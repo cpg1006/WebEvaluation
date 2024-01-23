@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+	<script>
+		function uploadSpinner(id) {
+			document.getElementById(id).style.visibility = 'hidden';
+			document.getElementById(id).style.display = 'none';
+			document.getElementById(id + "Load").removeAttribute("hidden");
+		}
+
+	// async function manCreateGroup(e) {
+	// 	await fetch(`${window.location.origin}/mancreategroup`, {method:"POST"})
+	// 			.then(response => response.ok ? response.json() : Promise.reject(response))
+	// 			.then(data => window.location.href = `${window.location.origin}/edit/${data[0]}`)
+	//
+	// }
+	</script>
+
+	<title>Groups</title>
+</head>
+
+<body>
+
+
+	<div th:replace="./navbarFragm.html :: navbar"></div>
+
+
+	<div style="overflow-x: auto;" th:unless="${groupsAreEmpty}">
+		<table class="table" align="center">
+			<thead>
+				<tr>
+					<th>
+						<button id="groupNumberHead" class="btn btn-outline-success" type="button">Group</button>
+					</th>
+					<th>
+						<button id="evalFormHead" class="btn btn-outline-success" type="button">Evaluation Form</button>
+					</th>
+					<th>
+						<button id="numEmployeesHead" class="btn btn-outline-success" type="button">Evaluation Requirement</button>
+					</th>
+					<th>
+						<button id="selfEvalHead" class="btn btn-outline-success" type="button">Self Evaluation</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="group, Index : ${groups}">
+					<td>
+						<p th:text="${group.groupName}+' ('+${group.year}+')'"></p>
+					</td>
+					<td>
+						<button
+							th:if="${ revs[Index.index].selfEvaluation != null and revs[Index.index].selfEvaluation.completed == false}"
+							th:onclick="|window.location.href='@{/selfeval/{id} (id =${revs[Index.index].id})}'|"
+							class="btn btn-outline-success">Self Eval</button>
+						<button th:if="${revs[Index.index].selfEvaluation != null and revs[Index.index].selfEvaluation.completed == true }"
+							class="btn btn-outline-success"
+							th:onclick="|window.location.href='@{/viewselfeval/{id}/{type} (id =${revs[Index.index].id}, type='rev')}'|" >Completed</button>
+							<button th:if="${revs[Index.index].selfEvaluation == null }"
+							class="btn btn-outline-success" th:text="${group.evalTemplates.name}"
+							th:onclick="|window.location.href='@{/viewselfeval/{id}/{type} (id =${revs[Index.index].id}, type='rev')}'|" disabled></button>
+					</td>
+				
+					<td>
+						<p th:if="${group.selfeval}">Required</p>
+						<p th:unless="${group.selfeval}">Not Required</p>
+					</td>
+
+					<td align="center">
+						<span style="padding-right:5px">
+							<button class="btn btn-outline-success " type="button"
+								th:onclick="|window.location.href='@{/admineval/{id}/{gid}(id=${revs[Index.index].id}, gid=${group.id})}'|">View</button>
+						</span>
+
+					</td>
+
+					<td align="center">
+						<div class="modal fade" th:id="'homeModal' + ${group.id}" data-bs-backdrop="static"
+							data-bs-keyboard="false" tabindex="-1" th:aria-labelledby="'homeModalLabel' + ${group.id}"
+							aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" th:id="'homeModalLabel' + ${group.id}">Warning</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body">Are you sure you want to delete this group</div>
+									<div class="modal-footer">
+										<button id="deleteButton" type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal"
+											th:onclick="|window.location.href='@{/delete/{id}(id=${group.id})}'|">
+											Yes</button>
+										<a th:href="@{/home}" type="button" class="btn btn-primary">No </a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+		crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

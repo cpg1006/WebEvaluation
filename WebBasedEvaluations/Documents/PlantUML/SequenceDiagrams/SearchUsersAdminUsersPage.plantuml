@@ -1,0 +1,36 @@
+@startuml SearchUserSequenceDiagram
+
+actor Admin as Admin
+participant UserController as UserController
+participant Authentication as Authentication
+participant UserRepository as UserRepository
+participant Model as Model
+participant User as User
+participant List as List
+participant AdminMethodService as AdminMethodService
+participant MyUserDetails as MyUserDetails
+participant Company as Company
+participant EvaluationRepository as EvaluationRepository
+
+Admin -> UserController: Users()
+UserController -> Authentication: getPrincipal()
+UserController -> MyUserDetails: getID()
+UserController -> UserRepository: findById()
+UserController -> User: getCompany()
+UserController -> UserRepository: findAll()
+UserController -> EvaluationRepository: count()
+UserController -> Company: getRoles()
+UserController -> Company: getDepartments()
+UserController -> UserRepository: findByCompany()
+
+UserController -> User: isSuperUser()
+alt [currentUser.isSuperUser()]
+	UserController -> List: add()
+end
+
+UserController -> AdminMethodService: pageNavbarPermissions()
+UserController -> AdminMethodService: addingOrEditingUser()
+UserController -> Model: addAttributes()
+
+
+@enduml

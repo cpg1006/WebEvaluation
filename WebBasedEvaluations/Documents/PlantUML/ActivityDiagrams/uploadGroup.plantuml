@@ -1,0 +1,62 @@
+@startuml
+
+start
+:Initialize currentUser, currentCompany;
+:Retrieve user details from authentication;
+:Retrieve currentUser from userRepository using ID;
+
+if (currentUser is not null) then (yes)
+    :Retrieve currentCompany from currentUser;
+
+    if (currentUser does not have Evaluator_admin role) then (yes)
+        :Handle error - Redirect to /adminGroups with error message;
+        stop
+    else (no)
+        :Initialize sheets and lists;
+
+        :Check if the file is valid;
+        if (file is invalid) then (yes)
+            :Handle error - Redirect to /adminGroups with error message;
+            stop
+        else (no)
+            :Check if the file type is correct;
+            if (file type is incorrect) then (yes)
+                :Handle error - Redirect to /adminGroups with error message;
+                stop
+            else (no)
+                :Process roles from sheet3;
+
+                :Check and handle company existence;
+
+                :Check and handle company access;
+
+                :Process roles and save to evalRoleRepository;
+
+                :Process groups from sheet;
+
+                :Check and handle duplicate groups;
+
+                :Process group details;
+
+                :Process evaluator permissions from sheet2;
+
+                :Handle user permissions and create evaluators;
+
+                :Handle error - Redirect to /adminGroups with error message if needed;
+                
+                :Save groups to groupRepository;
+
+                :Save evaluators to evaluatorRepository;
+
+                :Set completed attribute and redirect to /adminGroups;
+
+                stop
+            endif
+        endif
+    endif
+else (no)
+    :Handle error - Redirect to /adminGroups with error message;
+    stop
+endif
+
+@enduml

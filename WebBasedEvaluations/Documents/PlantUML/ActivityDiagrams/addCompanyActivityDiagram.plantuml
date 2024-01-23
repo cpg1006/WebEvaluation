@@ -1,0 +1,25 @@
+@startuml
+|Main Flow|
+start
+:Authenticate User;
+if (User Authenticated?) then (yes)
+  :Get User Details;
+  :Retrieve User Company;
+  :Set model attributes;
+  :Retrieve User Roles;
+  :Set UserRole attribute;
+  :Initialize variables (mess, ansr, success);
+  if (Validation Errors?) then (yes)
+    :Return "adminCompanies";
+  else (no)
+    :Handle Successful Validation;
+    if (User is SuperUser?) then (yes)
+      :Set COMPANY_ADMIN attribute to false;
+    endif
+  endif
+  :Return "adminCompanies";
+else (no)
+  :Handle Authentication Failure;
+endif
+stop
+@enduml

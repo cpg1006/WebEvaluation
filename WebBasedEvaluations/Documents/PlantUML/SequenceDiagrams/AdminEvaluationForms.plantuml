@@ -1,0 +1,42 @@
+@startuml
+actor User
+participant Controller as Controller
+participant MyUserDetails as MyUserDetails
+participant userRepo as userRepo
+participant currentCompany as currentCompany
+participant evalFormRepo as evalFormRepo
+participant evalTempList as evalTempList
+participant groupRepo as groupRepo
+participant Department as Department
+participant Evaluation as Evaluation
+participant AdminMethodsService as AdminMethodsService
+
+User -> Controller: Request evalTemplates
+Controller -> MyUserDetails: auth.getPrincipal()
+MyUserDetails -> userRepo: getID()
+Controller -> userRepo: findById(idnum)
+userRepo -> currentCompany: currentUser.getCompany()
+Controller -> currentCompany: getRoles(), getDepartments()
+Controller -> currentCompany: getDepartments(), getRoles()
+Controller -> FileUtils: cleanDirectory()
+Controller -> Files: createDirectories()
+
+alt evalFormRepo.count() > 0
+    Controller -> evalFormRepo: count()
+    Controller -> evalFormRepo: findByCompany(currentCompany)
+    loop evalTempList.size()
+        Controller -> groupRepo: findAll()
+        Controller -> SerializationUtils: deserialize()
+        Controller -> groupRepo: findAll()
+    end
+    Controller -> Department: getName()
+    Controller -> Department: getName()
+    Controller -> evalTempList: getDepts()
+    Controller -> evalTempList: getDepts()
+    Controller -> evalTempList: getEval()
+end
+Controller -> AdminMethodsService: pageNavbarPermissions()
+Controller -> Model: addAttribute()
+
+Controller -> User: Return evalTemplates
+@enduml

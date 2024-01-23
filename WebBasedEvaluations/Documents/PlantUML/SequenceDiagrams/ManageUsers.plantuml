@@ -1,0 +1,26 @@
+@startuml
+participant User
+participant Company
+participant MyUserDetails
+participant UserRepository
+participant EvalFormRepository
+
+
+User -> MyUserDetails: getPrincipal()
+MyUserDetails -> UserRepository: getID()
+UserRepository -> User: findById(id)
+User -> UserRepository: getCompany()
+User -> EvalFormRepository: count()
+User -> Company: getRoles()
+User -> Company: getDepartments()
+
+User -> UserRepository: findAll()
+User -> UserRepository: save(User)
+UserRepository -> UserRepository: add()
+UserRepository -> UserRepository: remove()
+UserRepository -> UserRepository: findByCompany(company)
+User -> AdminMethodsService: sortCheck()
+User -> AdminMethodsService: pageCalc()
+User -> AdminMethodsService: getByKeyword()
+
+@enduml

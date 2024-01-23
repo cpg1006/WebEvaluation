@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<title th:text="'Edit '+${role.name}"></title>
+<body>
+	<nav class="navbar navbar-light bg-light  justify-content-center ">
+		<div class="btn-group ">
+			<span style= "padding-right:5px">
+				<a th:href="@{/adminRoles}">	
+					<button class="btn btn-outline-success " type="button">Manage Roles</button>
+				</a>
+			</span>
+			<span style= "padding-right:5px">	
+				<a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>
+			</span>
+		</div>
+	</nav>
+	
+	<!-- Add New User to Role -->
+	
+	
+	
+	<div class="container  mt-5">
+		<div style="overflow-x: auto;">
+			<h2 th:text="${role.name}"></h2>
+<!--			<table class="table">-->
+<!--				<thead>-->
+<!--					<tr>-->
+<!--						<th>Add User</th>-->
+<!--&lt;!&ndash;						<th>Add Department</th>&ndash;&gt;-->
+<!--					</tr>-->
+<!--				</thead>-->
+<!--				<tbody>-->
+<!--					<tr>-->
+<!--						<td>-->
+<!--							<form class="md-form" th:action="@{/addUserToRole/{roleID}(roleID=${role.id})}" method="post" th:object="${user}">-->
+<!--								<label for="user">User</label>-->
+<!--								<select id="user" name="user">-->
+<!--									<option th:if="${not #lists.isEmpty(otherUsers)}" th:each="user : ${otherUsers}" th:value="${user.id}" th:text="${user.name}"></option>-->
+<!--									<option th:unless="${not #lists.isEmpty(otherUsers)}" th:text="'No users available to add'" disabled></option>-->
+<!--								</select>-->
+<!--								<input th:if="${not #lists.isEmpty(otherUsers)}" type="submit" class="btn btn-outline-success " value="Add">-->
+<!--								<input th:unless="${not #lists.isEmpty(otherUsers)}" type="submit" class="btn btn-outline-success " value="Add" disabled>-->
+<!--							</form>-->
+<!--						</td>-->
+<!--						<td>-->
+
+<!--						</td>-->
+<!--					</tr>-->
+<!--					-->
+<!--				</tbody>-->
+<!--			</table>-->
+			
+			<div style="display:flex; padding-top:50px;">
+				<div style="flex: 50%;">
+					<table class="table">
+						<thead>
+							<tr>
+								<td><h3 th:text="'Users with the '+${role.name}+' Role'"></h3></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user : ${usersWithRole}">
+								
+								<td>
+									<p th:text="${user.name}"></p>
+								</td>
+								<td>
+									<span style="white-space:nowrap;">
+										<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= '0', keyword2='', id=${user.id}, sort='', currPage='1', sortOr='1')}'|">Edit</button>
+										<button class="btn btn-outline-danger" type="button" data-row="${user}" data-bs-toggle="modal" th:data-bs-target="'#removeUserModal'+${user.id}">Remove</button>
+									</span>
+									
+									<!-- Remove User Modal -->
+									<div class="modal fade" th:id="'removeUserModal'+${user.id}"
+								      data-bs-backdrop="static" tabindex="-1"
+								      th:aria-labelledby="'removeUserModalLabel'"
+								      aria-hidden="true">
+								      <div class="modal-dialog">
+								        <div class="modal-content">
+								          <div class="modal-header">
+								            <h5 class="modal-title" th:id="'removeUserModalLabel'">Confirm Removal</h5>
+								            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								          </div>
+								          <div class="modal-body">
+								          	<p>Are you sure you want to remove <strong th:text="${user.name}"></strong> from the <strong th:text="${role.name}"></strong> role?</p>
+								          </div>
+								          <div class="modal-footer">
+				            	            <button id="removeButton" type="button" class="btn btn-danger" data-bs-dismiss="modal"
+								              th:onclick="|window.location.href='@{/removeUser/{id}(id=${user.id})}'|">
+								              Remove
+								            </button>
+								            <button class="btn btn-secondary" data-bs-toggle="modal" th:data-bs-target="'#removeUserModal'+${user.id}">Cancel</button>
+								          </div>
+								        </div>
+								      </div>
+								    </div>
+								    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js">
+								    </script>
+							    </td>
+						    </tr>
+						</tbody>
+					</table>
+				</div>
+				<div style="flex: 50%; padding-left:100px;">
+					<!-- Add Department dropdown -->
+					<h3>Add Department</h3>
+					<form class="md-form" th:action="@{/addDepartmentToRole/{roleID}(roleID=${role.id})}" method="post" th:object="${department}">
+						<label for="department">Department</label>
+						<select id="department" name="department">
+							<option th:if="${not #lists.isEmpty(otherDepartments)}" th:each="dept : ${otherDepartments}" th:value="${dept.id}" th:text="${dept.name}"></option>
+							<option th:unless="${not #lists.isEmpty(otherDepartments)}" th:text="'No departments available to add'" disabled></option>
+						</select>
+						<input th:if="${not #lists.isEmpty(otherDepartments)}" type="submit" class="btn btn-outline-success " value="Add">
+						<input th:unless="${not #lists.isEmpty(otherDepartments)}" type="submit" class="btn btn-outline-success " value="Add" disabled>
+					</form>
+				<h3>Departments and Privileges</h3>
+					<table class="table" style="width:100%">
+						<thead>
+							<tr>
+								<th>Departments</th>
+								<th>Read</th>
+								<th>Write</th>
+								<th>Edit Evaluator</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="dept : ${deptsList}">
+								<td>
+									<p th:text="${dept.name}"></p>
+								</td>
+								<td>
+									<div th:each="priv : ${privsList}">
+										<th:block th:if="${#strings.contains(priv.name, dept.name)}">
+											<button th:if="${priv.read}" type="button" class="btn btn-outline-success" 
+												th:onclick="|window.location.href='@{/toggleRead/{roleID}/{privID}/{deptID}(roleID=${role.id}, privID=${priv.id}, deptID=${dept.id})}'|">Enable</button>
+											<button th:unless="${priv.read}" type="button" class="btn btn-outline-danger" 
+												th:onclick="|window.location.href='@{/toggleRead/{roleID}/{privID}/{deptID}(roleID=${role.id}, privID=${priv.id}, deptID=${dept.id})}'|">Disable</button>
+										</th:block>
+									</div>
+								</td>
+								<td>
+									<div th:each="priv : ${privsList}">
+										<th:block th:if="${#strings.contains(priv.name, dept.name)}">
+											<button th:if="${priv.write}" type="button" class="btn btn-outline-success" 
+												th:onclick="|window.location.href='@{/toggleWrite/{roleID}/{privID}/{deptID}(roleID=${role.id}, privID=${priv.id}, deptID=${dept.id})}'|">Enable</button>
+											<button th:unless="${priv.write}" type="button" class="btn btn-outline-danger" 
+												th:onclick="|window.location.href='@{/toggleWrite/{roleID}/{privID}/{deptID}(roleID=${role.id}, privID=${priv.id}, deptID=${dept.id})}'|">Disable</button>
+										</th:block>
+									</div>
+								</td>
+								<td>
+									<div th:each="priv : ${privsList}">
+										<th:block th:if="${#strings.contains(priv.name, dept.name)}">
+											<button th:if="${priv.editEvaluator}" type="button" class="btn btn-outline-success" 
+												th:onclick="|window.location.href='@{/toggleEditEvaluator/{roleID}/{privID}/{deptID}(roleID=${role.id}, privID=${priv.id}, deptID=${dept.id})}'|">Enable</button>
+											<button th:unless="${priv.editEvaluator}" type="button" class="btn btn-outline-danger" 
+												th:onclick="|window.location.href='@{/toggleEditEvaluator/{roleID}/{privID}/{deptID}(roleID=${role.id}, privID=${priv.id}, deptID=${dept.id})}'|">Disable</button>
+										</th:block>
+									</div>
+								</td>
+								<td>
+									<span style="white-space:nowrap;">
+										<button class="btn btn-outline-danger " type="button" data-bs-toggle="modal" data-row="${dept}" th:data-bs-target="'#removeDepartmentsModal'+${dept.id}">Remove</button>
+									</span>
+									
+									
+									<!-- Remove Departments Modal -->
+									<div class="modal fade" th:id="'removeDepartmentsModal'+${dept.id}"
+								      data-bs-backdrop="static" tabindex="-1"
+								      th:aria-labelledby="'removeDepartmentsModalLabel'"
+								      aria-hidden="true">
+								      <div class="modal-dialog">
+								        <div class="modal-content">
+								          <div class="modal-header">
+								            <h5 class="modal-title" th:id="'removeDepartmentsModalLabel'">Confirm Removal</h5>
+								            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								          </div>
+								          <div class="modal-body">
+								          	<p>Are you sure you want to remove the <strong th:text="${dept.name}"></strong> department and its privileges?</p>
+								          </div>
+								          <div class="modal-footer">
+				            	            <button id="removeButton" type="button" class="btn btn-danger" data-bs-dismiss="modal"
+								              th:onclick="|window.location.href='@{/removeDepartment/{deptID}/{roleID}(deptID=${dept.id}, roleID=${role.id})}'|">
+								              Remove
+								            </button>
+								            <button class="btn btn-secondary" data-bs-toggle="modal" th:data-bs-target="'#removeDepartmentsModal'+${dept.id}">Cancel</button>
+								          </div>
+								        </div>
+								      </div>
+								    </div>
+								</td>	
+							</tr>
+						</tbody>	
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

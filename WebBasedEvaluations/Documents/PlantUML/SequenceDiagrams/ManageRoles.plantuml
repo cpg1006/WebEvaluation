@@ -1,0 +1,33 @@
+@startuml ManageRolesSequenceDiagram
+
+actor Admin as Admin
+participant RolesController as RolesController
+participant Authentication as Authentication
+participant UserRepository as UserRepository
+participant Model as Model
+participant User as User
+participant Role as Role
+participant MyUserDetails as MyUserDetails
+participant RoleRepository as RoleRepository
+participant LocationRepository as LocationRepository
+participant Collections as Collections
+
+Admin -> RolesController: Users()
+RolesController -> Authentication: getPrincipal()
+RolesController -> MyUserDetails: getID()
+RolesController -> UserRepository: findById()
+RolesController -> User: getCompany()
+RolesController -> RoleRepository: findAll()
+RolesController -> Role: getPrivileges()
+RolesController -> LocationRepository: findByCompany()
+RolesController -> UserRepository: findByCompany()
+RolesController -> Collections: sort()
+RolesController -> Collections: sort()
+RolesController -> Collections: sort()
+RolesController -> Collections: sort()
+RolesController -> Model: addAttributes()
+
+
+
+
+@enduml

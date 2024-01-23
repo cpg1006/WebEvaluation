@@ -1,0 +1,28 @@
+@startuml EditGroupSequenceDiagram
+
+actor User as User
+participant GroupController as GroupController
+participant GroupRepository as GroupRepository
+participant RevieweeRepsoitory as RevieweeRepsoitory
+participant Group as Group
+
+
+
+
+User -> GroupController: Groups()
+User -> GroupController: editGroup()
+User -> GroupController: addUserGroup()
+GroupController -> GroupRepository: findById()
+GroupController -> RevieweeRepsoitory: findByUserId()
+GroupController -> Group: getReviewee()
+GroupController -> GroupController: setGroup()
+GroupController -> GroupController: add()
+GroupController -> Group: setReviewees()
+GroupController -> GroupRepository: save()
+GroupController -> RevieweeRepsoitory: save()
+GroupController -> GroupController: editGroup()
+
+
+
+
+@enduml

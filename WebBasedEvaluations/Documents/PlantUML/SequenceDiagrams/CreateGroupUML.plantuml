@@ -1,0 +1,57 @@
+@startuml CreateGroupSequenceDiagram
+
+actor Admin as Admin
+participant GroupController as GroupController
+participant GroupRepository as GroupRepository
+participant RevieweeRepository as RevieweeRepository
+participant Reviewee as Reviewee
+participant UserRepository as UserRepository
+participant Group as Group
+participant User as User
+participant Authentication as Authentication
+participant evaluatorRepository as evaluatorRepository
+participant evalRoleRepository as evalRoleRepository
+participant Model as Model
+participant EvalTemplate as EvalTemplate
+participant EvalRole as EvalRole
+
+
+
+
+Admin -> GroupController: Groups()
+Admin -> GroupController: manGroupsRedir()
+GroupController -> Model: addAttribute(group)
+GroupController -> Authentication: getPrincipal()
+GroupController -> UserRepository: findById()
+GroupController -> User: getCompany()
+
+
+Admin -> GroupController: manCreateGroup()
+GroupController -> Authentication: getPrincipal()
+GroupController -> UserRepository: findById()
+GroupController -> User: getCompany()
+GroupController -> Group: setCompany()
+GroupController -> GroupRepository: count()
+GroupController -> Group: setGroupNumber(count + 1)
+GroupController -> EvalTemplate: new
+EvalTemplate -> evaluationRepository: findByCompany(current)
+evaluationRepository -> evaluationRepository: getDefaultTemplate
+GroupController -> evalRoleRepository: findByCompany()
+evalRoleRepository --> GroupController: List<EvalRole> roles
+
+opt [roles is empty]
+ loop 4x
+GroupController -> EvalRole: new
+GroupController ->GroupController: roles.add(new EvalRole)
+end 
+end
+
+GroupController -> evaluatorRepository: save evals
+GroupController -> Group: setEvalTemplate
+Group -> GroupRepository: save
+
+		
+
+
+
+@enduml

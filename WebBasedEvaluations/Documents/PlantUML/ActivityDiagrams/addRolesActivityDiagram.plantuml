@@ -1,0 +1,38 @@
+@startuml
+|Main Flow|
+start
+:Authenticate User;
+if (User Authenticated?) then (yes)
+  :Get User Details;
+  :Retrieve User Roles;
+  :Retrieve User Company;
+  :Retrieve User Departments;
+  if (Valid Departments?) then (yes)
+    :Set showUserScreen = true;
+  else (no)
+    :Set showUserScreen = false;
+  endif
+  :Create Directories;
+  :Retrieve Companies;
+  :Initialize departmentsList;
+  if (Valid Departments?) then (yes)
+    :Set firstDepartment = first department in departmentsList;
+    if (Valid Conditions for showUserScreen?) then (yes)
+      :Set showUserScreen = true;
+    else (no)
+      :Set showUserScreen = false;
+    endif
+  endif
+  :Initialize Company and LocationGroup;
+  :Set model attributes;
+  :Invoke AdminMethodsService.pageNavbarPermissions;
+  if (User is SuperUser?) then (yes)
+    :Set COMPANY_ADMIN attribute to false;
+  endif
+  :Set UserRole attribute;
+  :Return "/adminCompanies";
+else (no)
+  :Handle Authentication Failure;
+endif
+stop
+@enduml

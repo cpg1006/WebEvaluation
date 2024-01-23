@@ -1,0 +1,24 @@
+@startuml
+
+actor "current user" as u2
+actor "revUser" as u3
+
+
+rectangle "Reviewee Database" {
+  usecase "find group" as UC1
+  usecase "find reviewee" as UC2
+  usecase "check if in group" as UC3
+  usecase "return to edit group" as UC4
+  usecase "add reviewee to group" as UC5
+}
+
+u2 --> UC1
+u2 --> UC2
+u3 --> UC2
+UC2 --> UC3 <<includes>>
+UC3 --> UC4 <<extends>>
+UC3 --> UC5 <<inlcudes>>
+
+
+
+@enduml

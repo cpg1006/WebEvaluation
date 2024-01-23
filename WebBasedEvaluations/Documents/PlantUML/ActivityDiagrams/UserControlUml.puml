@@ -1,0 +1,28 @@
+@startuml
+start
+
+:home();
+if (Edit Settings?) then (yes)
+  :editSettings();
+endif
+
+if (Show Update Form?) then (yes)
+  :showUpdateForm();
+  if (Update User?) then (yes)
+    :updateUser();
+  endif
+  if (Delete User?) then (yes)
+    :deleteUser();
+  endif
+endif
+
+if (Change User?) then (yes)
+  :changeUser();
+endif
+
+if (Reviewee Dashboard?) then (yes)
+  :revieweeDashboard();
+endif
+
+stop
+@enduml

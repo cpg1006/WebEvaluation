@@ -1,0 +1,26 @@
+@startuml
+
+actor "currentUser" as curr
+
+rectangle "Profile" {
+  usecase "change first name" as UC1
+  usecase "change last name" as UC2
+  usecase "change suffix" as UC3
+  usecase "change email" as UC4
+  usecase "chnage password" as UC5
+  usecase "save in database" as UC6
+}
+
+curr --> UC1
+curr --> UC2
+curr --> UC3
+curr --> UC2
+curr --> UC5
+
+UC1 --> UC6 <<includes>>
+UC2 --> UC6 <<includes>>
+UC3 --> UC6 <<includes>>
+UC4 --> UC6 <<includes>>
+UC5 --> UC6 <<includes>>
+
+@enduml

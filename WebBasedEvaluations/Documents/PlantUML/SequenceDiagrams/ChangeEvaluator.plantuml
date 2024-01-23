@@ -1,0 +1,41 @@
+@startuml
+actor User as UserController
+participant groupRepository as GroupRepository
+participant group as Group
+participant Company as Company
+participant evaluatorRepository as EvaluatorRepository
+participant Evaluator as CurrentEvaluator
+participant DepartmentRepository as DepartmentRepository
+participant Department as Department
+participant UserRepository as UserRepository
+participant EvalRoleRepository as EvalRoleRepository
+participant EvalRole as EvaluationRole
+participant Model as Model
+
+UserController -> GroupRepository: findById(id)
+GroupRepository -> Group: getGroup()
+Group -> Company: getCompany()
+UserController -> EvaluatorRepository: findById(evalId)
+EvaluatorRepository -> CurrentEvaluator: getEvaluator()
+UserController -> DepartmentRepository: findByCompany(currentCompany)
+DepartmentRepository -> Department: getDepartments()
+UserController -> GroupRepository: getEvaluator()
+GroupRepository -> Group: getEvaluators()
+
+UserController -> UserRepository: findByRoleId()
+UserRepository -> UserController: getUsers()
+UserController -> UserRepository: findByRoleId()
+UserRepository -> UserController: getUsers()
+UserController -> EvalRoleRepository: findByCompany(currentCompany)
+EvalRoleRepository -> EvaluationRole: getEvaluationRoles()
+
+UserController -> Model: addAttribute(DeptList)
+UserController -> Model: addAttribute(group)
+UserController -> Model: addAttribute(levels)
+UserController -> Model: addAttribute(currentEval)
+UserController -> Model: AddAttribute(GroupEvals)
+UserController -> Model: addAttribute(evals)
+
+
+
+@enduml

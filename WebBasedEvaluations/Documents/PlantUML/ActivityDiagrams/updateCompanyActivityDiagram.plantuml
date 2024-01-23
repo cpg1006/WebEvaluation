@@ -1,0 +1,32 @@
+@startuml
+|Main Flow|
+start
+:Retrieve Company by ID;
+:Authenticate User;
+if (User Authenticated?) then (yes)
+  :Get User Details;
+  :Retrieve Location by ID;
+  :Retrieve User Roles;
+  :Retrieve User Company;
+  :Log Company and Location Information;
+  :Initialize companies list;
+  if (User is SuperUser?) then (yes)
+    :Retrieve All Companies;
+  else (no)
+    :Add User's Company to Companies List;
+  endif
+  :Retrieve Company Details to Update (comp);
+  if (Has Parent Company?) then (yes)
+    :Retrieve Parent Company;
+    :Log Update Information;
+    :Set Parent Company for comp;
+  endif
+  :Save Updated Company;
+  :Initialize newDept (Department);
+  :Set model attributes;
+  :Return "adminCompanyUpdate";
+else (no)
+  :Handle Authentication Failure;
+endif
+stop
+@enduml

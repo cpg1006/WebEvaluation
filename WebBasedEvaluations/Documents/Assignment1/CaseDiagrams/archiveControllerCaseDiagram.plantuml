@@ -1,0 +1,24 @@
+@startuml
+
+left to right direction
+
+actor Admin
+
+rectangle "Archive Controller" {
+
+usecase "evalGroups" as UC1
+usecase "ViewArchive" as UC2
+usecase "Preview Eval" as UC3
+usecase "Admin Archive" as UC4
+
+
+UC1 .> UC4 : includes
+UC2 .> UC3 : includes
+}
+
+Admin --> UC1
+Admin --> UC2
+
+
+
+@enduml

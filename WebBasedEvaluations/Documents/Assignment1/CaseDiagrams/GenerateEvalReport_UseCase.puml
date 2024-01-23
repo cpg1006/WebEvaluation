@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/class-diagram
+@startuml
+left to right direction
+actor User
+
+rectangle "Evaluation Report System" {
+  usecase "Generate Evaluation Report" as GenerateReport
+  usecase "Format Data Columns" as FormatData
+  usecase "Average Scores" as AverageScores
+  usecase "Add Records to Report" as AddRecords
+  usecase "Add Totals to Report" as AddTotals
+
+  User --> GenerateReport
+  GenerateReport <.. FormatData : <<include>>
+  GenerateReport <.. AverageScores : <<include>>
+  GenerateReport <.. AddRecords : <<include>>
+  GenerateReport <.. AddTotals : <<include>>
+}
+@enduml

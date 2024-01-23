@@ -1,0 +1,28 @@
+@startuml
+start
+:Get User and Company Info;
+if (User has Permission?) then (yes)
+  :Try Load Excel Sheet;
+  if (File Load Error?) then (yes)
+    :Redirect with File Error;
+    stop
+  endif
+  if (Correct Sheet Type?) then (yes)
+    while (Each User in Sheet)
+      :Validate User Data;
+      if (User Data Valid?) then (yes)
+        :Save User;
+      else (no)
+        :Handle Invalid User Data;
+      endif
+    endwhile
+    :Handle Skipped Users;
+    :Redirect to adminUsers;
+  else (no)
+    :Redirect with Sheet Type Error;
+  endif
+else (no)
+  :Redirect with Permission Error;
+endif
+stop
+@enduml

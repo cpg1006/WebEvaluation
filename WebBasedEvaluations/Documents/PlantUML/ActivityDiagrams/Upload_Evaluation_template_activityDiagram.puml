@@ -1,0 +1,32 @@
+@startuml
+start
+:Get User and Company Info;
+:Try Load Excel File;
+if (File Load Error?) then (yes)
+  :Redirect with Error;
+  stop
+else (no)
+  :Process Departments;
+  if (Invalid Department?) then (yes)
+    :Redirect with Department Error;
+    stop
+  else (no)
+    if (Correct File Type?) then (yes)
+      :Extract Evaluation Data;
+      :Check for Duplicates;
+      if (Duplicate Found?) then (yes)
+        :Handle Duplicate;
+      endif
+      :Process Tooltips;
+      :Check for Errors;
+      if (Warnings or Errors) then (yes)
+        :Handle Warnings and Errors;
+      endif
+    else (no)
+      :Redirect with File Type Error;
+    endif
+  endif
+endif
+:Redirect to adminEvaluations;
+stop
+@enduml

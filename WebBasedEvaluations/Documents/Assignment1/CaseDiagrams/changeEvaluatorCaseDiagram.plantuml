@@ -1,0 +1,31 @@
+@startuml
+
+left to right direction
+
+actor Admin
+
+rectangle "Change Evaluator" {
+
+usecase "changeEvaluator" as UC1
+usecase "Find Group" as UC2
+usecase "Get Group \nCompany" as UC3
+usecase "Find evaluator" as UC4
+usecase "Remove Evaluator" as UC5
+usecase "Add Evaluator" as UC6
+usecase "Save Group" as UC7
+
+
+UC1 .> UC2 : includes
+UC1 .> UC4 : includes
+UC1 .> UC5 : includes
+UC2 .> UC3 : includes
+UC5 .> UC6 : includes
+UC6 .> UC7 : includes
+}
+
+Admin --> UC1
+
+
+
+
+@enduml

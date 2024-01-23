@@ -1,0 +1,88 @@
+@startuml
+
+class User {
+    - Long id
+    - String name
+    - String firstName
+    - String lastName
+    - String suffixName
+    - String email
+    - String password
+    - boolean resetP
+    - String companyName
+    - String roleName
+    - boolean isReviewee
+    - boolean isReviewer
+    - boolean companySuperUser
+    - boolean superUser
+    - boolean adminEval
+    - Boolean activated
+    - Reviewee reviewee
+    - Set<Evaluator> evaluator
+    - Company company
+    - Set<Location> locations
+    - Role role
+    - Set<Department> subDepartments
+    - Set<Department> departments
+    - String dateOfHire
+    - String jobTitle
+    - String divisionBranch
+    - String departmentName
+    - String supervisor
+
+    + User()
+    + User(String, String, String, ...)
+    + ... // Other constructors
+    + String getDepartmentNames()
+    + void addSubDept(Department)
+    + void addSubDepts(Set<Department>)
+    + boolean removesubDept(Department)
+    + boolean hasRead()
+    + boolean isAdminEval()
+    + void setAdminEval(boolean)
+    + boolean hasWrite()
+    + boolean hasDelete()
+    + boolean hasEvaluator()
+    + boolean hasEditEvalPerm()
+    + void addLocation(Location)
+    + void addLocations(List<Location>)
+    + boolean removeLocation(Location)
+    + String getPrivilegeNames()
+    + boolean removeDepartment(Department)
+    + void addDepartment(Department)
+    + ... // Other methods
+}
+
+class Company {
+    ...
+}
+
+class Role {
+    ...
+}
+
+class Department {
+    ...
+}
+
+class Location {
+    ...
+}
+
+class Evaluator {
+    ...
+}
+
+class Reviewee {
+    ...
+}
+
+User "1" -- "1" Company : company
+User "1" -- "1" Role : role
+User "1" -- "*" Department : departments
+User "1" -- "*" Department : subDepartments
+User "*" -- "*" Location : locations
+User "1" -- "*" Evaluator : evaluator
+User "0..1" -- "1" Reviewee : reviewee
+
+@enduml

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<title>Edit Groups</title>
+
+
+	<script th:inline="javascript">
+		function radioClicked(questID, option1, option2) {
+			//alert("ID: " + questID + " OPTION: " + option);
+			var insertDiv = document.getElementById(questID + option1 + option2);
+			if (insertDiv.innerHTML.trim() == "") {
+				insertDiv.innerHTML = "<input type=\"hidden\" name=\"role\" value=\"" + questID + "\">";
+
+			} else {
+				insertDiv.innerHTML = "";
+			}
+
+		}
+
+
+		function radioClicked2(questID, option1) {
+			//alert("ID: " + questID + " OPTION: " + option);
+			var insertDiv = document.getElementById(questID + 'sync');
+
+			insertDiv.innerHTML = "<input type=\"hidden\" name=\"issync\" value=\"" + option1 + "\">";
+
+
+		}
+
+		function radioClicked3(questID, option1) {
+			//alert("ID: " + questID + " OPTION: " + option);
+			var insertDiv = document.getElementById(questID + 'prev');
+
+			insertDiv.innerHTML = "<input type=\"hidden\" name=\"isprev\" value=\"" + option1 + "\">";
+
+		}
+	</script>
+</head>
+
+<body>
+	<nav class="navbar navbar-light bg-light  justify-content-center ">
+		<div class="btn-group ">
+			<a th:href="@{/adminGroups}"><button class="btn btn-outline-success " type="button">Back</button></a>
+		</div>
+	</nav>
+
+	<div class="container  mt-5">
+		<div th:switch="${ansr}">
+			<div class="row">
+				<div class="col">
+					<div th:case="fail">
+						<div class="col">
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<span th:utext="'<Strong>ERROR:&nbsp</strong>'+ ${mess}"></span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"
+									aria-label="Close"></button>
+							</div>
+						</div>
+					</div>
+					<div th:case="pass">
+						<div class="col">
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+								<span th:utext="'<Strong>SUCCESS:&nbsp</strong>'+ ${mess}"></span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert"
+									aria-label="Close"></button>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="row">
+							<div class="col">
+								<nav class="navbar navbar-light bg-light">
+									<h4 th:text="'Manage: '+${group.groupName} + ' (' + ${group.year} + ')'"><b></b>
+									</h4>
+								</nav>
+								<form action='#' th:action="@{/changegroup{id}(id=${group.id})}" th:object="${group}"
+									method="post">
+
+									<label for="groupName1">Group Name:</label>
+									<input type="text" th:field="*{groupName}" id="groupName1" placeholder="Group Name">
+									<span th:if="${#fields.hasErrors('groupName')}" th:errors="*{groupName}"></span>
+
+									<label for="groupNumber">Number:</label>
+									<input type="text" th:field="*{number}" id="groupNumber" placeholder="Group Number">
+									<span th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+
+									<label for="groupYear1">Year:</label>
+									<input type="text" th:field="*{year}" id="groupYear1" placeholder="Group Year">
+									<span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+
+									<input type="submit" class="btn btn-outline-success" value="Update group">
+								</form>
+							</div>
+						</div>
+						<hr>
+
+						<div class="row">
+							<div class="col">
+
+
+								<form th:action="@{/editgroupsearch/{id}(id=${group.id})}" method="get">
+									&nbsp
+									<div align="left">
+										<input type="text" name="searchKey" th:value="${keyword}"
+											placeholder="Search Employee Name" size="65"> </input>
+
+										<button type="submit" class="btn btn-outline-primary">Search</button>
+
+										<div align="left">
+											<select id="department" name="department">
+												<option th:value="All" th:text="All"></option>
+												<option th:each="dept : ${deptList}" th:value="${dept.name}"
+													th:text="${dept.name}"></option>
+											</select>
+										</div>
+								</form>
+							</div>
+
+							<div class="container  mt-5" style="margin: 0px; width: max-content;">
+								<div>
+									<div style="display:flex; justify-content: space-between;">
+										<div style="white-space: nowrap; width: 100%;">
+											<h4><b>Add Employee to Group</b></h4>
+											<hr>
+											<table class="table" align="center">
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Email</th>
+														<th>Department</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="user : ${userlist}"
+														style="vertical-align: baseline; height: 30px">
+														<td style="padding: 5px; margin: 2px; width:100px;"
+															th:text="${user.name}"></td>
+														<td th:text="${user.email}"></td>
+														<td th:text="${user.departmentName}"></td>
+														<td>
+															<span style="padding-right:5px">
+																<button class="btn btn-outline-success" type="button"
+																	th:onclick="|window.location.href='@{/editgroup/{id}/{uid}(id=${group.id} , uid=${user.id})}'|">Add</button>
+															</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div
+											style="display: flex; flex-direction: column; white-space: nowrap; width: 100%">
+											<div class="scrollable"
+												style="height: 500px; overflow: auto; width: fit-content">
+												<h4><b>Group Employees</b></h4>
+												<hr>
+												<table class="table" align="center">
+													<thead>
+														<tr>
+															<th>Name</th>
+															<th>Group</th>
+															<th>Department</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="rev : ${group.reviewees}"
+															style="vertical-align: baseline">
+															<td th:text="${rev.user.name}"></td>
+															<td th:text="${group.groupName}"></td>
+															<td th:text="${rev.user.departmentName}"></td>
+
+															<td>
+																<span style="padding-right:2px">
+																	<button class="btn btn-outline-success"
+																		type="button"
+																		th:onclick="|window.location.href='@{/edit/{id}/{userId} (id=${group.id} , userId=${rev.user.id})}'|">Edit</button>
+
+																</span>
+															</td>
+															<td>
+																<span style="padding-right:2px">
+																	<button class="btn btn-outline-primary"
+																		type="button"
+																		th:onclick="|window.location.href='@{/editgroupmoveuser/{id}/{uid}(id=${group.id}, uid=${rev.user.id})}'|">Move</button>
+																</span>
+															</td>
+															<td>
+																<span style="padding-right:2px">
+																	<button class="btn btn-outline-danger" type="button"
+																		th:onclick="|window.location.href='@{/group/deleteUser/{id}/{gid} (gid=${group.id} , id=${rev.user.id})}'|">Remove</button>
+																</span>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+											<div style=" flex: 1; padding-left:10px; white-space: nowrap; width: 100%">
+												<h4><b>Group Evaluators</b></h4>
+												<hr>
+												<table class="table" align="center">
+													<thead>
+														<tr>
+															<th>Name</th>
+															<th>Level</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="eval : ${evalList}"
+															style="vertical-align: baseline; height: 30px">
+															<td th:text="${eval.user.name}"></td>
+															<td th:text="${eval.level.name}"></td>
+
+															<td>
+																<span style="padding-right:2px">
+																	<button class="btn btn-outline-success"
+																		type="button"
+																		th:onclick="|window.location.href='@{/getchangeEvaluator/{id}/{eid} (id=${group.id} , eid=${eval.id})}'|">Edit</button>
+
+																</span>
+															</td>
+															<td>
+																<span style="padding-right:2px">
+																	<button class="btn btn-outline-danger"
+																		type="button"
+																		th:onclick="|window.location.href='@{/removeEvaluator/{id}/{eid} (id=${group.id} , eid=${eval.id})}'|">Remove</button>
+
+																</span>
+															</td>
+
+														</tr>
+
+													</tbody>
+												</table>
+												<div th:if="${#lists.size(evalList)< 4}">
+													<button class="btn btn-outline-success" type="button"
+														th:onclick="|window.location.href='@{/getAddEvaluator/{id} (id=${group.id})}'|">Add
+														Evaluator</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+								integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+								crossorigin="anonymous"></script>
+						</div>
+					</div>
+				</div>
+</body>
+
+
+
+
+</html>

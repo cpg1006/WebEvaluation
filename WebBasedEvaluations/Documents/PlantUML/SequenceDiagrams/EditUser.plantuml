@@ -1,0 +1,48 @@
+@startuml EditUserSequenceDiagram
+
+actor Admin as Admin
+participant UserController as UserController
+participant Authentication as Authentication
+participant UserRepository as UserRepository
+participant DepartmentRepository as DepartmentRepository
+participant Model as Model
+participant User as User
+participant Role as Role
+participant AdminMethodService as AdminMethodService
+participant MyUserDetails as MyUserDetails
+
+Admin -> UserController: Users()
+UserController -> Authentication: getPrincipal()
+UserController -> MyUserDetails: getID()
+UserController -> UserRepository: findById()
+UserController -> DepartmentRepository: findById()
+
+alt [if dept != null]
+	UserController -> User: getRole()
+	User -> Role: writableDepartments()
+	Role -> Role: contains()
+	UserController -> User: isCompanySuperUser()
+	UserController -> User: isSuperUser()
+	UserController -> User: getDepartments()
+	User -> User: contains()
+	
+	alt [if currentUser.getRole().writableDepartment().contains(dept) || currentUser.isCompnaySuperUser() || currentUser.isSuperUser() $$ !user.getDepartments().contains(dept)]
+	UserController -> User: addDepartment()
+	end
+	
+	UserController -> User: getDepartments()
+	User -> User: contains()
+	
+	alt [!user.getDepartments().contains(dept))]
+		UserController -> User: getName()
+		UserController -> Department: getName()
+	end
+end
+
+UserController -> Model: addAttributes()
+UserController -> AdminMethodService: adminUserPageItems()
+UserController -> AdminMethodService: pageNavbarPermissions()
+UserController -> AdminMethodService: addingOrEditingUser()
+
+
+@enduml

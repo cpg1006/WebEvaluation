@@ -1,0 +1,38 @@
+@startuml
+
+start
+:Retrieve authenticated user (currentUser);
+
+if (currentUser is not null) then (yes)
+    :Retrieve user by ID from userRepository (user2);
+    
+    if (user2 is not null) then (yes)
+        :Call adminMethodsService.comparingMethod;
+        :Retrieve user3;
+
+        :Retrieve details for the current user (userD);
+
+        :Get ID from userD;
+
+        :Retrieve currentUser from userRepository using ID;
+
+        -[hidden]-> (Set attributes in the model)
+
+        :Call adminMethodsService.capitalize on user3's first and last name;
+
+        :Save updated user3 to userRepository;
+
+        :Call AdminMethodsService.pageNavbarPermissions;
+        :Call AdminMethodsService.addingOrEditingUser;
+
+        :Return "userSettings";
+    else (no)
+        :Handle error - User not found by ID;
+    endif
+else (no)
+    :Handle error - Current user not found;
+endif
+
+stop
+
+@enduml
