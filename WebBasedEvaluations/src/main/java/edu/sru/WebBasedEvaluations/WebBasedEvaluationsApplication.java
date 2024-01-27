@@ -2,9 +2,9 @@ package edu.sru.WebBasedEvaluations;
 
 
 import java.util.*;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import edu.sru.WebBasedEvaluations.company.City;
@@ -34,7 +34,7 @@ import edu.sru.WebBasedEvaluations.repository.WorldRepository;
 
 @SpringBootApplication
 //@EnableJpaRepositories(basePackageClasses = UserRepository.class)
-public class WebBasedEvaluationsApplication {
+public class WebBasedEvaluationsApplication  extends SpringBootServletInitializer{
 //adding a comment to test merge. 
 	public static void main(String[] args) {
 		//set to true if application properties is set to 'create-drop', false if set to 'none'
