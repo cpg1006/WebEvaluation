@@ -195,6 +195,16 @@
 
 				</nav>
 			</div>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	Archive By Year
+				  	</button>
+				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				    	<button class="btn btn-outline-success " type="button" th:onclick="|window.location.href='@{/archivegroup/{id}(id=${group.id})}'|">2023</button>
+				    	<a class="dropdown-item" href="#">2024</a>
+				    	<a class="dropdown-item" href="#">2025</a>
+				  	</div>
+				</div>
 		</div>
 
 		<div class="row">
