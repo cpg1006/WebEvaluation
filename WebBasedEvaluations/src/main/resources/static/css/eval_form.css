@@ -1,3 +1,7 @@
+.row, .formcell {
+	margin-top: 15px;
+	margin-left: 10px;
+}
 
 .dashed-underline {
 	border-bottom: 1px dashed black;
