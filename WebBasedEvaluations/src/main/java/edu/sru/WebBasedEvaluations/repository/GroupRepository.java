@@ -21,6 +21,7 @@ public interface GroupRepository extends CrudRepository<Group,Long > {
 
 	List<Group> findByevaluatorUserId(long ID);
 	Group findById(long ID);
+	Group findByYear(int year);
 	Group findByGroupName(String GroupName);
 	Group findByNumberAndCompany(int number, Company company);
 	List<Group> findByCompany(Company company);

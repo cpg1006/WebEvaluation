@@ -188,6 +188,24 @@ public class GroupController {
 		return "redirect:/adminGroups";
 	}
 	
+	@GetMapping("/archivegroup/{year}")
+	public Object archiveGroup(RedirectAttributes redirect, @PathVariable("year") int year) {
+		Group group = groupRepository.findByYear(year);
+		
+		
+		if(group.isArchived()) {
+			group.setArchived(false);
+		}else {
+			group.setArchived(true);
+		}
+		
+		groupRepository.save(group);
+		
+		System.out.println("Archiving group");
+		
+		return "redirect:/adminGroups";
+	}
+	
 	@GetMapping("/usergroups/{id}")
 	public Object userGroups(@PathVariable("id") long id, Model model,Authentication auth) {
 		User user = userRepo.findByid(id);
