@@ -254,17 +254,18 @@
 			<form th:action="@{/adminUsers/}" method="get">
 				
 				<div align="left">
-					<input type="text" name="keyword" th:value="${keyword}"
-						   placeholder="Find by name or email (enter/search to display result)"
+					<input type="text" name="keyword" th:value="${keyword}" style="margin-top: 10px;"
+						   placeholder="Filter by name or email (enter/search to display result)"
 						   size="65">
 					<input type="hidden" name="currPage"
 						   th:value=1>
 				</div>
 				
 				<div>
-					<button type="submit" class="btn btn-outline-primary">Search</button>
+					<button type="submit" style="margin-top: 10px; margin-bottom: 20px;"
+						class="btn btn-outline-primary">Search</button>
 							
-					<button type="button"
+					<button type="button" style="margin-top: 10px; margin-bottom: 20px;"
 						th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}'|"
 						class="btn btn-outline-danger">Reset</button>
 				</div>
@@ -403,9 +404,8 @@
 						</div>
 -->
 						
-						<div
-								style="height: 700px; overflow-x: auto; position:absolute">
-							<table class="table" align="center">
+						<div style="height: 700px; width: 100%; overflow-x: auto;">
+							<table class="table">
 								<thead>
 								<tr>
 									<th class="pinTop">
@@ -574,6 +574,7 @@
 									<th class = "pinTop"></th>
 								</tr>
 								</thead>
+
 								<tbody style="overflow-y: scroll;">
 								<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
 									<tr th:each="user : ${superUser}" th:if="${user.activation == true}">
