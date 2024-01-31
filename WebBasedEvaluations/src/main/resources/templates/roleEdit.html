@@ -117,10 +117,14 @@
 							<option th:if="${not #lists.isEmpty(otherDepartments)}" th:each="dept : ${otherDepartments}" th:value="${dept.id}" th:text="${dept.name}"></option>
 							<option th:unless="${not #lists.isEmpty(otherDepartments)}" th:text="'No departments available to add'" disabled></option>
 						</select>
-						<input th:if="${not #lists.isEmpty(otherDepartments)}" type="submit" class="btn btn-outline-success " value="Add">
-						<input th:unless="${not #lists.isEmpty(otherDepartments)}" type="submit" class="btn btn-outline-success " value="Add" disabled>
+						<input th:if="${not #lists.isEmpty(otherDepartments)}" type="submit" class="btn btn-outline-success " value="Add"
+							style="margin-left: 10px;
+								   position: relative; top: -3px;">
+						<input th:unless="${not #lists.isEmpty(otherDepartments)}" type="submit" class="btn btn-outline-success " value="Add" disabled
+							style="margin-left: 10px;
+								   position: relative; top: -3px;">
 					</form>
-				<h3>Departments and Privileges</h3>
+				<h3 style="margin-top: 10px;">Departments and Privileges</h3>
 					<table class="table" style="width:100%">
 						<thead>
 							<tr>
