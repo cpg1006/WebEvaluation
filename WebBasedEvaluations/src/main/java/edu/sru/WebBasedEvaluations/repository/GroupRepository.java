@@ -22,9 +22,9 @@ public interface GroupRepository extends CrudRepository<Group,Long > {
 
 	List<Group> findByevaluatorUserId(long ID);
 	Group findById(long ID);
+	List<Group> findByYear(int year);
 	Group findByGroupName(String GroupName);
 	Group findByNumberAndCompany(int number, Company company);
-	List<Group> findByYear(int year, Sort by);
 	List<Group> findByCompany(Company company);
 	//EvaluatorRepository evaluatorRepository = ;
 	//List<Group>findByEvaluator(Evaluator evaluator);
@@ -36,8 +36,7 @@ public interface GroupRepository extends CrudRepository<Group,Long > {
 	@Query(value= "SELECT COUNT(*) FROM web_eval.reviewee WHERE group_id = ?", nativeQuery = true)
 	int getGroupSize(long id);
 	
-	@Query(value= "SELECT * FROM web_eval.groupeval where archived=0 AND year = ? ORDER BY CAST(SUBSTRING_INDEX(group_name, ' ', -1) AS SIGNED), group_name", nativeQuery = true)
-	int getYearSize(int year);
+	
 	
 	
 	List<Group> findAll();

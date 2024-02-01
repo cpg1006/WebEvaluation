@@ -195,15 +195,40 @@
 
 				</nav>
 			</div>
+			<div class="col">
 				<div class="dropdown dropdown-light bg-light">
-					<button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-outline-success dropdown-toggle justify-content-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    	Archive By Year
 				  	</button>
 				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archivegroup/{year}(year=2023)}'|">2023</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archivegroup/{year}(year=2024)}'|">2024</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archivegroup/{year}(year=2025)}'|">2025</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2023)}'|">2023</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2024)}'|">2024</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2025)}'|">2025</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2026)}'|">2026</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2027)}'|">2027</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2028)}'|">2028</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2029)}'|">2029</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2030)}'|">2030</button>
 				  	</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="dropdown dropdown-light bg-light">
+					<button class="btn btn-outline-success dropdown-toggle justify-content-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	Unarchive By Year
+				  	</button>
+				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2023)}'|">2023</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2024)}'|">2024</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2025)}'|">2025</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2026)}'|">2026</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2027)}'|">2027</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2028)}'|">2028</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2029)}'|">2029</button>
+				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2030)}'|">2030</button>
+				  	</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="row">
