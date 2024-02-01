@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.*;
 
 import edu.sru.WebBasedEvaluations.company.Company;
@@ -23,16 +24,21 @@ public interface GroupRepository extends CrudRepository<Group,Long > {
 	Group findById(long ID);
 	Group findByGroupName(String GroupName);
 	Group findByNumberAndCompany(int number, Company company);
+	List<Group> findByYear(int year, Sort by);
 	List<Group> findByCompany(Company company);
 	//EvaluatorRepository evaluatorRepository = ;
 	//List<Group>findByEvaluator(Evaluator evaluator);
 	//void removeAll(List<Group> grouplist);
 	List<Group> findByevaluatorUserId(long id, Sort by);
-	List<Group> findByIdAndYear(long ID, int year);
 	
 	
-	@Query(value= "SELECT COUNT(*) FROM web_eval.reviewee WHERE year = ? AND group_id = ?", nativeQuery = true)
+	
+	@Query(value= "SELECT COUNT(*) FROM web_eval.reviewee WHERE group_id = ?", nativeQuery = true)
 	int getGroupSize(long id);
+	
+	@Query(value= "SELECT * FROM web_eval.groupeval where archived=0 AND year = ? ORDER BY CAST(SUBSTRING_INDEX(group_name, ' ', -1) AS SIGNED), group_name", nativeQuery = true)
+	int getYearSize(int year);
+	
 	
 	List<Group> findAll();
 	

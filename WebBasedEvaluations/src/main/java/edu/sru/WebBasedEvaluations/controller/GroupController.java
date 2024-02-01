@@ -188,35 +188,32 @@ public class GroupController {
 		return "redirect:/adminGroups";
 	}
 	
-	@GetMapping("/archivegroup/{id}/{year}")
-	public Object archiveGroup(RedirectAttributes redirect, @PathVariable("id") long id, @PathVariable("year") int year) {
-		List<Group> groups = groupRepository.findByIdAndYear(id, year);
-		
-		System.out.println("ID: " + id + ", Year: " + year + ", Number of groups: " + groups.size());
+	@GetMapping("/archiveGroupYears/{year}")
+	public Object archiveGroup(RedirectAttributes redirect, @PathVariable("year") int year, Sort By) {
+		List<Group> groups = groupRepository.findByYear(year, By);
 
-		
-		if(!groups.isEmpty())
-		{
-			for(Group group : groups)
-			{
-				if(group.isArchived()) {
-					group.setArchived(false);
-				}
-				else {
-					group.setArchived(true);
+
+		if(!groups.isEmpty()) {
+			for(Group group : groups) {
+				if(group != null) {
+					if(group.isArchived()) {
+						group.setArchived(false);
+					}
+					else
+					{
+						group.setArchived(true);
+					}
 				}
 			}
 		}
-		else
-		{
-			System.out.println("No Groups to Archive");
+		else {
+			System.out.println("No groups to archive");
 			return "redirect:/adminGroups";
 		}
 		
-		
 		groupRepository.saveAll(groups);
 		
-		System.out.println("Archiving group");
+		System.out.println("Archiving Groups by Year");
 		
 		return "redirect:/adminGroups";
 	}
