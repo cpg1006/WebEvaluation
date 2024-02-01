@@ -9,18 +9,19 @@ import java.io.FileInputStream;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelRead_groupTest {
-//    @BeforeAll
-//    public static void setup() throws Exception {
-//
-//        FileInputStream fileraw = new FileInputStream("C:\\Users\\arihi\\g5-workspace\\Group 5 - Evaluation System" +
-//                "\\WebBasedEvaluations\\Program Documents\\RawData.xlsx");
-//
-//        XSSFWorkbook rawwb = new XSSFWorkbook(fileraw);
-//
-//        ExcelRead_group.convertFileReal(rawwb);
-//
-//    }
+    @BeforeAll
+    public static void setup() throws Exception {
+    	//Calls function to build GroupsTestData.xlsx and User TestData.xlsx
+        String relativePath = "Program Documents/RawData.xlsx";
+        String filePath = System.getProperty("user.dir") + "/" + relativePath;
+    	FileInputStream fileraw = new FileInputStream(filePath);
+        XSSFWorkbook rawwb = new XSSFWorkbook(fileraw);
 
+        ExcelRead_group.convertFileReal(rawwb);
+
+    }
+
+	
     @Test
     public void testFieldUserAdd() throws Exception {
 
