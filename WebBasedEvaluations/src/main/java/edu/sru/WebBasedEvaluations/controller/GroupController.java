@@ -188,6 +188,41 @@ public class GroupController {
 		return "redirect:/adminGroups";
 	}
 	
+	/*
+	 * This finds the list of groups that share the same year, iterates through the list and archives or unarchives each group
+	 */
+	@GetMapping("/archiveGroupYears/{year}")
+	public Object archiveGroup(RedirectAttributes redirect, @PathVariable("year") int year) {
+		List<Group> groups = groupRepository.findByYear(year);
+
+
+		if(!groups.isEmpty()) {
+			for(Group group : groups) {
+				if(group != null) {
+					
+					if(group.isArchived()) {
+						group.setArchived(false);
+					}
+					else
+					{
+						group.setArchived(true);
+					}
+				}
+				
+			}
+		}
+		else {
+			System.out.println("No groups to archive");
+			return "redirect:/adminGroups";
+		}
+		
+		groupRepository.saveAll(groups);
+		
+		System.out.println("Archiving Groups by Year");
+		
+		return "redirect:/adminGroups";
+	}
+	
 	@GetMapping("/usergroups/{id}")
 	public Object userGroups(@PathVariable("id") long id, Model model,Authentication auth) {
 		User user = userRepo.findByid(id);
