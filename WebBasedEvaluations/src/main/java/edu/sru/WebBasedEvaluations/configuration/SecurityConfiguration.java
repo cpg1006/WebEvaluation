@@ -37,12 +37,9 @@ import edu.sru.WebBasedEvaluations.domain.User;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String ADMIN = "ADMIN";
-	private static final String EVALUATOR_EVAL = "EVALUATOR_EVAL";
 	private static final String EVAL_ADMIN = "EVAL_ADMIN";
 	private static final String EVALUATOR = "EVALUATOR";
 	private static final String USER = "USER";
-
-	// AbstractUserDetailsAuthenticationProvider customAuthProvider;
 
 	@Autowired
 	private UserDetailsService userDetailsService;
