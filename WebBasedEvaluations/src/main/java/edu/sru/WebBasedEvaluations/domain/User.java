@@ -106,10 +106,8 @@ public class User {
 
 	private Boolean activated = true;
 	
-	
-	
 	//Deacativated user
-	private boolean deactivated;
+	private Boolean deactivated = false;
 	
 	//	@NonNull
 	//	private List<User> evaluatees;
@@ -170,6 +168,7 @@ public class User {
 		this.companySuperUser = false;
 		this.superUser = false;
 		this.activated = true;
+		
 	}
 
 	//adds user to a no location

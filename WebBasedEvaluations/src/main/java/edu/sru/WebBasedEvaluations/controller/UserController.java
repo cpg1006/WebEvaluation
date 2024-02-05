@@ -92,6 +92,7 @@ public class UserController {
 
 	}
 
+
 	/**
 	 * Method called upon loading the admin user page in order to
 	 * add/edit/delete/view users. Calls several methods from the
@@ -813,7 +814,7 @@ public class UserController {
 		
 		userRepository.save(user);
 		
-		System.out.println("Deactivated User");
+		System.out.println("Changed Activation Status of User");
 		
 		return "redirect:/adminUsers";
 	}
