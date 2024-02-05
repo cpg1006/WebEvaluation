@@ -106,6 +106,11 @@ public class User {
 
 	private Boolean activated = true;
 	
+	
+	
+	//Deacativated user
+	private boolean deactivated;
+	
 	//	@NonNull
 	//	private List<User> evaluatees;
 
@@ -827,5 +832,13 @@ public class User {
 
 	public void setReviewer(boolean reviewer) {
 		isReviewer = reviewer;
+	}
+
+	public boolean isDeactivated() {
+		return deactivated;
+	}
+
+	public void setDeactivated(boolean deactivated) {
+		this.deactivated = deactivated;
 	}
 }
