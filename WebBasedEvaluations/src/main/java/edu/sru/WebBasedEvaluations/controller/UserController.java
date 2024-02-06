@@ -816,7 +816,7 @@ public class UserController {
 		
 		System.out.println("Changed Activation Status of User");
 		
-		return "redirect:/adminUsers";
+		return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
 	}
 	
 
