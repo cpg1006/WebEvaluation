@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import edu.sru.WebBasedEvaluations.domain.*;
 import org.slf4j.Logger;
@@ -90,6 +91,7 @@ public class UserController {
 		this.addUserController = addUserController;
 
 	}
+
 
 	/**
 	 * Method called upon loading the admin user page in order to
@@ -181,7 +183,8 @@ public class UserController {
 		//list of all users in a company (company admin view)
 		List<User> companyUsers = userRepository.findByCompany(currentCompany);
 
-
+		 
+		
 		for(User userInList: allUsersList) {
 
 			//add all admins to the admin list
@@ -231,7 +234,9 @@ public class UserController {
 			}
 
 		}
-
+		
+		List<User> activeUsers = list.stream().filter(user -> !user.isDeactivated()).collect(Collectors.toList());
+		List<User> deactivatedUsers = list.stream().filter(User::isDeactivated).collect(Collectors.toList());
 
 		//for navbar
 		model = AdminMethodsService.pageNavbarPermissions(currentUser, model, evaluatorRepository, evalFormRepo);
@@ -255,6 +260,10 @@ public class UserController {
 //		}
 
 //		model.addAttribute("roles", grantableRoles);
+		
+		
+	    
+
 
 		model.addAttribute("superUser",userRepository.findByRoleNameEquals("SUPERUSER"));
 		model.addAttribute("adminUser",userRepository.findByRoleNameEquals("ADMIN"));
@@ -279,6 +288,8 @@ public class UserController {
 		model.addAttribute("user",new User());
 		model.addAttribute("depts",companyDepartments);
 		model.addAttribute("locations",currentUser.getCompany().getLocations());
+	    model.addAttribute("activeUsers", activeUsers);
+	    model.addAttribute("deactivatedUsers", deactivatedUsers);
 		return "adminUsers";
 	}
 	/**
@@ -785,5 +796,28 @@ public class UserController {
 
 		return "";
 	}
+	
+	
+	
+	
+	@GetMapping("/deactivateUser/{id}")
+	public Object deactivateUser(RedirectAttributes redirect, @PathVariable("id") long id) {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		
+		
+		if(user.isDeactivated()) {
+			user.setDeactivated(false);
+		}else {
+			user.setDeactivated(true);
+		}
+		
+		userRepository.save(user);
+		
+		System.out.println("Changed Activation Status of User");
+		
+		return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
+	}
+	
 
 }

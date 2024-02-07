@@ -106,6 +106,9 @@ public class User {
 
 	private Boolean activated = true;
 	
+	//Deacativated user
+	private Boolean deactivated = false;
+	
 	//	@NonNull
 	//	private List<User> evaluatees;
 
@@ -165,6 +168,7 @@ public class User {
 		this.companySuperUser = false;
 		this.superUser = false;
 		this.activated = true;
+		
 	}
 
 	//adds user to a no location
@@ -827,5 +831,13 @@ public class User {
 
 	public void setReviewer(boolean reviewer) {
 		isReviewer = reviewer;
+	}
+
+	public boolean isDeactivated() {
+		return deactivated;
+	}
+
+	public void setDeactivated(boolean deactivated) {
+		this.deactivated = deactivated;
 	}
 }

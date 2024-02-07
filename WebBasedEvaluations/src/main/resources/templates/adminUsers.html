@@ -24,256 +24,257 @@
 </head>
 <body>
 
-<!-- Home Btn Modal -->
-<div th:replace="./navbarFragm.html :: navbar"></div>
-<div class="container  mt-5">
-	<th:block th:switch="${log}">
-		<a th:case="error" class="btn btn-outline-warning " type="button" th:href="@{/download_skipped_users}">Download Skipped Users</a>
-	</th:block>
-	<nav class="navbar navbar-light bg-light ">
-		<button id="addUser"
+	<!-- Home Btn Modal -->
+	<div th:replace="./navbarFragm.html :: navbar"></div>
+	<div class="container  mt-5">
+		<th:block th:switch="${log}">
+			<a th:case="error" class="btn btn-outline-warning " type="button"
+				th:href="@{/download_skipped_users}">Download Skipped Users</a>
+		</th:block>
+		<nav class="navbar navbar-light bg-light ">
+			<button id="addUser"
 				class="btn btn-outline-success justify-content-center" type="button"
 				data-bs-toggle="collapse" data-bs-target="#add"
 				aria-expanded="false" aria-controls="collapseExample">Add
-			User</button>
-	</nav>
-	<div class="row">
-		<div class="col">
-			<div class="collapse" id="add">
-				<div class="card card-body">
-					<form class="md-form"
-						  th:action="@{/uploaduser2/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage},sortOr=${sortOr})}"
-						  method="post" enctype="multipart/form-data">
-                                <span id="-upload">
-                                    <div style="display: inline-block">
-                                        <input type="file" name="file" class="form-control" id="-file" />
-                                    </div>
-                                    &nbsp
-                                    <div>
-                                        <input id="importBtn" class="btn btn-outline-success"
-											   type="submit" value="Import"
-											   onclick="uploadSpinner('importBtn')" />
-                                        <button id="importBtnLoad" class="btn btn-outline-success"
-												type="button" disabled hidden="true">
-                                        <span class="spinner-border spinner-border-sm" role="status"
-											  aria-hidden="true"></span> Loading...
-                                        </button>
-                                        &nbsp
-                                        <button href="#"
-												onclick="!(document.getElementById('-upload').innerHTML=document.getElementById('-upload').innerHTML);"
-												class="btn btn-outline-warning">Remove</button>
-                                    </div>
-                                </span>
-					</form>
+				User</button>
+		</nav>
+		<div class="row">
+			<div class="col">
+				<div class="collapse" id="add">
+					<div class="card card-body">
+						<form class="md-form"
+							th:action="@{/uploaduser2/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage},sortOr=${sortOr})}"
+							method="post" enctype="multipart/form-data">
+							<span id="-upload">
+								<div style="display: inline-block">
+									<input type="file" name="file" class="form-control" id="-file" />
+								</div> &nbsp
+								<div>
+									<input id="importBtn" class="btn btn-outline-success"
+										type="submit" value="Import"
+										onclick="uploadSpinner('importBtn')" />
+									<button id="importBtnLoad" class="btn btn-outline-success"
+										type="button" disabled hidden="true">
+										<span class="spinner-border spinner-border-sm" role="status"
+											aria-hidden="true"></span> Loading...
+									</button>
+									&nbsp
+									<button href="#"
+										onclick="!(document.getElementById('-upload').innerHTML=document.getElementById('-upload').innerHTML);"
+										class="btn btn-outline-warning">Remove</button>
+								</div>
+							</span>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col">
-			<div class="collapse" id="add">
-				<div class="card card-body">
-					<form
+		<div class="row">
+			<div class="col">
+				<div class="collapse" id="add">
+					<div class="card card-body">
+						<form
 							th:action="@{/adduser/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage},sortOr=${sortOr})}"
 							th:object="${user}" method="post">
-						<div class="container">
-							<div class="row align-items-start">
-								<div class="col" align="right">
-									<div class="text-center" th:text="'* Indicates a required field'"></div>
-									<br>
-									<div>
-										<label for="firstName">*First Name</label> <input type="text"
-																						  th:field="*{firstName}" id="addFirstName"
-																						  placeholder="First Name"> <span
-											th:if="${#fields.hasErrors('firstName')}"
-											th:errors="*{firstName}"></span>
-									</div>
-									&nbsp
-									<div>
-										<label for="lastName">*Last Name</label> <input type="text"
-																						th:field="*{lastName}" id="addLastName"
-																						placeholder="Last Name"> <span
-											th:if="${#fields.hasErrors('lastName')}"
-											th:errors="*{lastName}"></span>
-									</div>
-									&nbsp
-									<div>
-										<label for="addSuffixName">Suffix</label> <input type="text"
-																						 th:field="*{suffixName}" id="addSuffixName"
-																						 placeholder="Suffix Name"> <span
-											th:if="${#fields.hasErrors('suffixName')}"
-											th:errors="*{suffixName}"></span>
-									</div>
-									&nbsp
-									<div>
-										<label for="email">*Email</label> <input type="text"
-																				 th:field="*{email}" id="addEmail" placeholder="Email">
-										<span th:if="${#fields.hasErrors('email')}"
-											  th:errors="*{email}"></span>
-									</div>
-								</div>
-								<div class="col" align="right">
-									<div>
-										<label for="departmentName">*Department</label>
-										<select th:field="*{departmentName}"
-												id="departmentName" name="departmentName">
-											<option th:each="dept : ${depts}"
-													th:if="${dept.activation == true}"
-													th:value="${dept.name}"
-													th:text="${dept.name}">
-											</option>
-										</select>
-									</div>
-									&nbsp
-									<div th:if="${SUPERUSER == false}">
-										<label for="jobTitle">*Job</label>
-										<input type="text" th:field="*{jobTitle}" id="jobTitle" placeholder="Job Title">
-									</div>
-									&nbsp
-									<div th:if="${SUPERUSER == false}">
-										<label for="supervisor">*Supervisor</label> <input type="text"
-																						   th:field="*{supervisor}" id="supervisor"
-																						   placeholder="Supervisor">
-									</div>
-									&nbsp
-									<div>
-										<label for="companyName">*Company Name</label>
-										<select th:field="*{companyName}"
-												id="companyName" name="companyName">
-											<option th:each="company : ${companies}"
-													th:if="${company.activation == true}"
-													th:value="${company.companyName}"
-													th:text="${company.companyName}">
-											</option>
-										</select>
-									</div>
-									&nbsp
-									<div>
-										<label for="divisionBranch">*Division Branch</label>
-										<select th:field="*{divisionBranch}"
-												id="divisionBranch" name="divisionBranch">
-											<option th:each="location : ${locations}"
-													th:value="${location.locationName}"
-													th:text="${location.locationName}">
-											</option>
-										</select>
-									</div>
-								</div>
-								<div class="col" align="right">
-									<div>
-										<label for="dateOfHire">Date Of Hire</label> <input
-											type="date" th:field="*{dateOfHire}" id="dateOfHire"
-											placeholder="Date Of Hire(XX-XX-XXXX)">
-									</div>
-									&nbsp
-									<div>
-										<label for="password">*Password (Min 5 characters)</label> <input
-											data-toggle="tooltip" title="Length must be at least five characters" type="password"
-											th:field="*{password}" id="password"
-											placeholder="Password"> <span
-											class ="alert alert-danger" th:if="${#fields.hasErrors('password')}"
-											th:errors="*{password}"></span>
-									</div>
-									&nbsp
-									<div>
-										<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
-											<label for="role">*Role</label>
-											<input type="text" th:field="*{role}"  placeholder="ADMIN" disabled>
+							<div class="container">
+								<div class="row align-items-start">
+									<div class="col" align="right">
+										<div class="text-center"
+											th:text="'* Indicates a required field'"></div>
+										<br>
+										<div>
+											<label for="firstName">*First Name</label> <input type="text"
+												th:field="*{firstName}" id="addFirstName"
+												placeholder="First Name"> <span
+												th:if="${#fields.hasErrors('firstName')}"
+												th:errors="*{firstName}"></span>
 										</div>
-										<!--											COMPANY USER CAN CREATE SUPERADMIN USER ROLE-->
-										<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
-											<label for="role">*Role</label>
-											<input type="text" th:field="*{role}" name="role"   placeholder="ADMIN" disabled>
-										</div>
-										<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
-											<label for="role">*Role</label>
-											<input type="text" th:field="*{role}"  placeholder="EVALUATOR_ADMIN" disabled>
-										</div>
-										<!--												<select th:field="*{role}"-->
-										<!--													id="role" name="role">-->
-										<!--												<input type="text" th:field="EVALUATOR_ADMIN" id="roleName"  placeholder="EVALUATOR_ADMIN" disabled>-->
-										<!--													<option th:each="role : ${roles}" th:if="${role.getActivation}"-->
-										<!--														th:value="${role.Id}"-->
-										<!--														th:text="${role.name}">-->
-										<!--													</option>-->
-										<!--												</select>-->
 										&nbsp
 										<div>
-											<input type="submit" class="btn btn-outline-success "
-												   value="Add User">
+											<label for="lastName">*Last Name</label> <input type="text"
+												th:field="*{lastName}" id="addLastName"
+												placeholder="Last Name"> <span
+												th:if="${#fields.hasErrors('lastName')}"
+												th:errors="*{lastName}"></span>
+										</div>
+										&nbsp
+										<div>
+											<label for="addSuffixName">Suffix</label> <input type="text"
+												th:field="*{suffixName}" id="addSuffixName"
+												placeholder="Suffix Name"> <span
+												th:if="${#fields.hasErrors('suffixName')}"
+												th:errors="*{suffixName}"></span>
+										</div>
+										&nbsp
+										<div>
+											<label for="email">*Email</label> <input type="text"
+												th:field="*{email}" id="addEmail" placeholder="Email">
+											<span th:if="${#fields.hasErrors('email')}"
+												th:errors="*{email}"></span>
+										</div>
+									</div>
+									<div class="col" align="right">
+										<div>
+											<label for="departmentName">*Department</label> <select
+												th:field="*{departmentName}" id="departmentName"
+												name="departmentName">
+												<option th:each="dept : ${depts}"
+													th:if="${dept.activation == true}" th:value="${dept.name}"
+													th:text="${dept.name}"></option>
+											</select>
+										</div>
+										&nbsp
+										<div th:if="${SUPERUSER == false}">
+											<label for="jobTitle">*Job</label> <input type="text"
+												th:field="*{jobTitle}" id="jobTitle" placeholder="Job Title">
+										</div>
+										&nbsp
+										<div th:if="${SUPERUSER == false}">
+											<label for="supervisor">*Supervisor</label> <input
+												type="text" th:field="*{supervisor}" id="supervisor"
+												placeholder="Supervisor">
+										</div>
+										&nbsp
+										<div>
+											<label for="companyName">*Company Name</label> <select
+												th:field="*{companyName}" id="companyName"
+												name="companyName">
+												<option th:each="company : ${companies}"
+													th:if="${company.activation == true}"
+													th:value="${company.companyName}"
+													th:text="${company.companyName}"></option>
+											</select>
+										</div>
+										&nbsp
+										<div>
+											<label for="divisionBranch">*Division Branch</label> <select
+												th:field="*{divisionBranch}" id="divisionBranch"
+												name="divisionBranch">
+												<option th:each="location : ${locations}"
+													th:value="${location.locationName}"
+													th:text="${location.locationName}"></option>
+											</select>
+										</div>
+									</div>
+									<div class="col" align="right">
+										<div>
+											<label for="dateOfHire">Date Of Hire</label> <input
+												type="date" th:field="*{dateOfHire}" id="dateOfHire"
+												placeholder="Date Of Hire(XX-XX-XXXX)">
+										</div>
+										&nbsp
+										<div>
+											<label for="password">*Password (Min 5 characters)</label> <input
+												data-toggle="tooltip"
+												title="Length must be at least five characters"
+												type="password" th:field="*{password}" id="password"
+												placeholder="Password"> <span
+												class="alert alert-danger"
+												th:if="${#fields.hasErrors('password')}"
+												th:errors="*{password}"></span>
+										</div>
+										&nbsp
+										<div>
+											<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
+												<label for="role">*Role</label> <input type="text"
+													th:field="*{role}" placeholder="ADMIN" disabled>
+											</div>
+											<!--											COMPANY USER CAN CREATE SUPERADMIN USER ROLE-->
+											<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
+												<label for="role">*Role</label> <input type="text"
+													th:field="*{role}" name="role" placeholder="ADMIN" disabled>
+											</div>
+											<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
+												<label for="role">*Role</label> <input type="text"
+													th:field="*{role}" placeholder="EVALUATOR_ADMIN" disabled>
+											</div>
+											<!--												<select th:field="*{role}"-->
+											<!--													id="role" name="role">-->
+											<!--												<input type="text" th:field="EVALUATOR_ADMIN" id="roleName"  placeholder="EVALUATOR_ADMIN" disabled>-->
+											<!--													<option th:each="role : ${roles}" th:if="${role.getActivation}"-->
+											<!--														th:value="${role.Id}"-->
+											<!--														th:text="${role.name}">-->
+											<!--													</option>-->
+											<!--												</select>-->
+											&nbsp
+											<div>
+												<input type="submit" class="btn btn-outline-success "
+													value="Add User">
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" th:switch="${ansr}">
+			<div class="col">
+				<div th:case="addFail">
+					<div class="col">
+						<div class="alert alert-danger alert-dismissible fade show"
+							role="alert">
+							<span th:utext="'<Strong>ERROR:&nbsp</strong>'+ ${mess}"></span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"
+								aria-label="Close"></button>
 						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row" th:switch="${ansr}">
-		<div class="col">
-			<div th:case="addFail">
-				<div class="col">
-					<div class="alert alert-danger alert-dismissible fade show"
-						 role="alert">
-						<span th:utext="'<Strong>ERROR:&nbsp</strong>'+ ${mess}"></span>
-						<button type="button" class="btn-close" data-bs-dismiss="alert"
-								aria-label="Close"></button>
 					</div>
 				</div>
-			</div>
-			<div th:case="addPass">
-				<div class="col">
-					<div class="alert alert-success alert-dismissible fade show"
-						 role="alert">
-						<span th:utext="'<Strong>SUCCESS:&nbsp</strong>'+ ${mess}"></span>
-						<button type="button" class="btn-close" data-bs-dismiss="alert"
+				<div th:case="addPass">
+					<div class="col">
+						<div class="alert alert-success alert-dismissible fade show"
+							role="alert">
+							<span th:utext="'<Strong>SUCCESS:&nbsp</strong>'+ ${mess}"></span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"
 								aria-label="Close"></button>
+						</div>
 					</div>
 				</div>
+				<div th:case="*"></div>
 			</div>
-			<div th:case="*"></div>
 		</div>
-	</div>
-	<div class="row" th:switch="${log}">
-		<div class="col">
-			<div th:case="error">
-				<div class="col">
-					<div class="alert alert-warning alert-dismissible fade show"
-						 role="alert">
-                                <span
-										th:utext="'<Strong>WARNING:&nbsp</strong>'+ 'One or more users were not added. Download the Excel file and check for errors.'"></span>
-						<button type="button" class="btn-close" data-bs-dismiss="alert"
+		<div class="row" th:switch="${log}">
+			<div class="col">
+				<div th:case="error">
+					<div class="col">
+						<div class="alert alert-warning alert-dismissible fade show"
+							role="alert">
+							<span
+								th:utext="'<Strong>WARNING:&nbsp</strong>'+ 'One or more users were not added. Download the Excel file and check for errors.'"></span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert"
 								aria-label="Close"></button>
+						</div>
 					</div>
 				</div>
+				<div th:case="*"></div>
 			</div>
-			<div th:case="*"></div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col">
-			<form th:action="@{/adminUsers/}" method="get">
-				
-				<div align="left">
-					<input type="text" name="keyword" th:value="${keyword}" style="margin-top: 10px;"
-						   placeholder="Filter by name or email (enter/search to display result)"
-						   size="65">
-					<input type="hidden" name="currPage"
-						   th:value=1>
-				</div>
-				
-				<div>
-					<button type="submit" style="margin-top: 10px; margin-bottom: 20px;"
-						class="btn btn-outline-primary">Search</button>
-							
-					<button type="button" style="margin-top: 10px; margin-bottom: 20px;"
-						th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}'|"
-						class="btn btn-outline-danger">Reset</button>
-				</div>
-				
-<!--			<div class="d-flex justify-content-center flex-nowrap">
+		<div class="row">
+			<div class="col">
+				<form th:action="@{/adminUsers/}" method="get">
+
+					<div align="left">
+						<input type="text" name="keyword" th:value="${keyword}"
+							style="margin-top: 10px;"
+							placeholder="Filter by name or email (enter/search to display result)"
+							size="65"> <input type="hidden" name="currPage"
+							th:value=1>
+					</div>
+
+					<div>
+						<button type="submit"
+							style="margin-top: 10px; margin-bottom: 20px;"
+							class="btn btn-outline-primary">Search</button>
+
+						<button type="button"
+							style="margin-top: 10px; margin-bottom: 20px;"
+							th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}'|"
+							class="btn btn-outline-danger">Reset</button>
+					</div>
+
+					<!--			<div class="d-flex justify-content-center flex-nowrap">
 					<div class="col" display="inline-block">
 						<div th:switch="${perPage}">
 							<div th:case="10">
@@ -405,204 +406,59 @@
 								</select>
 							</div>
 						</div>
+
 -->
-						
-						<div style="height: 700px; width: 100%; overflow-x: auto;">
+
+
+					<!--  Display Active Users -->
+					<div class="container mt-3">
+						<h2>Active Users</h2>
+						<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
 							<table class="table">
 								<thead>
-								<tr>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="id" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='id', sortOr=1)}'|">Id</button>
-												<button th:case="*" id="id" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='id', sortOr=2)}'|">Id</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="id" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='id', sortOr=1)}'|">Id</button>
-												<button th:case="*" id="id" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='id', sortOr=2)}'|">Id</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="firstName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='firstName', sortOr=1)}'|">First Name</button>
-												<button th:case="*" id="firstName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='firstName', sortOr=2)}'|">First Name</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="firstName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='firstName', sortOr=1)}'|">First Name</button>
-												<button th:case="*" id="firstName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='firstName', sortOr=2)}'|">First Name</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="lastName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='lastName', sortOr=1)}'|">Last Name</button>
-												<button th:case="*" id="lastName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='lastName', sortOr=2)}'|">Last Name</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="lastName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='lastName', sortOr=1)}'|">Last Name</button>
-												<button th:case="*" id="lastName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='lastName', sortOr=2)}'|">Last Name</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="email" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='email', sortOr=1)}'|">Email</button>
-												<button th:case="*" id="email" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='email', sortOr=2)}'|">Email</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="email" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='email', sortOr=1)}'|">Email</button>
-												<button th:case="*" id="email" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='email', sortOr=2)}'|">Email</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="role" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=1)}'|">Role</button>
-												<button th:case="*" id="role" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=2)}'|">Role</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="role" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=1)}'|">Role</button>
-												<button th:case="*" id="role" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=2)}'|">Role</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="departmentName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='departmentName', sortOr=1)}'|">Department</button>
-												<button th:case="*" id="departmentName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='departmentName', sortOr=2)}'|">Department</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="departmentName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=1)}'|">Department</button>
-												<button th:case="*" id="departmentName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=2)}'|">Department</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="companyName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='companyName', sortOr=1)}'|">Company</button>
-												<button th:case="*" id="companyName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='companyName', sortOr=2)}'|">Company</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="companyName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=1)}'|">Company</button>
-												<button th:case="*" id="companyName" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=2)}'|">Company</button>
-											</div>
-										</div>
-									</th>
-									<th class="pinTop">
-										<div th:switch="${sortOr}">
-											<div th:if="${SUPERUSER == false}">
-												<button th:case="2" id="locations"
-														class="btn btn-outline-success" type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='locations', sortOr=1)}'|">Location
-												</button>
-												<button th:case="*" id="locations"
-														class="btn btn-outline-success" type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='locations', sortOr=2)}'|">Location
-												</button>
-											</div>
-											<div th:if="${SUPERUSER == true}">
-												<button th:case="2" id="locations" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=1)}'|">Location</button>
-												<button th:case="*" id="locations" class="btn btn-outline-success"
-														type="button"
-														th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},currPage=${currPage},sort='role', sortOr=2)}'|">Location</button>
-											</div>
-										</div>
-									</th>
-									<th class = "pinTop"></th>
-									<th class = "pinTop"></th>
-								</tr>
+									<tr>
+										<th>ID</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Role</th>
+										<th>Department</th>
+										<th>Company</th>
+										<th>Locations</th>
+										<th>Actions</th>
+									</tr>
 								</thead>
+								<tbody>
+									<tr th:each="user : ${superUser}"
+										th:if="${user.activation == true and user.deactivated == false}">
+										<div class="modal fade" th:id="'homeModal' + ${user.id}"
+											data-bs-backdrop="static" data-bs-keyboard="false"
+											tabindex="-1"
+											th:aria-labelledby="'homeModalLabel' + ${user.id}"
+											aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title"
+															th:id="'homeModalLabel' + ${user.id}">Warning</h5>
+														<button type="button" class="btn-close"
+															data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">Are you certain you want to
+														deactivate this user?</div>
+													<div class="modal-footer">
+														<button id="deleteButton" type="button"
+															class="btn btn-secondary" data-bs-dismiss="modal"
+															th:onclick="|window.location.href='@{/deactivateUser/{id}(id=${user.id})}'|">
+															Deactivate User</button>
+														<a
+															th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}"
+															type="button" class="btn btn-primary">Cancel</a>
+													</div>
+												</div>
+											</div>
+										</div>
 
-								<tbody style="overflow-y: scroll;">
-								<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
-									<tr th:each="user : ${superUser}" th:if="${user.activation == true}">
-										<div class="modal fade" th:id="'homeModal' + ${user.id}"
-											 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-											 th:aria-labelledby="'homeModalLabel' + ${user.id}"
-											 aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" th:id="'homeModalLabel' + ${user.id}">Warning</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-													</div>
-													<div class="modal-body">Are you certain you want to delete this user?</div>
-													<div class="modal-footer">
-														<button id="deleteButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-																th:onclick="|window.location.href='@{/delete/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
-															Delete User
-														</button>
-														<a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}" type="button"
-														   class="btn btn-primary">Cancel</a>
-													</div>
-												</div>
-											</div>
-										</div>
 										<td th:text="${user.id}"></td>
 										<td th:text="${user.firstName}"></td>
 										<td th:text="${user.lastName}"></td>
@@ -612,137 +468,383 @@
 										<td th:text="${user.companyName}"></td>
 										<td th:text="${user.getLocationsAsString()}"></td>
 										<td>
-											<button class="btn btn-outline-success" value=false type="button"
-													th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
-												Edit
-											</button>
+											<button class="btn btn-outline-success" value=false
+												type="button"
+												th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
+												Edit</button>
 											<button class="btn btn-outline-danger" type="button"
-													data-bs-toggle="modal" th:data-bs-target="'#homeModal' + ${user.id}">Delete
+												data-bs-toggle="modal"
+												th:data-bs-target="'#homeModal' + ${user.id}">Deactivate
 											</button>
-											<!--
-                                                <button th:if="${user.roleName != 'CompanySuperUser'} and ${user.roleName != 'SuperSuperUser'} and ${user.roleName != 'SuperUser'}" class="btn btn-outline-danger" type="button"
-                                                  data-bs-toggle="modal" th:data-bs-target="'#homeModal' + ${user.id}">
-                                                  Delete
-                                                </button> -->
 										</td>
 									</tr>
-								</div>
-								<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
-									<tr th:each="user : ${adminUser}" th:if="${user.activation == true}">
-										<div class="modal fade" th:id="'homeModal' + ${user.id}"
-											 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-											 th:aria-labelledby="'homeModalLabel' + ${user.id}"
-											 aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" th:id="'homeModalLabel' + ${user.id}">Warning</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-													</div>
-													<div class="modal-body">Are you certain you want to delete this user?</div>
-													<div class="modal-footer">
-														<button id="deleteButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-																th:onclick="|window.location.href='@{/delete/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
-															Delete User
-														</button>
-														<a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}" type="button"
-														   class="btn btn-primary">Cancel</a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<td th:text="${user.id}"></td>
-										<td th:text="${user.firstName}"></td>
-										<td th:text="${user.lastName}"></td>
-										<td th:text="${user.email}"></td>
-										<td th:text="${user.roleName}"></td>
-										<td th:text="${user.departmentName}"></td>
-										<td th:text="${user.companyName}"></td>
-										<td th:text="${user.getLocationsAsString()}"></td>
-										<td>
-											<button class="btn btn-outline-success" value=false type="button"
-													th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
-												Edit
-											</button>
-											<button class="btn btn-outline-danger" type="button"
-													data-bs-toggle="modal" th:data-bs-target="'#homeModal' + ${user.id}">Delete
-											</button>
-											<!--
-                                                <button th:if="${user.roleName != 'CompanySuperUser'} and ${user.roleName != 'SuperSuperUser'} and ${user.roleName != 'SuperUser'}" class="btn btn-outline-danger" type="button"
-                                                  data-bs-toggle="modal" th:data-bs-target="'#homeModal' + ${user.id}">
-                                                  Delete
-                                                </button> -->
-										</td>
-									</tr>
-								</div>
-								<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
-									<tr th:each="user : ${Eval_admin}" th:if="${user.activation == true}">
-										<div class="modal fade" th:id="'homeModal' + ${user.id}"
-											 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-											 th:aria-labelledby="'homeModalLabel' + ${user.id}"
-											 aria-hidden="true">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" th:id="'homeModalLabel' + ${user.id}">Warning</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-													</div>
-													<div class="modal-body">Are you certain you want to delete this user?</div>
-													<div class="modal-footer">
-														<button id="deleteButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-																th:onclick="|window.location.href='@{/delete/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
-															Delete User
-														</button>
-														<a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}" type="button"
-														   class="btn btn-primary">Cancel</a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<td th:text="${user.id}"></td>
-										<td th:text="${user.firstName}"></td>
-										<td th:text="${user.lastName}"></td>
-										<td th:text="${user.email}"></td>
-										<td th:text="${user.roleName}"></td>
-										<td th:text="${user.departmentName}"></td>
-										<td th:text="${user.companyName}"></td>
-										<td th:text="${user.getLocationsAsString()}"></td>
-										<td>
-											<button class="btn btn-outline-success" value=false type="button"
-													th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
-												Edit
-											</button>
-											<button class="btn btn-outline-danger" type="button"
-													data-bs-toggle="modal" th:data-bs-target="'#homeModal' + ${user.id}">Delete
-											</button>
-											<!--
-                                                <button th:if="${user.roleName != 'CompanySuperUser'} and ${user.roleName != 'SuperSuperUser'} and ${user.roleName != 'SuperUser'}" class="btn btn-outline-danger" type="button"
-                                                  data-bs-toggle="modal" th:data-bs-target="'#homeModal' + ${user.id}">
-                                                  Delete
-                                                </button> -->
-										</td>
-									</tr>
-								</div>
-
 								</tbody>
 							</table>
 						</div>
+						<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Role</th>
+										<th>Department</th>
+										<th>Company</th>
+										<th>Locations</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="user : ${superUser}"
+										th:if="${user.activation == true and user.deactivated == false}">
+										<div class="modal fade" th:id="'homeModal' + ${user.id}"
+											data-bs-backdrop="static" data-bs-keyboard="false"
+											tabindex="-1"
+											th:aria-labelledby="'homeModalLabel' + ${user.id}"
+											aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title"
+															th:id="'homeModalLabel' + ${user.id}">Warning</h5>
+														<button type="button" class="btn-close"
+															data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">Are you certain you want to
+														deactivate this user?</div>
+													<div class="modal-footer">
+														<button id="deleteButton" type="button"
+															class="btn btn-secondary" data-bs-dismiss="modal"
+															th:onclick="|window.location.href='@{/deactivateUser/{id}(id=${user.id})}'|">
+															Deactivate User</button>
+														<a
+															th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}"
+															type="button" class="btn btn-primary">Cancel</a>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<td th:text="${user.id}"></td>
+										<td th:text="${user.firstName}"></td>
+										<td th:text="${user.lastName}"></td>
+										<td th:text="${user.email}"></td>
+										<td th:text="${user.roleName}"></td>
+										<td th:text="${user.departmentName}"></td>
+										<td th:text="${user.companyName}"></td>
+										<td th:text="${user.getLocationsAsString()}"></td>
+										<td>
+											<button class="btn btn-outline-success" value=false
+												type="button"
+												th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
+												Edit</button>
+											<button class="btn btn-outline-danger" type="button"
+												data-bs-toggle="modal"
+												th:data-bs-target="'#homeModal' + ${user.id}">Deactivate
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Role</th>
+										<th>Department</th>
+										<th>Company</th>
+										<th>Locations</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="user : ${Eval_admin}"
+										th:if="${user.activation == true and user.deactivated == false}">
+										<div class="modal fade" th:id="'homeModal' + ${user.id}"
+											data-bs-backdrop="static" data-bs-keyboard="false"
+											tabindex="-1"
+											th:aria-labelledby="'homeModalLabel' + ${user.id}"
+											aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title"
+															th:id="'homeModalLabel' + ${user.id}">Warning</h5>
+														<button type="button" class="btn-close"
+															data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">Are you certain you want to
+														deactivate this user?</div>
+													<div class="modal-footer">
+														<button id="deleteButton" type="button"
+															class="btn btn-secondary" data-bs-dismiss="modal"
+															th:onclick="|window.location.href='@{/deactivateUser/{id}(id=${user.id})}'|">
+															Deactivate User</button>
+														<a
+															th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}"
+															type="button" class="btn btn-primary">Cancel</a>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<td th:text="${user.id}"></td>
+										<td th:text="${user.firstName}"></td>
+										<td th:text="${user.lastName}"></td>
+										<td th:text="${user.email}"></td>
+										<td th:text="${user.roleName}"></td>
+										<td th:text="${user.departmentName}"></td>
+										<td th:text="${user.companyName}"></td>
+										<td th:text="${user.getLocationsAsString()}"></td>
+										<td>
+											<button class="btn btn-outline-success" value=false
+												type="button"
+												th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
+												Edit</button>
+											<button class="btn btn-outline-danger" type="button"
+												data-bs-toggle="modal"
+												th:data-bs-target="'#homeModal' + ${user.id}">Deactivate
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						</div>
+						<!-- End of Active Users-->
+
+						<!-- Display Deactivated Users -->
+						<div class="container mt-5">
+							<h2>Deactivated Users</h2>
+							<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Email</th>
+											<th>Role</th>
+											<th>Department</th>
+											<th>Company</th>
+											<th>Locations</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="user : ${superUser}"
+											th:if="${user.activation == true and user.deactivated == true}">
+											<div class="modal fade" th:id="'homeModal' + ${user.id}"
+												data-bs-backdrop="static" data-bs-keyboard="false"
+												tabindex="-1"
+												th:aria-labelledby="'homeModalLabel' + ${user.id}"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title"
+																th:id="'homeModalLabel' + ${user.id}">Warning</h5>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">Are you certain you want to
+															activate this user?</div>
+														<div class="modal-footer">
+															<button id="deleteButton" type="button"
+																class="btn btn-secondary" data-bs-dismiss="modal"
+																th:onclick="|window.location.href='@{/deactivateUser/{id}(id=${user.id})}'|">
+																Activate User</button>
+															<a
+																th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}"
+																type="button" class="btn btn-primary">Cancel</a>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<td th:text="${user.id}"></td>
+											<td th:text="${user.firstName}"></td>
+											<td th:text="${user.lastName}"></td>
+											<td th:text="${user.email}"></td>
+											<td th:text="${user.roleName}"></td>
+											<td th:text="${user.departmentName}"></td>
+											<td th:text="${user.companyName}"></td>
+											<td th:text="${user.getLocationsAsString()}"></td>
+											<td>
+												<button class="btn btn-outline-success" value=false
+													type="button"
+													th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
+													Edit</button>
+												<button class="btn btn-outline-danger" type="button"
+													data-bs-toggle="modal"
+													th:data-bs-target="'#homeModal' + ${user.id}">Activate
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Email</th>
+											<th>Role</th>
+											<th>Department</th>
+											<th>Company</th>
+											<th>Locations</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="user : ${superUser}"
+											th:if="${user.activation == true and user.deactivated == true}">
+											<div class="modal fade" th:id="'homeModal' + ${user.id}"
+												data-bs-backdrop="static" data-bs-keyboard="false"
+												tabindex="-1"
+												th:aria-labelledby="'homeModalLabel' + ${user.id}"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title"
+																th:id="'homeModalLabel' + ${user.id}">Warning</h5>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">Are you certain you want to
+															activate this user?</div>
+														<div class="modal-footer">
+															<button id="deleteButton" type="button"
+																class="btn btn-secondary" data-bs-dismiss="modal"
+																th:onclick="|window.location.href='@{/deactivateUser/{id}(id=${user.id})}'|">
+																Activate User</button>
+															<a
+																th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}"
+																type="button" class="btn btn-primary">Cancel</a>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<td th:text="${user.id}"></td>
+											<td th:text="${user.firstName}"></td>
+											<td th:text="${user.lastName}"></td>
+											<td th:text="${user.email}"></td>
+											<td th:text="${user.roleName}"></td>
+											<td th:text="${user.departmentName}"></td>
+											<td th:text="${user.companyName}"></td>
+											<td th:text="${user.getLocationsAsString()}"></td>
+											<td>
+												<button class="btn btn-outline-success" value=false
+													type="button"
+													th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
+													Edit</button>
+												<button class="btn btn-outline-danger" type="button"
+													data-bs-toggle="modal"
+													th:data-bs-target="'#homeModal' + ${user.id}">Activate
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Email</th>
+											<th>Role</th>
+											<th>Department</th>
+											<th>Company</th>
+											<th>Locations</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="user : ${Eval_admin}"
+											th:if="${user.activation == true and user.deactivated == true}">
+											<div class="modal fade" th:id="'homeModal' + ${user.id}"
+												data-bs-backdrop="static" data-bs-keyboard="false"
+												tabindex="-1"
+												th:aria-labelledby="'homeModalLabel' + ${user.id}"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title"
+																th:id="'homeModalLabel' + ${user.id}">Warning</h5>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">Are you certain you want to
+															activate this user?</div>
+														<div class="modal-footer">
+															<button id="deleteButton" type="button"
+																class="btn btn-secondary" data-bs-dismiss="modal"
+																th:onclick="|window.location.href='@{/deactivateUser/{id}(id=${user.id})}'|">
+																Activate User</button>
+															<a
+																th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=0,keyword='',sort='id',currPage=1,sortOr=1)}"
+																type="button" class="btn btn-primary">Cancel</a>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<td th:text="${user.id}"></td>
+											<td th:text="${user.firstName}"></td>
+											<td th:text="${user.lastName}"></td>
+											<td th:text="${user.email}"></td>
+											<td th:text="${user.roleName}"></td>
+											<td th:text="${user.departmentName}"></td>
+											<td th:text="${user.companyName}"></td>
+											<td th:text="${user.getLocationsAsString()}"></td>
+											<td>
+												<button class="btn btn-outline-success" value=false
+													type="button"
+													th:onclick="|window.location.href='@{/edit/{id}/?keyword={keyword2}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= ${perPage}, keyword2=${keyword2},id=${user.id}, sort=${sort},currPage=${currPage},sortOr=${sortOr})}'|">
+													Edit</button>
+												<button class="btn btn-outline-danger" type="button"
+													data-bs-toggle="modal"
+													th:data-bs-target="'#homeModal' + ${user.id}">Activate
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- END OF DEACTIVATED USER SECTION -->
 						<form
-								th:action="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage},sortOr=${sortOr})}" method="get">
+							th:action="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage},sortOr=${sortOr})}"
+							method="get">
 							<tr th:each="pages2 : ${pages2}">
 								<button th:id="${pages2}" class="btn btn-outline-success"
-										type="button"
-										th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${pages2}, sortOr=${sortOr})}'|"
-										th:text="${pages2}"></button>
+									type="button"
+									th:onclick="|window.location.href='@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${pages2}, sortOr=${sortOr})}'|"
+									th:text="${pages2}"></button>
 							</tr>
 						</form>
 					</div>
-				</div>
-		</div>
-	</div>
-</div>
-<h3 id="test"></h3>
-<script>
+			</div>
+			</div>
+
+			<h3 id="test"></h3>
+			<script>
 	var sort = [[${sort}]];
 	var sortOr=[[${sortOr}]];
 	var pageNum = [[${currPage}]];
@@ -784,21 +886,21 @@
 
 
 </script>
-<script>
+			<script>
 	function uploadSpinner(id) {
 		document.getElementById(id).style.visibility = 'hidden';
 		document.getElementById(id).style.display = 'none';
 		document.getElementById(id + "Load").removeAttribute("hidden");
 	}
 </script>
-<script>
+			<script>
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip();
 	});
 </script>
-<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-		crossorigin="anonymous"></script>
+			<script
+				src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+				integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+				crossorigin="anonymous"></script>
 </body>
 </html>
