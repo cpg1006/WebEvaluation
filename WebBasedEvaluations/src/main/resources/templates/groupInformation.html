@@ -123,19 +123,21 @@
 					<tr>
 						<th>Name</th>
 						<th>Level</th>
-						<th>Sync</th>
 						<th>Preview</th>
 					</tr>
 				</thead>
 				<tbody>
 					<div th:each="role : ${roles}">
 						<tr th:each="evaluator : ${group.evaluator}" th:if="${role == evaluator.level}">
+					  <!-- <td th:if="${rowStat.index != 0}">
+								<i th:if="${evaluator.sync} == false" class="bi bi-x-circle" style="color: red;"></i>
+								<i th:if="${evaluator.sync} == true" class="bi bi-check-circle" style="color: green;"></i>
+							</td> -->
 							<td th:text="${evaluator.user.name}"></td>
 							<td th:text="${role.name}"></td>
-							<td th:text="${evaluator.sync}"></td>
+						<!--<td th:text="${evaluator.sync}"></td>-->
 							<td th:text="${evaluator.preview}"></td>
-							
-							</tr>
+						</tr>
 					</div>
 				</tbody>
 			</table>
