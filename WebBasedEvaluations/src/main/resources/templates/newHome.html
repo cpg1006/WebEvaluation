@@ -56,10 +56,13 @@
 		</script>
 	</div>
 	
-	<div class="text-center" th:text="'User: ' + ${User.firstName} + ' ' + ${User.lastName}"></div>
-	<div class="text-center" th:text="'Company: ' + ${User.companyName}"></div>
-	<div class="text-center" th:text="'Role: ' + ${User.roleName}"></div>
-	<div class="text-center" th:text="'Reviewee: ' + ${User.isReviewee}"></div>
+	<div style="margin-top: 100px;">
+		<div class="text-center" th:text="'User: ' + ${User.firstName} + ' ' + ${User.lastName}"></div>
+		<div class="text-center" th:text="'Company: ' + ${User.companyName}"></div>
+		<div class="text-center" th:text="'Role: ' + ${User.roleName}"></div>
+		<div class="text-center" th:text="'Reviewee: ' + ${User.isReviewee}"></div>
+	</div>
+	
 
 </body>
 </html>
