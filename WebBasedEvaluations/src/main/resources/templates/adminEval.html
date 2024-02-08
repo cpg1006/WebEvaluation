@@ -78,15 +78,15 @@
 		 							<td>Self</td>
 		 							
 		 							<td th:if="${rev.selfEvaluation != null and rev.selfEvaluation.completed == true}">
-		 								<i class="bi bi-check-circle" style="color:green; margin-left:15px;"></i>
+		 								<i class="bi bi-check-circle-fill" style="color:green; margin-left:15px;"></i>
 		 							</td>
 		 							
 		 							<td th:if="${rev.selfEvaluation != null and rev.selfEvaluation.completed == false}">
-		 								<i class="bi bi-dash-circle" style="color:yellow; margin-left:15px;"></i>
+		 								<i class="bi bi-dash-circle-fill" style="color:yellow; margin-left:15px;"></i>
 		 							</td>
 		 							
 		 							<td th:if="${rev.selfEvaluation == null}">
-		 								<i class="bi bi-x-circle" style="color:orange; margin-left:15px;"></i>
+		 								<i class="bi bi-x-circle-fill" style="color:orange; margin-left:15px;"></i>
 		 							</td>
 		 							
 		 							<td>Synchronous</td>
@@ -97,13 +97,13 @@
 										<td th:text="${evaluator.user.name}"></td>
 										<div th:each="logs : ${rev.evalutationLog}" th:if="${role ==  logs.Evaluator.level}">
 											<td th:if="${logs.completed}">
-												<i class="bi bi-check-circle" style="color:green; margin-left:15px;"></i>
+												<i class="bi bi-check-circle-fill" style="color:green; margin-left:15px;"></i>
 											</td>
 											<td th:if="${!logs.completed and logs.dateEdited != null}"><i>
-												<i class="bi bi-dash-circle" style="color:yellow; margin-left:15px;"></i>
+												<i class="bi bi-dash-circle-fill" style="color:yellow; margin-left:15px;"></i>
 											</td>
 											<td th:if="${!logs.completed and logs.dateEdited == null}"><i>
-												<i class="bi bi-x-circle" style="color:red; margin-left:15px;"></i>
+												<i class="bi bi-x-circle-fill" style="color:red; margin-left:15px;"></i>
 											</td>
 										</div>
 										
