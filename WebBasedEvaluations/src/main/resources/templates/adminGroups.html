@@ -28,6 +28,12 @@
 </script>
 
 <title>Groups</title>
+
+<style>
+	body {
+		padding-top: 20px;
+	}
+</style>
 </head>
 <body>
 
@@ -200,35 +206,102 @@
 					<button class="btn btn-outline-success dropdown-toggle justify-content-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    	Archive By Year
 				  	</button>
-				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2023)}'|">2023</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2024)}'|">2024</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2025)}'|">2025</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2026)}'|">2026</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2027)}'|">2027</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2028)}'|">2028</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2029)}'|">2029</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2030)}'|">2030</button>
+				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="yearDropdown">
+				    	<button id="archiveYearButton" class="btn btn-outline-success" type="button" onclick="archiveYear(getYear())"></button>
+				    	
+				    	<div class="input-group mt-2">
+            				<input type="text" class="form-control" placeholder="Enter Year" id="archiveCustomYear">
+            				<div class="input-group-append">
+                				<button class="btn btn-outline-success" type="button" onclick="validateArchiveInput(document.getElementById('archiveCustomYear').value)">Go</button>
+            				</div>
+       					</div>
 				  	</div>
 				</div>
 			</div>
+			
+			<script>
+    			function archiveYear(year) {
+        			window.location.href = '/archiveGroupYears/' + year;
+    			}
+    			
+    			function getYear(){
+    				return new Date().getFullYear();
+    			}
+    			
+    			function validateArchiveInput(year){
+    				var inputYear = year;
+    				
+    				if(/^\d{4}$/.test(inputYear)){
+    					archiveYear(inputYear);
+    				}
+    				else{
+    					alert('Please Enter a Valid 4-Digit Year');
+    				}
+    			}
+    			
+    			document.addEventListener('DOMContentLoaded', function(){
+    				
+    				var archiveYearButton = document.getElementById('archiveYearButton');
+    		        if (archiveYearButton) {
+    		        	archiveYearButton.textContent = getYear();
+    		        }
+    			});
+    			
+
+    			
+			</script>
+			
 			<div class="col">
 				<div class="dropdown dropdown-light bg-light">
 					<button class="btn btn-outline-success dropdown-toggle justify-content-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    	Unarchive By Year
 				  	</button>
-				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2023)}'|">2023</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2024)}'|">2024</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2025)}'|">2025</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2026)}'|">2026</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2027)}'|">2027</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2028)}'|">2028</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2029)}'|">2029</button>
-				    	<button class="btn btn-outline-success" type="button" th:onclick="|window.location.href='@{/archiveGroupYears/{year}(year=2030)}'|">2030</button>
+				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="yearDropdown">
+				    	<button id="unarchiveYearButton" class="btn btn-outline-success" type="button" onclick="unarchiveYear(getYear())"></button>
+				    	
+				    	<div class="input-group mt-2">
+            				<input type="text" class="form-control" placeholder="Enter Year" id="unarchiveCustomYear">
+            				<div class="input-group-append">
+                				<button class="btn btn-outline-success" type="button" onclick="validateUnarchiveInput(document.getElementById('unarchiveCustomYear').value)">Go</button>
+            				</div>
+       					</div>
 				  	</div>
 				</div>
 			</div>
+			
+			<script>
+    			function unarchiveYear(year) {
+        			window.location.href = '/archiveGroupYears/' + year;
+    			}
+    			
+    			function getYear(){
+    				return new Date().getFullYear();
+    			}
+    			
+    			function validateUnarchiveInput(year){
+    				var inputYear = year;
+    				
+    				if(/^\d{4}$/.test(inputYear)){
+    					archiveYear(inputYear);
+    				}
+    				else{
+    					alert('Please Enter a Valid 4-Digit Year');
+    				}
+    			}
+    			
+    			document.addEventListener('DOMContentLoaded', function(){
+    				
+    			var unarchiveYearButton = document.getElementById('unarchiveYearButton');
+    			
+    		    if (unarchiveYearButton) {
+    		        	unarchiveYearButton.textContent = getYear();
+    		        }
+    			});
+    			
+
+    			
+			</script>
+			
 		</div>
 
 		<div class="row">

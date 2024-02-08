@@ -2,18 +2,117 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
+    
     <!-- Include Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Include Bootstrap JavaScript and jQuery -->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+
+<!-- 
+	Navbar created by Elliot McIlwain
+	Code for the navbar-toggler menu provided by Adrian Twarog on YouTube
+ -->
+ 
 <body>
-    <div th:fragment="navbar">
+	<div th:fragment="navbar">
+		<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+		<div class="container">	
+			<a
+			  th:href="@{/home}"
+			  class="navbar-brand mb-0 h1">
+			  Web Based Evaluations 2024
+			</a>
+			<button
+				   class="navbar-toggler"
+				   type="button"
+				   data-bs-toggle="collapse"
+				   data-bs-target="#navbarNav"
+				   aria-controls="navbarNav"
+				   aria-expanded="false"
+				   aria-label="Toggle navigation">
+				   <span class="navbar-toggler-icon"></span>
+			</button>
+			<div
+				class="collapse navbar-collapse"
+				id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<a th:href="@{/home}" class="nav-link active">
+						   Home
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('ADMIN')}" class="nav-item active">
+						<a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}" class="nav-link active">
+						   Manage Users
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}" class="nav-item active">
+						<a th:href="@{/adminCompanies}" class="nav-link active">
+						   Manage Companies
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}" class="nav-item active">
+						<a th:href="@{/adminRoles}" class="nav-link active">
+						   Manage Roles
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('EVALUATOR_ADMIN')}" class="nav-item active">
+						<a th:href="@{/adminGroups}" class="nav-link active">
+						   Manage Groups
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('EVALUATOR_ADMIN')}" class="nav-item active">
+						<a th:href="@{adminEvaluations}" class="nav-link active">
+						   Evaluations
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==true and User.isReviewer==false}" class="nav-item active">
+						<a th:href="@{/usergroups/{id} (id=${User.id})}" class="nav-link active">
+						   Groups
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==false and User.isReviewer==true}" class="nav-item active">
+						<a th:href="@{/Evaluationgroups}" class="nav-link active">
+						   Evaluations
+						</a>
+					</li>
+					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewer==true and User.isReviewee==true}" class="nav-item active">
+						<a th:href="@{/Evaluationgroups}" class="nav-link active">
+						   Evaluations
+						</a>
+					</li>
+			   <!-- OLD ACCOUNT DROPDOWN -->	
+			   <!-- <li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle"
+						   id="navbarDropdown"
+						   role="button"
+						   data-bs-toggle="dropdown"
+						   aria-expanded="false">
+						   Account
+						</a>
+						<ul class="dropdown-menu"
+							aria-labelledby="navbarDropdown">
+							<li><a href="@{/userSettings/}" class="dropdown-item">Profile</a></li>
+							<li><a href="@{/logout}" class="dropdown-item">Log Out</a></li>
+						</ul>
+					</li> -->
+				</ul>
+			</div>
+		</div>
+			<a th:href="@{/userSettings/}" class="btn btn-outline-dark me-5">
+				<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16" style="color: white;">
+					<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+					<path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+				</svg>
+			</a>
+		</nav>
+	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<!-- OLD NAVBAR -->
+<!--<div th:fragment="navbar">
         <nav>
             <div>
 
@@ -22,73 +121,68 @@
                 <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
                 <a th:href="@{/adminCompanies}" class="btn btn-outline-success" type="button">Manage Company</a>
                 <a th:href="@{/adminRoles}" class="btn btn-outline-success" type="button">Manage Role</a>
-<!--                <a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>-->
-
             </span>
             </div>
+            
             <div th:if="${UserRole.equalsIgnoreCase('ADMIN')}" class="navbar navbar-light bg-light justify-content-center">
-                <span style="padding-right:5px">
-                    <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
-                    <a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}" class="btn btn-outline-success" type="button">Manage User</a>
-<!--                    <a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>-->
-
-                </span>
+            <span style="padding-right:5px">
+                <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
+                <a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}" class="btn btn-outline-success" type="button">Manage User</a>
+            </span>
             </div>
-
+            
             <div th:if="${UserRole.equalsIgnoreCase('EVALUATOR_ADMIN')}" class="navbar navbar-light bg-light justify-content-center">
-                <span style="padding-right:5px">
-                    <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
-                    <!--                    <a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}" class="btn btn-outline-success" type="button">MANAGE USER</a>-->
-                    <a th:href="@{/adminGroups}" class="btn btn-outline-success" type="button">Manage Group</a>
-                    <a th:href="@{adminEvaluations}" class="btn btn-outline-success" type="button">Manage Evaluation Form</a>
-<!--                    <a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>-->
-
-                </span>
+            <span style="padding-right:5px">
+                <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
+           <!-- <a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}" class="btn btn-outline-success" type="button">MANAGE USER</a>
+                <a th:href="@{/adminGroups}" class="btn btn-outline-success" type="button">Manage Group</a>
+                <a th:href="@{adminEvaluations}" class="btn btn-outline-success" type="button">Manage Evaluation Form</a>
+            </span>
             </div>
-
+            
             <div th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==true and User.isReviewer==false}" class="navbar navbar-light bg-light justify-content-center">
-                <span style="padding-right:5px">
-                    <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
-                    <a th:href="@{/usergroups/{id} (id=${User.id})}" class="btn btn-outline-success " type="button">Groups</a>
-<!--                    <a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>-->
-
-                </span>
+            <span style="padding-right:5px">
+                <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
+                <a th:href="@{/usergroups/{id} (id=${User.id})}" class="btn btn-outline-success " type="button">Groups</a>
+            </span>
             </div>
+            
             <div th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewer==true and User.isReviewee==false}" class="navbar navbar-light bg-light justify-content-center">
-                <span style="padding-right:5px">
-                    <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
-                    <a th:href="@{/Evaluationgroups}" class="btn btn-outline-success" style="color:#ffffff; background-color:#4CAF50" type="button">Evaluation Groups</a>
-<!--                    <a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>-->
-                </span>
+            <span style="padding-right:5px">
+                <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
+                <a th:href="@{/Evaluationgroups}" class="btn btn-outline-success" style="color:#ffffff; background-color:#4CAF50" type="button">Evaluation Groups</a>
+            </span>
             </div>
+            
             <div th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewer==true and User.isReviewee==true}" class="navbar navbar-light bg-light justify-content-center">
-                <span style="padding-right:5px">
-                    <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
-                    <a th:href="@{/Evaluationgroups}" class="btn btn-outline-success" style="color:#ffffff; background-color:#4CAF50" type="button">Evaluation Groups</a>
-<!--                    <a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>-->
-
-                </span>
-            </div>
-<!--            <div class = "navbar navbar-light bg-light justify-content-end">-->
-<!--                        <a class="btn btn-primary" th:href="@{/userSettings/}">Profile</a>-->
-<!--                </div>-->
-<!--            </div>-->
-                <!--inline script instead of adding the scripts to every template-->
+            <span style="padding-right:5px">
+                <a th:href="@{/home}" class="btn btn-outline-success" type="button">Home </a>
+                <a th:href="@{/Evaluationgroups}" class="btn btn-outline-success" style="color:#ffffff; background-color:#4CAF50" type="button">Evaluation Groups</a>
+            </span>
+                
+       <!-- </div>
+            	<div class = "navbar navbar-light bg-light justify-content-end">
+                	<a class="btn btn-primary" th:href="@{/userSettings/}">Profile</a>
+                </div>
+            </div> -->
+            
+                <!-- inline script instead of adding the scripts to every template
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle float-end" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+           <!-- <div class="dropdown">
+                	<button class="btn btn-primary dropdown-toggle float-end" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Account
                     </button>
                     <div class="dropdown-menu" style="position: absolute;z-index:99999" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" th:href="@{/userSettings/}">Profile</a>
                         <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                     </div>
+                    
                 </div>
             </div>
-
         </nav>
-    </div>
+    </div> -->
 </body>
 </html>
