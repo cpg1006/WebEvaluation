@@ -106,7 +106,7 @@ public class User {
 
 	private Boolean activated = true;
 	
-	//Deacativated user
+	//Deactivated user
 	private Boolean deactivated = false;
 	
 	//	@NonNull
