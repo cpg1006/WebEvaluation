@@ -805,6 +805,10 @@ public class UserController {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 		
+		if(user.isReviewee() == true || user.isReviewer() == true) {
+			redirect.addFlashAttribute("evaluationBanner", "The user is part of an evaluation and can not be deactivated.");
+		}
+		
 		
 		if(user.isDeactivated()) {
 			user.setDeactivated(false);
@@ -818,6 +822,7 @@ public class UserController {
 		
 		return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
 	}
+	
 	
 
 }
