@@ -33,6 +33,14 @@
 	body {
 		padding-top: 20px;
 	}
+	#collapseArchive {
+        width: 200px; /* Adjust the max-height value as needed */
+        overflow-y: auto; /* Add scroll bar if content exceeds max-height */
+    }
+    #collapseUnarchive {
+        width: 200px; 
+        overflow-y: auto; 
+    }
 </style>
 </head>
 <body>
@@ -157,6 +165,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 		<div th:switch="${error}">
 			<h2 th:case="null"></h2>
 			<div th:case="*">
@@ -202,21 +211,25 @@
 				</nav>
 			</div>
 			<div class="col">
-				<div class="dropdown dropdown-light bg-light">
-					<button class="btn btn-outline-success dropdown-toggle justify-content-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    	Archive By Year
-				  	</button>
-				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="yearDropdown">
-				    	<button id="archiveYearButton" class="btn btn-outline-success" type="button" onclick="archiveYear(getYear())"></button>
-				    	
-				    	<div class="input-group mt-2">
+				<button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseArchive" aria-expanded="false" aria-controls="collapseArchive">
+    				Archive By Year
+				</button>
+				
+				<div class="collapse" id="collapseArchive">
+    				<div class="card card-body">
+        				<button id="archiveYearButton" class="btn btn-outline-success" type="button" onclick="archiveYear(getArchiveYear())"></button>
+        
+        				<div class="input-group mt-2">
             				<input type="text" class="form-control" placeholder="Enter Year" id="archiveCustomYear">
             				<div class="input-group-append">
                 				<button class="btn btn-outline-success" type="button" onclick="validateArchiveInput(document.getElementById('archiveCustomYear').value)">Go</button>
             				</div>
-       					</div>
-				  	</div>
+        				</div>
+    				</div>
 				</div>
+
+				
+
 			</div>
 			
 			<script>
@@ -224,7 +237,7 @@
         			window.location.href = '/archiveGroupYears/' + year;
     			}
     			
-    			function getYear(){
+    			function getArchiveYear(){
     				return new Date().getFullYear();
     			}
     			
@@ -243,7 +256,7 @@
     				
     				var archiveYearButton = document.getElementById('archiveYearButton');
     		        if (archiveYearButton) {
-    		        	archiveYearButton.textContent = getYear();
+    		        	archiveYearButton.textContent = getArchiveYear();
     		        }
     			});
     			
@@ -252,21 +265,24 @@
 			</script>
 			
 			<div class="col">
-				<div class="dropdown dropdown-light bg-light">
-					<button class="btn btn-outline-success dropdown-toggle justify-content-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    	Unarchive By Year
-				  	</button>
-				  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="yearDropdown">
-				    	<button id="unarchiveYearButton" class="btn btn-outline-success" type="button" onclick="unarchiveYear(getYear())"></button>
-				    	
-				    	<div class="input-group mt-2">
+				<button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUnarchive" aria-expanded="false" aria-controls="collapseUnarchive">
+    				Unarchive By Year
+				</button>
+				<div class="collapse" id="collapseUnarchive">
+    				<div class="card card-body">
+        				<button id="unarchiveYearButton" class="btn btn-outline-success" type="button" onclick="unarchiveYear(getUnarchiveYear())"></button>
+        
+       					<div class="input-group mt-2">
             				<input type="text" class="form-control" placeholder="Enter Year" id="unarchiveCustomYear">
             				<div class="input-group-append">
                 				<button class="btn btn-outline-success" type="button" onclick="validateUnarchiveInput(document.getElementById('unarchiveCustomYear').value)">Go</button>
             				</div>
-       					</div>
-				  	</div>
+        				</div>
+    				</div>
 				</div>
+
+
+
 			</div>
 			
 			<script>
@@ -274,7 +290,7 @@
         			window.location.href = '/archiveGroupYears/' + year;
     			}
     			
-    			function getYear(){
+    			function getUnarchiveYear(){
     				return new Date().getFullYear();
     			}
     			
@@ -282,7 +298,7 @@
     				var inputYear = year;
     				
     				if(/^\d{4}$/.test(inputYear)){
-    					archiveYear(inputYear);
+    					unarchiveYear(inputYear);
     				}
     				else{
     					alert('Please Enter a Valid 4-Digit Year');
@@ -294,7 +310,7 @@
     			var unarchiveYearButton = document.getElementById('unarchiveYearButton');
     			
     		    if (unarchiveYearButton) {
-    		        	unarchiveYearButton.textContent = getYear();
+    		        	unarchiveYearButton.textContent = getUnarchiveYear();
     		        }
     			});
     			
