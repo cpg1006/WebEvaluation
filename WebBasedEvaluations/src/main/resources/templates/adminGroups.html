@@ -17,6 +17,7 @@
 		document.getElementById(id).style.visibility = 'hidden';
 		document.getElementById(id).style.display = 'none';
 		document.getElementById(id + "Load").removeAttribute("hidden");
+		
 	}
 
 	// async function manCreateGroup(e) {
@@ -33,6 +34,22 @@
 	body {
 		padding-top: 20px;
 	}
+	
+	.alert-container {
+        max-width: 400px;
+    	display: flex; 
+    	flex-direction: column;
+    	align-items: flex-start;
+    }
+    
+	.alert-warning {
+    	font-size: 0.8rem; 
+    	padding: 0.5rem 0.5rem; 
+    	margin-bottom: 0.25rem;
+    	width: 325px;
+    	align-self: flex-start;
+	}
+	
 </style>
 </head>
 <body>
@@ -173,7 +190,7 @@
 		<div th:switch="${warnings}">
 			<h2 th:case="null"></h2>
 			<div th:case="*">
-
+				<div class="alert-container">
 
 				<div th:each=" warning: ${warnings}" class="row">
 					<div class="col">
@@ -184,6 +201,7 @@
 								aria-label="Close"></button>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
