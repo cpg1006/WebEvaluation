@@ -805,22 +805,28 @@ public class UserController {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 		
-		if(user.isReviewee() == true || user.isReviewer() == true) {
-			redirect.addFlashAttribute("evaluationBanner", "The user is part of an evaluation and can not be deactivated.");
-		}
 		
 		
 		if(user.isDeactivated()) {
 			user.setDeactivated(false);
-		}else {
-			user.setDeactivated(true);
+			userRepository.save(user);
+			System.out.println("Changed Activation Status of User");
+			return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
 		}
 		
-		userRepository.save(user);
+		else {
+			if(user.isReviewee() || user.isReviewer()) {
+				redirect.addFlashAttribute("evaluationBanner", "The user is part of an evaluation and can not be deactivated.");
+				return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
+			}
+			else {
+			user.setDeactivated(true);
+			userRepository.save(user);
+			System.out.println("Changed Activation Status of User");
+			return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
+			}
+		}
 		
-		System.out.println("Changed Activation Status of User");
-		
-		return "redirect:/adminUsers/?keyword=&perPage=0&sort=id&currPage=1&sortOr=1";
 	}
 	
 	

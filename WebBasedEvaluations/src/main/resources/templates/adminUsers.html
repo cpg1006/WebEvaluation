@@ -24,10 +24,7 @@
 </head>
 <body>
 
-    <!-- Evaluation Banner -->
-    <div th:if="${evaluationBanner}" class="container mt-4">
-        <div class="alert alert-info" role="alert" th:text="${evaluationBanner}"></div>
-    </div>
+
 
 	<!-- Home Btn Modal -->
 	<div th:replace="./navbarFragm.html :: navbar"></div>
@@ -418,7 +415,13 @@
 					<!--  Display Active Users -->
 					<div class="container mt-3">
 						<h2>Active Users</h2>
-	
+
+						<!-- Evaluation Banner -->
+						<div th:if="${evaluationBanner}" class="container mt-4">
+							<div class="alert alert-info" role="alert"
+								th:text="${evaluationBanner}"></div>
+						</div>
+
 						<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
 							<table class="table">
 								<thead>
@@ -622,11 +625,11 @@
 									</tr>
 								</tbody>
 							</table>
-						</div>				
-					
-					
 						</div>
-						<!-- End of Active Users-->
+
+
+					</div>
+					<!-- End of Active Users-->
 
 						<!-- Display Deactivated Users -->
 						<div class="container mt-5">
