@@ -1,5 +1,6 @@
 package edu.sru.WebBasedEvaluations.domain;
 
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
 import edu.sru.WebBasedEvaluations.company.Company;
@@ -37,6 +39,8 @@ public class Group {
 	
 	private boolean archived;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deadline;
 
 	@ManyToOne()
 	@JoinColumn(name = "company_id")
@@ -264,8 +268,6 @@ public class Group {
 		this.company = company;
 	}
 	
-	
-
 	public boolean isArchived() {
 		return archived;
 	}
@@ -274,6 +276,13 @@ public class Group {
 		this.archived = archived;
 	}
 
+	public Date getDeadline() {
+		return deadline;
+	}
+	
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
 	@Override
 	public String toString() {
 		return "Group{" +

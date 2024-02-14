@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +104,18 @@ public class EvaluatorController {
 
     	EvaluationLog evaluationLog = evaluationLogRepository.findById(log).orElse(null);
     	
-    	if(evaluationLog.getPath() == null) {
+    	//RedirectView redirectView = new RedirectView("/evalFormEdit", true);
+    	
+    	Group group = evaluationLog.getReviewee().getGroup();
+    	
+    	Date deadline = group.getDeadline();
+    	
+    	Date todaysDate = new Date();
+    	
+    	if(deadline == todaysDate) {
+    		model.addAttribute("error, you are past the deadline");
+    		return "evalFormEdit";
+    	}else if(evaluationLog.getPath() == null) {
 			System.out.println(evaluationLog);
     		//Deserialize
     		EvalTemplates evalTemp = evalFormRepo.findById(evaluationLog.getEvaluator().getGroup().getEvalTemplates().getId());
@@ -112,7 +124,6 @@ public class EvaluatorController {
     		
     		//Populate preload
     		User reviewee = evaluationLog.getReviewee().getUser();
-    		Group group = evaluationLog.getReviewee().getGroup();
     		evall.populatePreload(reviewee, group);
     		
     		//Serialize
@@ -131,7 +142,6 @@ public class EvaluatorController {
     	
     		//Populate preload
     		User reviewee = evaluationLog.getReviewee().getUser();
-    		Group group = evaluationLog.getReviewee().getGroup();
     		evall.populatePreload(reviewee, group);
     		
     		this.log.info("Evaluator '" + evaluationLog.getEvaluator().getUser().getEmail() + "' continued evaluation for user '" + evaluationLog.getReviewee().getUser().getEmail() + "'.");

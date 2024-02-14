@@ -1346,6 +1346,7 @@ public class GroupController {
 
 
 		log.info("self eval:" + group.getSelfeval());
+		log.info("deadline:" + group.getDeadline());
 		group.setNumber(groupNumber);
 		group.setEvalTemplates(evalTemplate);
 		//group.setSelfeval(false);
