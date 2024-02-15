@@ -144,6 +144,7 @@
 															<span th:if="${#fields.hasErrors('firstName')}"
 																th:errors="*{firstName}"></span>
 														</div>
+														<br>
 														<div>
 															<label for="lastName">Last Name</label> <input type="text"
 																th:field="*{lastName}" id="lastName"
@@ -151,6 +152,7 @@
 															<span th:if="${#fields.hasErrors('lastName')}"
 																th:errors="*{lastName}"></span>
 														</div>
+														<br>
 														<div>
 															<label for="email">Email </label> <input type="text"
 																th:field="*{email}" id="email" placeholder="Email "
@@ -158,6 +160,7 @@
 															<span th:if="${#fields.hasErrors('lastName')}"
 																th:errors="*{email}"></span>
 														</div>
+														<br>
 														<div>
 															<label for="jobTitle">Title </label> <input type="text"
 																th:field="*{jobTitle}" id="jobTitle"
@@ -165,15 +168,15 @@
 															<span th:if="${#fields.hasErrors('jobTitle')}"
 																th:errors="*{jobTitle}"></span>
 														</div>
-
+														<br>
 
 
 													</div>
 
 													<div id="updateBtn">
 														<input type="submit" class="btn btn-outline-success"
-															value="Update User" fdprocessedid="ucows">
-														<a id="cancel" class="btn btn-outline-success"
+															value="Update User" fdprocessedid="ucows" style="margin-right: 15px;">
+														<a id="cancel" class="btn btn-outline-danger"
 															type="button">Cancel</a>
 													</div>
 
