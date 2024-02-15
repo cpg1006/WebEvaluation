@@ -10,6 +10,7 @@
 			rel="stylesheet"
 			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 			crossorigin="anonymous">
+			<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 	<title>Users</title>
 	<style>
 		.pinTop {
@@ -257,6 +258,8 @@
 			<div class="col">
 				<form th:action="@{/adminUsers/}" method="get">
 
+					
+					<!--
 					<div align="left">
 						<input type="text" name="keyword" th:value="${keyword}"
 							style="margin-top: 10px;"
@@ -276,7 +279,7 @@
 							class="btn btn-outline-danger">Reset</button>
 					</div>
 
-					<!--			<div class="d-flex justify-content-center flex-nowrap">
+								<div class="d-flex justify-content-center flex-nowrap">
 					<div class="col" display="inline-block">
 						<div th:switch="${perPage}">
 							<div th:case="10">
@@ -423,7 +426,7 @@
 						</div>
 
 						<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
-							<table class="table">
+							<table id="userTable1" class="table">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -491,7 +494,7 @@
 							</table>
 						</div>
 						<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
-							<table class="table">
+							<table id="userTable1" class="table">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -559,7 +562,7 @@
 							</table>
 						</div>
 						<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
-							<table class="table">
+							<table id="userTable1" class="table">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -632,10 +635,10 @@
 					<!-- End of Active Users-->
 
 						<!-- Display Deactivated Users -->
-						<div class="container mt-5">
+						<div class="container mt-3">
 							<h2>Deactivated Users</h2>
 							<div th:if="${UserRole.equalsIgnoreCase('COMPANYSUPERUSER')}">
-								<table class="table">
+								<table id="userTable2" class="table">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -703,7 +706,7 @@
 								</table>
 							</div>
 							<div th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}">
-								<table class="table">
+								<table id="userTable2" class="table">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -771,7 +774,7 @@
 								</table>
 							</div>
 							<div th:if="${UserRole.equalsIgnoreCase('ADMIN')}">
-								<table class="table">
+								<table id="userTable2" class="table">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -840,6 +843,8 @@
 							</div>
 						</div>
 						<!-- END OF DEACTIVATED USER SECTION -->
+					
+					<!-- 
 						<form
 							th:action="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage},sortOr=${sortOr})}"
 							method="get">
@@ -850,6 +855,7 @@
 									th:text="${pages2}"></button>
 							</tr>
 						</form>
+						-->
 					</div>
 			</div>
 			</div>
@@ -904,6 +910,33 @@
 		document.getElementById(id + "Load").removeAttribute("hidden");
 	}
 </script>
+
+
+<!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- Include DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <!-- Initialize DataTables -->
+<script>
+$(document).ready(function() {
+    // Initialize DataTables for the first table
+    $('#userTable1').DataTable({
+        "paging": true,
+        "ordering": true,
+        "info": true,
+        "searching": true
+    });
+
+    // Initialize DataTables for the second table
+    $('#userTable2').DataTable({
+        "paging": true,
+        "ordering": true,
+        "info": true,
+        "searching": true
+    });
+});
+</script>
+
 			<script>
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip();
