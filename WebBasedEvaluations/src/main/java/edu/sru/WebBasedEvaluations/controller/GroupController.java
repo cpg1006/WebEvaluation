@@ -1232,7 +1232,9 @@ public class GroupController {
 
 	@ResponseBody
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public Object manCreateGroup(@ModelAttribute("group") Group group, @ModelAttribute("eval1") Evaluator eval1, @ModelAttribute("eval2") Evaluator eval2, @ModelAttribute("eval3") Evaluator eval3, @ModelAttribute("eval4") Evaluator eval4, RedirectAttributes redir, Authentication auth) {
+	public Object manCreateGroup(@ModelAttribute("group") Group group, 
+            @ModelAttribute("evaluators") List<Evaluator> evaluators, 
+            RedirectAttributes redir, Authentication auth){
 
 		User currentUser;
 		Company currentCompany;
@@ -1254,7 +1256,7 @@ public class GroupController {
 			return redirectView;
 		}
 
-		//test for duplicates nof group name and year
+		//test for duplicates not group name and year
 		//groupRepository.findByGroupName(group.getGroupName());
 		boolean duplicated = false;
 		if (!(groupRepository.findGroupsByGroupNameAndYear(group.getGroupName(), group.getYear()).isEmpty())) {
