@@ -1231,7 +1231,7 @@ public class GroupController {
 
 
 	@ResponseBody
-	@RequestMapping(value = "/testing", method = RequestMethod.POST)
+	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
 	public Object manCreateGroup(@ModelAttribute("group") Group group, @ModelAttribute("eval1") Evaluator eval1, @ModelAttribute("eval2") Evaluator eval2, @ModelAttribute("eval3") Evaluator eval3, @ModelAttribute("eval4") Evaluator eval4, RedirectAttributes redir, Authentication auth) {
 
 		User currentUser;
