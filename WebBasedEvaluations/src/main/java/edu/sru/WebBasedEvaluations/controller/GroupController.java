@@ -1233,8 +1233,11 @@ public class GroupController {
 	@ResponseBody
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
 	public Object manCreateGroup(@ModelAttribute("group") Group group, 
-            @ModelAttribute("evaluators") List<Evaluator> evaluators, 
-            RedirectAttributes redir, Authentication auth){
+            RedirectAttributes redir, 
+            Authentication auth,
+            @RequestParam Map<String, String> allParams
+            
+			){
 
 		User currentUser;
 		Company currentCompany;
@@ -1301,15 +1304,19 @@ public class GroupController {
 		}
 
 		List<Evaluator> evaluatorlist = new ArrayList<Evaluator>();
-		evaluatorlist.add(eval1);
-		evaluatorlist.add(eval2);
-		evaluatorlist.add(eval3);
-		evaluatorlist.add(eval4);
-
-		for (Evaluator eval : evaluatorlist) {
-			evaluatorRepository.save(eval);
-		}
-		//sync list setting:
+		 for (int i = 1; i <= 4; i++) {
+		        boolean sync = allParams.containsKey("syncLevel" + i);
+		        boolean preview = allParams.containsKey("previewLevel" + i);
+		        Evaluator evaluator = new Evaluator();
+		        evaluator.setSync(sync);
+		        evaluator.setPreview(preview);
+		        evaluatorRepository.save(evaluator);
+		    }
+		
+		 
+		 
+		 
+		 //sync list setting:
 		//boolean synctrue[] = new boolean[] {strueL1, strueL2, strueCR, strueFTF};
 //		List<String> synclist = new ArrayList<String>();
 //
