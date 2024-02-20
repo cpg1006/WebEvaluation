@@ -831,7 +831,8 @@ public class GroupController {
 	
 	@PostMapping("/addEvaluator/{id}")
 	public String addEvaluator(@PathVariable("id") long groupId, @RequestParam("newE") long userId, 
-			@RequestParam("newLevel") long levelId, Model model) {
+	        @RequestParam("newLevel") long levelId, @RequestParam("sync") boolean sync,
+	        @RequestParam("preview") boolean preview, Model model) {
 		
 		Group group = groupRepository.findById(groupId);
 		Company company = group.getCompany();
@@ -841,7 +842,12 @@ public class GroupController {
 		List<Evaluator> gevals = group.getEvaluator(); 
 		
 		Evaluator eval = new Evaluator(user, group, level, company);
-		gevals.add(eval);
+		
+		eval.setSync(sync);
+	    eval.setPreview(preview); 
+	    gevals.add(eval);
+		
+	    gevals.add(eval);
 		
 		group.setEvaluator(gevals);
 		evaluatorRepository.save(eval);
