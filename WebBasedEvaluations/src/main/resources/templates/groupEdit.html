@@ -137,10 +137,10 @@
 							<div class="container  mt-5" style="margin: 0px; width: max-content;">
 								<div>
 									<div style="display:flex; justify-content: space-between;">
-										<div style="white-space: nowrap; width: 100%;">
+										<div style="white-space: nowrap; width: 100%; padding-bottom: 20px;" >
 											<h4><b>Add Employee to Group</b></h4>
 											<hr>
-											<table id="employeeTable" class="table" align="center">
+											<table style="border:1px solid black;" id="employeeTable" class="table" align="center">
 												<thead>
 													<tr>
 														<th>Name</th>
@@ -168,17 +168,18 @@
 										</div>
 										<div
 											style="display: flex; flex-direction: column; white-space: nowrap; width: 100%">
-											<div class="scrollable"
-												style="height: 500px; overflow: auto; width: fit-content">
+											<div class="scrollable" style="width: fit-content; padding-left: 20px; padding-bottom: 20px; ">
 												<h4><b>Group Employees</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table style="border:1px solid black;" id="groupEmployeesTable" class="table" align="center">
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Group</th>
 															<th>Department</th>
-															<th>Action</th>
+															<th>Edit</th>
+															<th>Move</th>
+															<th>Remove</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -217,12 +218,13 @@
 											<div style=" flex: 1; padding-left:10px; white-space: nowrap; width: 100%">
 												<h4><b>Group Evaluators</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table style="border:1px solid black;" id="groupEvaluatorsTable" class="table" align="center" >
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Level</th>
-															<th>Action</th>
+															<th>Edit</th>
+															<th>Remove</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -278,6 +280,22 @@
 		        "info": true,
 		        "searching": true
 		    }); 
+		    
+	        // Initialize DataTables for the Group Employees Table
+	        $('#groupEmployeesTable').DataTable({
+	            "paging": true,
+	            "ordering": true,
+	            "info": true,
+	            "searching": true
+	        });
+
+	        // Initialize DataTables for the Group Evaluators Table
+	        $('#groupEvaluatorsTable').DataTable({
+	            "paging": true,
+	            "ordering": true,
+	            "info": true,
+	            "searching": true
+	        });
 		});
 	</script>
 				
