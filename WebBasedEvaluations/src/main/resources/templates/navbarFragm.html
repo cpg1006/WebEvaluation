@@ -7,12 +7,6 @@
     
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
-    <style>
-    .dropdown-custom {
-    	right: 10;
-    }
-    </style>
 </head>
 
 <!-- 
@@ -22,7 +16,7 @@
  
 <body>
 	<div th:fragment="navbar">
-		<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+		<nav class="navbar fixed-top navbar-expand-xl navbar-dark bg-secondary">
 		<div class="container">	
 			<a
 			  th:href="@{/home}"
@@ -44,49 +38,66 @@
 				id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item active">
-						<a th:href="@{/home}" class="nav-link active">
-						   Home
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 10px;"
+								th:href="@{/home}">
+								Home
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('ADMIN')}" class="nav-item active">
-						<a th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}" class="nav-link active" style="margin-right: 710px;">
-						   Manage Users
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 750px; white-space: nowrap;"
+								th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}">
+								Manage Users
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}" class="nav-item active">
-						<a th:href="@{/adminCompanies}" class="nav-link active">
-						   Manage Companies
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 10px; white-space: nowrap;"
+								th:href="@{/adminCompanies}">
+								Manage Companies
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}" class="nav-item active">
-						<a th:href="@{/adminRoles}" class="nav-link active" style="margin-right: 550px;">
-						   Manage Roles
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 600px; white-space: nowrap;"
+								th:href="@{/adminRoles}">
+								Manage Roles
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('EVALUATOR_ADMIN')}" class="nav-item active">
-						<a th:href="@{/adminGroups}" class="nav-link active">
-						   Manage Groups
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 10px; white-space: nowrap;"
+								th:href="@{/adminGroups}">
+								Manage Groups
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('EVALUATOR_ADMIN')}" class="nav-item active">
-						<a th:href="@{adminEvaluations}" class="nav-link active" style="margin-right: 600px;">
-						   Evaluations
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 635px;"
+								th:href="@{/adminEvaluations}">
+								Evaluations
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==true and User.isReviewer==false}" class="nav-item active">
-						<a th:href="@{/usergroups/{id} (id=${User.id})}" class="nav-link active" style="margin-right: 760px;">
-						   Groups
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 785px;"
+								th:href="@{/usergroups/{id} (id=${User.id})}">
+								Groups
 						</a>
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==false and User.isReviewer==true}" class="nav-item active">
-						<a th:href="@{/Evaluationgroups}" class="nav-link active" style="margin-right: 735px;">
-						   Evaluations
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 760px;"
+								th:href="@{/evaluationView}">
+								Evaluations
 						</a>
 					</li>
-					
 					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewer==true and User.isReviewee==true}" class="nav-item active">
-						<a th:href="@{/Evaluationgroups}" class="nav-link active" style="margin-right: 735px;">
-						   Evaluations
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 760px;"
+								th:href="@{/evaluationView}">
+								Evaluations
 						</a>
 					</li>
 					<li class="nav-item dropdown">
