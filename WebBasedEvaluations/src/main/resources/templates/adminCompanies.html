@@ -129,7 +129,7 @@
 		<div class="row">
 			<div class="col">
 				<nav class="navbar navbar-light bg-light ">
-					<button class="btn btn-outline-success justify-content-center"
+					<button class="btn btn-outline-success btn-sm justify-content-center"
 						type="button" data-bs-toggle="collapse" data-bs-target="#add"
 						aria-expanded="false" aria-controls="collapseExample">
 						Upload Company</button>
@@ -275,60 +275,60 @@
 				<tr>
 					<th>
 						<div th:switch="${sortOr}">
-							<button th:case="2" id="companyName" class="btn btn-outline-success"
+							<button th:case="2" id="companyName" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Company Name</button>
-							<button th:case="*" id="companyName" class="btn btn-outline-success"
+							<button th:case="*" id="companyName" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Company Name</button>
 						</div>
 					</th>
 					<th>
 						<div th:switch="${sortOr}">
-							<button th:case="2" id="locations" class="btn btn-outline-success"
+							<button th:case="2" id="locations" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Locations</button>
-							<button th:case="*" id="locations" class="btn btn-outline-success"
+							<button th:case="*" id="locations" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Locations</button>
 						</div>
 					</th>
 					<th>
 						<div th:switch="${sortOr}">
-							<button th:case="2" id="departments" class="btn btn-outline-success"
+							<button th:case="2" id="departments" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Departments</button>
-							<button th:case="*" id="departments" class="btn btn-outline-success"
+							<button th:case="*" id="departments" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Departments</button>
 						</div>
 					</th>
 					<th>
 						<div th:switch="${sortOr}">
-							<button th:case="2" id="admins" class="btn btn-outline-success"
+							<button th:case="2" id="admins" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Administrators</button>
-							<button th:case="*" id="admins" class="btn btn-outline-success"
+							<button th:case="*" id="admins" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Administrators</button>
 						</div>
 					</th>
 					<th>
 						<div th:switch="${sortOr}">
-							<button th:case="2" id="roles" class="btn btn-outline-success"
+							<button th:case="2" id="roles" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Roles</button>
-							<button th:case="*" id="roles" class="btn btn-outline-success"
+							<button th:case="*" id="roles" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Roles</button>
 						</div>
 					</th>
 					<th>
 						<div th:switch="${sortOr}">
-							<button th:case="2" id="children" class="btn btn-outline-success"
+							<button th:case="2" id="children" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Units</button>
-							<button th:case="*" id="children" class="btn btn-outline-success"
+							<button th:case="*" id="children" class="btn btn-outline-success btn-sm"
 							type="button"
 							th:onclick="|window.location.href='@{/adminCompanies}'|">Units</button>
 						</div>
