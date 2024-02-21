@@ -40,6 +40,13 @@
 		}
 	</script>
 	
+	<!-- Include jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Include DataTables CSS and JS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+	
+	
 	<style>
 		body {
 			padding-top: 20px;
@@ -107,8 +114,7 @@
 
 						<div class="row">
 							<div class="col">
-
-
+<!-- 
 								<form th:action="@{/editgroupsearch/{id}(id=${group.id})}" method="get">
 									&nbsp
 									<div align="left">
@@ -125,20 +131,22 @@
 											</select>
 										</div>
 								</form>
+								-->
 							</div>
 
 							<div class="container  mt-5" style="margin: 0px; width: max-content;">
 								<div>
 									<div style="display:flex; justify-content: space-between;">
-										<div style="white-space: nowrap; width: 100%;">
+										<div style="white-space: nowrap; width: 100%; padding-bottom: 20px;" >
 											<h4><b>Add Employee to Group</b></h4>
 											<hr>
-											<table class="table" align="center">
+											<table style="border:1px solid black;" id="employeeTable" class="table" align="center">
 												<thead>
 													<tr>
 														<th>Name</th>
 														<th>Email</th>
 														<th>Department</th>
+														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -160,16 +168,18 @@
 										</div>
 										<div
 											style="display: flex; flex-direction: column; white-space: nowrap; width: 100%">
-											<div class="scrollable"
-												style="height: 500px; overflow: auto; width: fit-content">
+											<div class="scrollable" style="width: fit-content; padding-left: 20px; padding-bottom: 20px; ">
 												<h4><b>Group Employees</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table style="border:1px solid black;" id="groupEmployeesTable" class="table" align="center">
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Group</th>
 															<th>Department</th>
+															<th>Edit</th>
+															<th>Move</th>
+															<th>Remove</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -208,11 +218,13 @@
 											<div style=" flex: 1; padding-left:10px; white-space: nowrap; width: 100%">
 												<h4><b>Group Evaluators</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table style="border:1px solid black;" id="groupEvaluatorsTable" class="table" align="center" >
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Level</th>
+															<th>Edit</th>
+															<th>Remove</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -258,6 +270,36 @@
 						</div>
 					</div>
 				</div>
+		
+		<script>
+		$(document).ready(function() {
+		    // Initialize DataTables for the first table
+		    $('#employeeTable').DataTable({
+		        "paging": true,
+		        "ordering": true,
+		        "info": true,
+		        "searching": true
+		    }); 
+		    
+	        // Initialize DataTables for the Group Employees Table
+	        $('#groupEmployeesTable').DataTable({
+	            "paging": true,
+	            "ordering": true,
+	            "info": true,
+	            "searching": true
+	        });
+
+	        // Initialize DataTables for the Group Evaluators Table
+	        $('#groupEvaluatorsTable').DataTable({
+	            "paging": true,
+	            "ordering": true,
+	            "info": true,
+	            "searching": true
+	        });
+		});
+	</script>
+				
+				
 </body>
 
 
