@@ -40,6 +40,13 @@
 		}
 	</script>
 	
+	<!-- Include jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Include DataTables CSS and JS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+	
+	
 	<style>
 		body {
 			padding-top: 20px;
@@ -107,8 +114,7 @@
 
 						<div class="row">
 							<div class="col">
-
-
+<!-- 
 								<form th:action="@{/editgroupsearch/{id}(id=${group.id})}" method="get">
 									&nbsp
 									<div align="left">
@@ -125,6 +131,7 @@
 											</select>
 										</div>
 								</form>
+								-->
 							</div>
 
 							<div class="container  mt-5" style="margin: 0px; width: max-content;">
@@ -133,12 +140,13 @@
 										<div style="white-space: nowrap; width: 100%;">
 											<h4><b>Add Employee to Group</b></h4>
 											<hr>
-											<table class="table" align="center">
+											<table id="employeeTable" class="table" align="center">
 												<thead>
 													<tr>
 														<th>Name</th>
 														<th>Email</th>
 														<th>Department</th>
+														<th>Action</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -170,6 +178,7 @@
 															<th>Name</th>
 															<th>Group</th>
 															<th>Department</th>
+															<th>Action</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -213,6 +222,7 @@
 														<tr>
 															<th>Name</th>
 															<th>Level</th>
+															<th>Action</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -258,6 +268,20 @@
 						</div>
 					</div>
 				</div>
+		
+		<script>
+		$(document).ready(function() {
+		    // Initialize DataTables for the first table
+		    $('#employeeTable').DataTable({
+		        "paging": true,
+		        "ordering": true,
+		        "info": true,
+		        "searching": true
+		    }); 
+		});
+	</script>
+				
+				
 </body>
 
 
