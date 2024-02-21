@@ -253,22 +253,22 @@
 		</div>	
 	</div>
 	<div class="tab" style="overflow:hidden; border: 1px solid #ccc; background-color: #f1f1f1;">
-		<button class="tabLinks" onclick="toggleTable(event, 'activeRoles')" id="defaultOpen">Active</button>
-		<button class="tabLinks" onclick="toggleTable(event, 'deactivatedRoles')">Deactivated</button>
+		<button class="tabLinks" onclick="toggleTable(event, 'activeRoles')" id="defaultOpen" style="font-size: 15px;">Active</button>
+		<button class="tabLinks" onclick="toggleTable(event, 'deactivatedRoles')" style="font-size: 15px;">Deactivated</button>
 	</div>
 	<div id="activeRoles" class="tabContent">
 		<table class="table" style="margin-left: auto; margin-right: auto""">
 			<thead>
 				<tr>
-					<th><button id="roleNameHead" class = "btn btn-outline-success" type="button">Role Name</button></th>
-					<th><button id="departmentHead" class = "btn btn-outline-success" type="button">Number of Departments</button></th>
-					<th><button id="privilegesHead" class = "btn btn-outline-success" type="button">Number of Users</button></th>
+					<th><button id="roleNameHead" class = "btn btn-outline-success btn-sm" type="button">Role Name</button></th>
+					<th><button id="departmentHead" class = "btn btn-outline-success btn-sm" type="button">Number of Departments</button></th>
+					<th><button id="privilegesHead" class = "btn btn-outline-success btn-sm" type="button">Number of Users</button></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="role : ${roles}" th:if="${role.getActivation}">
 					<td>
-						<button class="btn btn-outline-success " type="button" th:onclick="|window.location.href='@{/roleInformation/{id}(id=${role.id})}'|" th:text="${role.name}"></button>
+						<button class="btn btn-sm btn-outline-success " type="button" th:onclick="|window.location.href='@{/roleInformation/{id}(id=${role.id})}'|" th:text="${role.name}"></button>
 					</td>
 					<td>
 						<div>
@@ -284,7 +284,7 @@
 					</td>
 					<td>
 						<a>	
-							<button class="btn btn-outline-success " type="button" th:onclick="|window.location.href='@{/roleEdit/{id}(id=${role.id})}'|">Edit</button>
+							<button class="btn btn-sm btn-outline-success " type="button" th:onclick="|window.location.href='@{/roleEdit/{id}(id=${role.id})}'|">Edit</button>
 						</a>
 					</td>
 					<td>
@@ -322,7 +322,7 @@
 		<table class="table" style="margin-left: auto; margin-right: auto;">
 			<thead>
 				<tr>
-					<th><button id="roleNameHead" class = "btn btn-outline-success" type="button">Role Name</button></th>
+					<th><button id="roleNameHead" class = "btn btn-sm btn-outline-success" type="button">Role Name</button></th>
 				</tr>
 			</thead>
 			<tbody>
