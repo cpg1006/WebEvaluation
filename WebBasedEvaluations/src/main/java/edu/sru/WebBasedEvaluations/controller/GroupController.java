@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -832,7 +833,7 @@ public class GroupController {
 	@PostMapping("/addEvaluator/{id}")
 	public String addEvaluator(@PathVariable("id") long groupId, @RequestParam("newE") long userId, 
 	        @RequestParam("newLevel") long levelId, @RequestParam("sync") boolean sync,
-	        @RequestParam("preview") boolean preview, Model model) {
+	        @RequestParam("preview") boolean preview, @RequestParam("deadline") @DateTimeFormat(pattern = "yyyy-MM-dd") Date deadline ,Model model) {
 		
 		Group group = groupRepository.findById(groupId);
 		Company company = group.getCompany();
@@ -845,9 +846,9 @@ public class GroupController {
 		
 		eval.setSync(sync);
 	    eval.setPreview(preview); 
+	    eval.setDeadline(deadline);
 	    gevals.add(eval);
 		
-	    gevals.add(eval);
 		
 		group.setEvaluator(gevals);
 		evaluatorRepository.save(eval);
