@@ -831,7 +831,8 @@ public class GroupController {
 	
 	@PostMapping("/addEvaluator/{id}")
 	public String addEvaluator(@PathVariable("id") long groupId, @RequestParam("newE") long userId, 
-			@RequestParam("newLevel") long levelId, Model model) {
+	        @RequestParam("newLevel") long levelId, @RequestParam("sync") boolean sync,
+	        @RequestParam("preview") boolean preview, Model model) {
 		
 		Group group = groupRepository.findById(groupId);
 		Company company = group.getCompany();
@@ -841,7 +842,12 @@ public class GroupController {
 		List<Evaluator> gevals = group.getEvaluator(); 
 		
 		Evaluator eval = new Evaluator(user, group, level, company);
-		gevals.add(eval);
+		
+		eval.setSync(sync);
+	    eval.setPreview(preview); 
+	    gevals.add(eval);
+		
+	    gevals.add(eval);
 		
 		group.setEvaluator(gevals);
 		evaluatorRepository.save(eval);
@@ -1231,8 +1237,13 @@ public class GroupController {
 
 
 	@ResponseBody
-	@RequestMapping(value = "/testing", method = RequestMethod.POST)
-	public Object manCreateGroup(@ModelAttribute("group") Group group, @ModelAttribute("eval1") Evaluator eval1, @ModelAttribute("eval2") Evaluator eval2, @ModelAttribute("eval3") Evaluator eval3, @ModelAttribute("eval4") Evaluator eval4, RedirectAttributes redir, Authentication auth) {
+	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
+	public Object manCreateGroup(@ModelAttribute("group") Group group, 
+            RedirectAttributes redir, 
+            Authentication auth,
+            @RequestParam Map<String, String> allParams
+            
+			){
 
 		User currentUser;
 		Company currentCompany;
@@ -1254,7 +1265,7 @@ public class GroupController {
 			return redirectView;
 		}
 
-		//test for duplicates nof group name and year
+		//test for duplicates not group name and year
 		//groupRepository.findByGroupName(group.getGroupName());
 		boolean duplicated = false;
 		if (!(groupRepository.findGroupsByGroupNameAndYear(group.getGroupName(), group.getYear()).isEmpty())) {
@@ -1299,15 +1310,19 @@ public class GroupController {
 		}
 
 		List<Evaluator> evaluatorlist = new ArrayList<Evaluator>();
-		evaluatorlist.add(eval1);
-		evaluatorlist.add(eval2);
-		evaluatorlist.add(eval3);
-		evaluatorlist.add(eval4);
-
-		for (Evaluator eval : evaluatorlist) {
-			evaluatorRepository.save(eval);
-		}
-		//sync list setting:
+		 for (int i = 1; i <= 4; i++) {
+		        boolean sync = allParams.containsKey("syncLevel" + i);
+		        boolean preview = allParams.containsKey("previewLevel" + i);
+		        Evaluator evaluator = new Evaluator();
+		        evaluator.setSync(sync);
+		        evaluator.setPreview(preview);
+		        evaluatorRepository.save(evaluator);
+		    }
+		
+		 
+		 
+		 
+		 //sync list setting:
 		//boolean synctrue[] = new boolean[] {strueL1, strueL2, strueCR, strueFTF};
 //		List<String> synclist = new ArrayList<String>();
 //

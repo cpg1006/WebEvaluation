@@ -112,31 +112,38 @@
 										<div style=" width: 100%; flex: 50%;" align="left">
 											<h4><b>Add Group Evaluator</b></h4>
 											<hr>
-											<form
-												th:action="@{/addEvaluator/{id} (id=${group.id})}"
-												method="post">
+										<form th:action="@{/addEvaluator/{id} (id=${group.id})}"
+											method="post">
 
-												<label for="level">Level:</label>
-												<select id="newLevel" name="newLevel">
-													<option th:each="level : ${levels}" th:value="${level.id}"
-														th:text="${level.name}">
-													</option>
+											<label for="level">Level:</label> <select id="newLevel"
+												name="newLevel">
+												<option th:each="level : ${levels}" th:value="${level.id}"
+													th:text="${level.name}"></option>
+											</select> 
+											<br>
+											<label for="sync">Synchronicity:</label> <select name="sync"
+												id="syncSelect">
+												<option value="true">Synchronous</option>
+												<option value="false">Asynchronous</option>
+											</select> 
+											<br>
+											<label for="preview">Preview Available:</label> <select
+												name="preview" id="previewSelect">
+												<option value="true">Yes</option>
+												<option value="false">No</option>
+											</select> <br> <br> <label for="evaluator">Evaluator:</label>
+											<div class="dropdown">
+												<select id="newE" name="newE">
+													<option th:each="newEval : ${newEvals}"
+														th:value="${newEval.id}" th:text="${newEval.name}"></option>
 												</select>
-
-												<br><br>
-
-												<label for="evaluator">Evaluator:</label>
-												<div class="dropdown">
-													<select id="newE" name="newE">
-														<option th:each="newEval : ${newEvals}" th:value="${newEval.id}"
-															th:text="${newEval.name}"></option>
-													</select>
-												</div>
+											</div>
 
 
-												<input type="submit" value="Submit" class="btn btn-outline-primary">
-											</form>
-										</div>
+											<input type="submit" value="Submit"
+												class="btn btn-outline-primary">
+										</form>
+									</div>
 										<div
 											style="display: flex; flex-direction: column; white-space: nowrap; width: 100%">
 											<div class="scrollable"
