@@ -51,12 +51,12 @@ body {
 						th:onclick="|window.location.href='@{/editgroup/{id}(id=${group.id})}'|">
 							Edit </a></li>
 					<li th:if="${group.archived == false}"><a type="button"
-						class="btn btn-outline-light btn-sm"
+						class="btn btn-danger btn-sm"
 						style="margin-top: 3px; margin-right: 10px; white-space: nowrap;"
 						th:onclick="|window.location.href='@{/archivegroup/{id}(id=${group.id})}'|">
 							Archive </a></li>
 				</ul>
-				<button type="button" class="btn btn-danger btn-sm"
+			<!--<button type="button" class="btn btn-danger btn-sm"
 					data-toggle="modal" data-target="#deleteModal"
 					style="margin-top: 3px; margin-right: 10px; white-space: nowrap;">
 					Delete</button>
@@ -77,7 +77,7 @@ body {
 							<div class="modal-footer">
 								<button id="deleteButton" type="button"
 									class="btn btn-secondary" data-bs-dismiss="modal">
-									<!--th:onclick="|window.location.href='@{/delete/{id}(id=${group.id})}'|">-->
+									<!--th:onclick="|window.location.href='@{/delete/{id}(id=${group.id})}'|">
 									Yes
 								</button>
 								<a th:href="@{/home}" type="button" class="btn btn-primary">No
@@ -85,7 +85,7 @@ body {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 			</div>
 
 		</div>
