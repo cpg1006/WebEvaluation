@@ -2,7 +2,9 @@ package edu.sru.WebBasedEvaluations.domain;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -117,8 +119,9 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	private Set<Evaluator> evaluator = new HashSet<Evaluator>();
-
-
+	
+	@Temporal(TemporalType.DATE)
+    private Date lastLogin;
 	
 	@ManyToOne()
 	@JoinColumn(name = "company_id")
@@ -155,6 +158,7 @@ public class User {
 	
 	private String divisionBranch;
 	private String departmentName;
+	
 	
 	private String supervisor;
 
@@ -839,5 +843,15 @@ public class User {
 
 	public void setDeactivated(boolean deactivated) {
 		this.deactivated = deactivated;
+	}
+	
+	public Date getDate()
+	{
+		return lastLogin;
+	}
+	
+	public void setDate(Date lastLogin)
+	{
+		this.lastLogin = lastLogin;
 	}
 }
