@@ -33,8 +33,8 @@ public class Evaluator {
 	@JoinColumn(name="group_id")
 	private Group group;
     
-    private boolean sync;
-    private boolean preview;
+	private boolean sync = false;
+    private boolean preview = false;
   
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "level")
