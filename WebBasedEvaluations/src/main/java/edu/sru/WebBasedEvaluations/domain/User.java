@@ -120,7 +120,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private Set<Evaluator> evaluator = new HashSet<Evaluator>();
 	
-	@Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date lastLogin;
 	
 	@ManyToOne()
@@ -845,13 +845,13 @@ public class User {
 		this.deactivated = deactivated;
 	}
 	
-	public Date getDate()
+	public Date getLastLogin()
 	{
-		return lastLogin;
+		return this.lastLogin;
 	}
 	
-	public void setDate(Date lastLogin)
+	public void setLastLogin(Date lastLogin2)
 	{
-		this.lastLogin = lastLogin;
+		this.lastLogin = lastLogin2;
 	}
 }

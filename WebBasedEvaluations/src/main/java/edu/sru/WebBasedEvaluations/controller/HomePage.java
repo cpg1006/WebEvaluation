@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -117,15 +118,15 @@ public class HomePage {
 		log.info("User logged in- ID:" + user2.getId() + " | First Name: " + user2.getFirstName() + " | Last Name: " +user2.getLastName() );
 		
 		log.info("Date:" + LocalDate.now());
+		Calendar calendar = Calendar.getInstance();
+		Date lastLogin = calendar.getTime();;
 		
-		LocalDate lastLogin;
-		lastLogin = LocalDate.now();
 		
-		
-		user2.setDate(lastLogin);
+		user2.setLastLogin(lastLogin);
 		userRepository.save(user2);
 		
-		LocalDate userTwoDate = user2.getDate();
+		
+		Date userTwoDate = user2.getLastLogin();
 		model = AdminMethodsService.pageNavbarPermissions(user2, model, evaluatorRepository, evalFormRepo);
 		model.addAttribute("date", userTwoDate);
 		return "redirect:/home";

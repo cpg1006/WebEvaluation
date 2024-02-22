@@ -158,7 +158,9 @@
 												<i class="bi bi-x-circle-fill" style="color:red; margin-left:15px;"></i>
 											</td>
 										</div>
-											<td th:text="${#dates.format(evaluator.user.date, 'yyyy-MM-dd')}">
+										<div><td th:text="${#dates.format(evaluator.user.lastLogin, 'yyyy-MM-dd')}">N/A</td></div>
+										
+											
 		 							</tr>
 		 						</div>
 		 					</tbody>
