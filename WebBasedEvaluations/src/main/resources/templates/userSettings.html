@@ -191,52 +191,50 @@
 -->
 		
 		<div class="row">
-			<div class="col">
-				<div class="accordion" id="accordionExample">
-					<div class="accordion-item" style="border-color: transparent;">
-						<form action="#" th:action="@{/change/{id}(id=${user.id})}" th:object="${user}" method="post">
-							<label for="lastName" class="formcell">Last Name</label>
-							<input type="text" th:field="*{lastName}"
-								id="lastName"
-								placeholder="Last Name"> 
-							<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-							
-							<label for="firstName" class="formcell">First Name</label>
-							<input type="text" th:field="*{firstName}"
-								id="firstName"
-								placeholder="First Name">
-							<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-							
-							<label for="suffixName" class="formcell">Suffix</label>
-							<input type="text" th:field="*{suffixName}" id="suffixName"
-								placeholder="Suffix Name"> <span
-								th:if="${#fields.hasErrors('suffixName')}"
-								th:errors="*{suffixName}"></span>
-							
-							<br><label for="email" class="formcell">Email</label>
-							<input type="email" th:field="*{email}" id="email"
-								placeholder="Email"> <span
-								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    		<div class="col">
+        		<div class="accordion" id="accordionExample">
+            		<div class="accordion-item" style="border-color: transparent;">
+                		<form action="#" th:action="@{/change/{id}(id=${user.id})}" th:object="${user}" method="post">
+                    		<div class="mb-3">
+                        		<label for="lastName" class="form-label">Last Name</label>
+                        		<input type="text" th:field="*{lastName}" id="lastName" class="form-control" placeholder="Last Name">
+                        		<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></span>
+                    		</div>
 
-							<br><label for="password" class="formcell">Password</label>
-							<input type="password" th:field="*{password}" id="password"
-								placeholder="Password">
-							<span th:if="${#fields.hasErrors('password')}"
-								th:errors="*{password}"></span>
-								
-							<br><br><input type="submit" class="btn btn-outline-success me-3" style="margin-left: 10px;"
-								value="Update User">
-							<a th:href="@{/home}" class="btn btn-outline-danger"
-								type="button">Cancel</a>
-						</form>
+                    		<div class="mb-3">
+                       			<label for="firstName" class="form-label">First Name</label>
+                        		<input type="text" th:field="*{firstName}" id="firstName" class="form-control" placeholder="First Name">
+                        		<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></span>
+                    		</div>
 
-					</div>
+                    		<div class="mb-3">
+                        		<label for="suffixName" class="form-label">Suffix</label>
+                        		<input type="text" th:field="*{suffixName}" id="suffixName" class="form-control" placeholder="Suffix Name">
+                        		<span th:if="${#fields.hasErrors('suffixName')}" th:errors="*{suffixName}" class="text-danger"></span>
+                    		</div>
 
+                    		<div class="mb-3">
+                        		<label for="email" class="form-label">Email</label>
+                        		<input type="email" th:field="*{email}" id="email" class="form-control" placeholder="Email">
+                        		<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+                    		</div>
 
-				</div>
+                    		<div class="mb-3">
+                        		<label for="password" class="form-label">Password</label>
+                        		<input type="password" th:field="*{password}" id="password" class="form-control" placeholder="Password">
+                        		<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+                    		</div>
 
-			</div>
+                    		<div class="mb-3">
+                        		<input type="submit" class="btn btn-outline-success me-3" value="Update User">
+                        		<a th:href="@{/home}" class="btn btn-outline-danger" type="button">Cancel</a>
+                    		</div>
+                		</form>
+            		</div>
+        		</div>
+    		</div>
 		</div>
+
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

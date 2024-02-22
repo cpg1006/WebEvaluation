@@ -49,6 +49,9 @@ public class Evaluator {
     @JoinColumn(name = "company")
     private Company company;
     
+    @Temporal(TemporalType.DATE)
+    private Date deadline;
+    
 	public Evaluator() {
 		
 	}
@@ -121,6 +124,12 @@ public class Evaluator {
 	}
 	public void setPreview(boolean preview) {
 		this.preview = preview;
+	}
+	public Date getDeadline() {
+		return deadline;
+	}
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 	
 	
