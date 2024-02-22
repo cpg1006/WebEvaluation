@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -32,12 +36,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.ui.Model;
 
 import edu.sru.WebBasedEvaluations.company.Company;
 import edu.sru.WebBasedEvaluations.company.Department;
 import edu.sru.WebBasedEvaluations.domain.EvalTemplates;
 import edu.sru.WebBasedEvaluations.domain.Evaluator;
 import edu.sru.WebBasedEvaluations.domain.MyUserDetails;
+import edu.sru.WebBasedEvaluations.domain.Reviewee;
 import edu.sru.WebBasedEvaluations.domain.Role;
 import edu.sru.WebBasedEvaluations.domain.User;
 import edu.sru.WebBasedEvaluations.repository.CompanyRepository;
@@ -106,11 +112,23 @@ public class HomePage {
 	 * @return home mapping.
 	 */
 	@GetMapping("/logging")
-	public String loginLoging(Authentication auth) {
+	public String loginLoging(Authentication auth, Model model) {
 		MyUserDetails user = (MyUserDetails) auth.getPrincipal();
 		User user2 = userRepository.findByid(user.getID());
 		log.info("User logged in- ID:" + user2.getId() + " | First Name: " + user2.getFirstName() + " | Last Name: " +user2.getLastName() );
-
+		
+		log.info("Date:" + LocalDate.now());
+		Calendar calendar = Calendar.getInstance();
+		Date lastLogin = calendar.getTime();;
+		
+		
+		user2.setLastLogin(lastLogin);
+		userRepository.save(user2);
+		
+		
+		Date userTwoDate = user2.getLastLogin();
+		model = AdminMethodsService.pageNavbarPermissions(user2, model, evaluatorRepository, evalFormRepo);
+		model.addAttribute("date", userTwoDate);
 		return "redirect:/home";
 	}	
 
