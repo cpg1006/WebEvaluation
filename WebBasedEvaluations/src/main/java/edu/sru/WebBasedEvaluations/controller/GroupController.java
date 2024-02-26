@@ -312,6 +312,36 @@ public class GroupController {
 		return "redirect:/editgroup/{id}";
 	}
 	
+	@PostMapping("/editEvaluator/{id}/{eid}")
+	public Object editEvaluator(@PathVariable("id") long groupId, 
+            @PathVariable("eid") long evalId, 
+            @RequestParam("newLevel") long levelId, 
+            @RequestParam("newSync") boolean sync,
+            @RequestParam("newPreview") boolean preview, 
+            @RequestParam("newDeadline") @DateTimeFormat(pattern = "yyyy-MM-dd") Date deadline,
+            Model model) {
+		
+		Group group = groupRepository.findById(groupId);
+		Evaluator eval = evaluatorRepository.findById(evalId);
+		EvalRole newLevel = evalRoleRepository.findByEvalRoleId(levelId);
+		List<Evaluator> gevals = group.getEvaluator(); 
+		
+		eval.setLevel(newLevel);
+		eval.setSync(sync);
+	    eval.setPreview(preview); 
+	    eval.setDeadline(deadline);
+	    gevals.add(eval);
+		
+		
+		group.setEvaluator(gevals);
+		evaluatorRepository.save(eval);
+		groupRepository.save(group);
+
+
+	
+		return "redirect:/editgroup/{id}";
+	}
+	
 	@GetMapping("/removeEvaluator/{id}/{eid}")
 	public Object removeEvaluator(RedirectAttributes redirect, @PathVariable("id") long id, @PathVariable("eid") long evalId,
 			  Model model) {
