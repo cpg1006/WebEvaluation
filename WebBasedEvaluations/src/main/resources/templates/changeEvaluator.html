@@ -40,6 +40,12 @@
 		}
 	</script>
 	
+		<!-- Include jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Include DataTables CSS and JS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+	
 <style>
 	body {
 		padding-top: 20px;
@@ -106,26 +112,6 @@
 						<hr>
 
 						<div class="row">
-							<div class="col">
-
-
-								<form th:action="@{/editgroupsearch/{id}(id=${group.id})}" method="get">
-									&nbsp
-									<div align="left">
-										<input type="text" name="searchKey" th:value="${keyword}"
-											placeholder="Search Employee Name" size="65"> </input>
-
-										<button type="submit" class="btn btn-outline-primary">Search</button>
-
-										<div align="left">
-											<select id="department" name="department">
-												<option th:value="All" th:text="All"></option>
-												<option th:each="dept : ${deptList}" th:value="${dept.name}"
-													th:text="${dept.name}"></option>
-											</select>
-										</div>
-								</form>
-							</div>
 				
 							<div class="container  mt-5">
 								<div style="overflow-x: auto;">
@@ -194,7 +180,7 @@
 														 th:value="${#dates.format(currentEval.deadline, 'yyyy-MM-dd')}"  th:readonly="${true}"
 														disabled></input>
 													
-													<br><br><br><br>
+													<br><br><br>
 													
 													
 													<label for="level">Change Level:</label> <select id="newLevel"
@@ -229,18 +215,21 @@
 										
 										<div class="container  mt-5" style="margin: 0px; width: 100%;">
 									
-										<div style="display:flex; justify-content: space-between; white-space: nowrap; width: 100%;">
+										<div style="display:flex; justify-content: space-between;">
 											
-											<div style="display: flex; flex-direction: column; padding-left:10px; white-space: nowrap; width: 100%; overflow:auto">
-												<div class="scrollable" style="height: 500px; overflow: auto; width: 100%">
+											<div style="display: flex; flex-direction: column; padding-left:10px; white-space: nowrap; width: 100%;">
+												<div>
 												<h4><b>Group Employees</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table class="table" align="center" id="employeeTable">
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Group</th>
 															<th>Department</th>
+															<th>Edit</th>
+															<th>Move</th>
+															<th>Remove</th>
 														</tr>
 													</thead>
 														<tbody>
@@ -280,11 +269,12 @@
 											<div style=" flex: 1; padding-left:10px; white-space: nowrap; width: 100%">
 												<h4><b>Group Evaluators</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table class="table" align="center" id="evalTable" >
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Level</th>
+															<th>Edit</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -319,6 +309,25 @@
 						</div>
 					</div>
 				</div>
+				
+				<script>
+		$(document).ready(function() {
+		    // Initialize DataTables for the first table
+		    $('#employeeTable').DataTable({
+		        "paging": true,
+		        "ordering": true,
+		        "info": true,
+		        "searching": true
+		    }); 
+		    $('#evalTable').DataTable({
+		        "paging": true,
+		        "ordering": true,
+		        "info": true,
+		        "searching": true
+		    }); 
+		    
+		});
+	</script>
 </body>
 
 </html>
