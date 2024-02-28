@@ -3,6 +3,10 @@ package edu.sru.WebBasedEvaluations.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -253,12 +257,27 @@ public class GroupController {
 	}
 	
 	@GetMapping("/groupInformation/{id}")
-	public Object groupInformation(RedirectAttributes redirect, @PathVariable("id") long id, Model model) {
-		User user = null;
+	public Object groupInformation(Authentication auth, RedirectAttributes redirect, @PathVariable("id") long id, Model model) {
+		MyUserDetails user = (MyUserDetails) auth.getPrincipal();
+		User user2 = userRepository.findByid(user.getId());
 		Group group = groupRepository.findById(id);
 		Company currentCompany = group.getCompany();
 		List<EvalRole> roles = (List<EvalRole>) evalRoleRepository.findByCompany(currentCompany);
+		Calendar calendar = Calendar.getInstance();
+		Date currentDateAndTime = calendar.getTime();
 		
+		
+		
+		user2.setLastLoginDateTime(currentDateAndTime);
+		userRepository.save(user2);
+		
+		
+		Date userDateTime = user2.getLastLoginDateTime();
+		
+		
+		
+		model = AdminMethodsService.pageNavbarPermissions(user2, model, evaluatorRepository, evalFormRepo);
+		model.addAttribute("dateTime", userDateTime);
 		model.addAttribute("group", group);
 		model.addAttribute("roles", roles);
 		return "groupInformation";
@@ -271,6 +290,9 @@ public class GroupController {
 		User user = userRepo.findByid(uid);
 		Company currentCompany = group.getCompany();
 		List<EvalRole> roles = (List<EvalRole>) evalRoleRepository.findByCompany(currentCompany);
+		
+		
+		
 		
 		model.addAttribute("group", group);
 		model.addAttribute("roles", roles);
