@@ -40,6 +40,12 @@
 		}
 	</script>
 	
+		<!-- Include jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Include DataTables CSS and JS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+	
 <style>
 	body {
 		padding-top: 20px;
@@ -103,29 +109,36 @@
 								</form>
 							</div>
 						</div>
+												<div class="col">
+							<button class="btn btn-sm btn-primary"
+								style="margin-top: 50px; margin-left: 120px; padding: 5px 10px; font-size: 12px;"
+								type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseExample" aria-expanded="false"
+								aria-controls="collapseExample">Legend</button>
+
+							<div class="collapse" id="collapseExample">
+								<div class="card card-body" style="margin-left: 120px;">
+									<div class="status-item">
+										<p>
+											<strong>Synchronous:</strong> Evaluation must be conducted
+											concurrently with other evaluations.
+										</p>
+										<p>
+											<strong>Asynchronous:</strong> Evaluation can be conducted
+											independently of other evaluations.
+										</p>
+										<p>
+											<strong>Preview:</strong> Users have the capability to
+											preview the evaluation before completing it.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br><br>
 						<hr>
 
 						<div class="row">
-							<div class="col">
-
-
-								<form th:action="@{/editgroupsearch/{id}(id=${group.id})}" method="get">
-									&nbsp
-									<div align="left">
-										<input type="text" name="searchKey" th:value="${keyword}"
-											placeholder="Search Employee Name" size="65"> </input>
-
-										<button type="submit" class="btn btn-outline-primary">Search</button>
-
-										<div align="left">
-											<select id="department" name="department">
-												<option th:value="All" th:text="All"></option>
-												<option th:each="dept : ${deptList}" th:value="${dept.name}"
-													th:text="${dept.name}"></option>
-											</select>
-										</div>
-								</form>
-							</div>
 				
 							<div class="container  mt-5">
 								<div style="overflow-x: auto;">
@@ -145,7 +158,7 @@
 													<br><br>
 													
 													<label for="level">Current Evaluator Level:</label>
-													<input type="text" id="level" name="level" th:value="${currentEval.level.name}"  disabled />
+													<input type="text" id="Level" name="level" th:value="${currentEval.level.name}"  disabled />
 													
 													<input type="hidden" id="Elevel" name="Elevel" th:value="${currentEval.level.id}" />
 
@@ -154,28 +167,96 @@
 
 													<label for="newEval">New Evaluator:</label>
 													<select id="newEval" name="newEval">
-														<option th:each="eval : ${evals}" th:value="${eval.id}"
+														<option th:each="eval : ${evals}"
 															th:text="${eval.name}">
 														</option>
 													</select>
-
+														<br><br>
+														
 													<input type="submit" value="Submit" class="btn btn-outline-primary">
 												</form>
 											</div>
+											
+											
+										<div style=" width: 100%; flex: 50%; padding-left: 30px" align="left">
+										<h4><b>Edit Group Evaluator</b></h4>
+												<hr>
+												<form
+													th:action="@{/editEvaluator/{id}/{eid} (id=${group.id}, eid=${currentEval.id})}"
+													method="post">
+
+													<label for="name">Current Evaluator Name:</label>
+													<input type="text" id="currName" name="name"
+														th:value="${currentEval.user.name}"  th:readonly="${true}"
+														disabled></input>
+													<br>
+													<label for="level">Current Evaluator Level:</label>
+													<input type="text" id="levelOld" name="levelOld" th:value="${currentEval.level.name}"  disabled />
+													
+													
+													<label for="name">Current Synchronicity:</label>
+													<input type="text" id="syncOld" name="syncOld"
+														 th:value="${currentEval.sync} ? 'Sync' : 'Async'"  th:readonly="${true}"
+														disabled></input>
+													<label for="name">Current Preview:</label>
+														<input type="text" id="previewOld" name="previewOld"
+														th:value="${currentEval.preview} ? 'Yes' : 'No'"  th:readonly="${true}"
+														disabled></input>
+													<label for="name">Current Deadline:</label>
+														<input type="text" id="deadlineOld" name="deadlineOld"
+														 th:value="${#dates.format(currentEval.deadline, 'yyyy-MM-dd')}"  th:readonly="${true}"
+														disabled></input>
+													
+													<br><br><br>
+													
+													
+													<label for="level">Change Level:</label> <select id="newLevel"
+													name="newLevel">
+													<option th:each="level : ${levels}" th:value="${level.id}"
+														th:text="${level.name}"></option>
+												</select> 
+												<br><br>
+												<label for="sync">Change Synchronicity:</label> <select
+													name="newSync" id="syncSelect">
+													<option value="true">Synchronous</option>
+													<option value="false">Asynchronous</option>
+												</select> 
+												<br> <br>
+												<label for="preview">Preview Available:</label> <select
+													name="newPreview" id="previewSelect">
+													<option value="true">Yes</option>
+													<option value="false">No</option>
+												</select> 
+												<br><br>
+												<label for="datePicker">Change Deadline:</label>
+												<div>
+   												<input type="date" name="newDeadline" id="datePicker">
+												</div>
+													
+													<br><br>
+													<input type="submit" value="Submit" class="btn btn-outline-primary">
+												</form>
+										
+										</div>
+										
+										
 										<div class="container  mt-5" style="margin: 0px; width: 100%;">
 									
-										<div style="display:flex; justify-content: space-between; white-space: nowrap; width: 100%;">
+										<div style="display:flex; justify-content: space-between;">
 											
-											<div style="display: flex; flex-direction: column; padding-left:10px; white-space: nowrap; width: 100%; overflow:auto">
-												<div class="scrollable" style="height: 500px; overflow: auto; width: 100%">
+											<div style="display: flex; flex-direction: column; padding-left:10px; white-space: nowrap; width: 100%;">
+												<div>
 												<h4><b>Group Employees</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table class="table" align="center" id="employeeTable">
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Group</th>
 															<th>Department</th>
+															<th>Edit</th>
+															<th>Move</th>
+															<th>Remove</th>
 														</tr>
 													</thead>
 														<tbody>
@@ -215,11 +296,12 @@
 											<div style=" flex: 1; padding-left:10px; white-space: nowrap; width: 100%">
 												<h4><b>Group Evaluators</b></h4>
 												<hr>
-												<table class="table" align="center">
+												<table class="table" align="center" id="evalTable" >
 													<thead>
 														<tr>
 															<th>Name</th>
 															<th>Level</th>
+															<th>Edit</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -254,6 +336,25 @@
 						</div>
 					</div>
 				</div>
+				
+				<script>
+		$(document).ready(function() {
+		    // Initialize DataTables for the first table
+		    $('#employeeTable').DataTable({
+		        "paging": true,
+		        "ordering": true,
+		        "info": true,
+		        "searching": true
+		    }); 
+		    $('#evalTable').DataTable({
+		        "paging": true,
+		        "ordering": true,
+		        "info": true,
+		        "searching": true
+		    }); 
+		    
+		});
+	</script>
 </body>
 
 </html>
