@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.sru.WebBasedEvaluations.domain.EmailService;
 import edu.sru.WebBasedEvaluations.domain.EvalRole;
 import edu.sru.WebBasedEvaluations.domain.EvalTemplates;
 import edu.sru.WebBasedEvaluations.domain.EvaluationLog;
@@ -70,11 +71,12 @@ public class EvaluatorController {
 	private EvaluationRepository evalFormRepo;
 	private EvalRoleRepository roleRepository;
 	private SelfEvaluationRepository selfEvalRepo;
+	private EmailService emailService;
 	
 	private Logger log = LoggerFactory.getLogger(EvaluatorController.class);
 	
 	//create an UserRepository instance - instantiation (new) is done by Spring
-    public EvaluatorController (EvaluatorRepository evaluatorRepository,UserRepository userRepository ,EvaluationLogRepository evaluationLogRepository,RevieweeRepository revieweeRepository,EvaluationRepository evalFormRepoprivate, EvalRoleRepository roleRepository,EvaluationRepository  evalFormRepo, SelfEvaluationRepository selfEvalRepo) {
+    public EvaluatorController (EvaluatorRepository evaluatorRepository,UserRepository userRepository ,EvaluationLogRepository evaluationLogRepository,RevieweeRepository revieweeRepository,EvaluationRepository evalFormRepoprivate, EvalRoleRepository roleRepository,EvaluationRepository  evalFormRepo, SelfEvaluationRepository selfEvalRepo, EmailService emailService) {
     	this.revieweeRepository= revieweeRepository;
 		this.evaluatorRepository  = evaluatorRepository;
 		this.userRepository  = userRepository;
@@ -82,6 +84,8 @@ public class EvaluatorController {
 		this.evalFormRepo =evalFormRepo;
 		this.roleRepository =roleRepository;
 		this.selfEvalRepo=selfEvalRepo;
+		this.emailService = emailService;
+		
 	}
 
     
@@ -442,14 +446,13 @@ public class EvaluatorController {
 		SelfEvaluation selfEval = new SelfEvaluation(rev);
 		selfEval.setPath(data);
 		log.info("Submitted Self Evaluation (ID:" + evall.getEvalID() + ") for " + user.getName() + " (ID:" + user.getId() + ")");
-
+	
 		selfEvalRepo.save(selfEval);
 
+		emailService.sendEmail(user.getEmail(), "A self-Evaluation has been requested.", "Self-Evaluation");
+		
     	return "redirect:/Evaluationgroups";
 
     }
-
-
-  
 
 }
