@@ -79,14 +79,14 @@
 								Evaluations
 						</a>
 					</li>
-					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==true and User.isReviewer==false}" class="nav-item active">
+					<li th:if="${UserRole.equalsIgnoreCase('USER') and User != null and User.isReviewee==true and User.isReviewer==false}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 785px;"
 								th:href="@{/usergroups/{id} (id=${User.id})}">
 								Groups
 						</a>
 					</li>
-					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==false and User.isReviewer==true}" class="nav-item active">
+					<li th:if="${UserRole.equalsIgnoreCase('USER') and User != null and User.isReviewee==false and User.isReviewer==true}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 760px;"
 								th:href="@{/evaluationView}">
@@ -94,7 +94,7 @@
 						</a>
 					</li>
 					
-					<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewer==true and User.isReviewee==true}" class="nav-item active">
+					<li th:if="${UserRole.equalsIgnoreCase('USER') and User != null and User.isReviewer==true and User.isReviewee==true}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 760px;"
 								th:href="@{/evaluationView}">
