@@ -164,6 +164,8 @@ public class EvalFormController {
 		Department firstDepartment = departmentsList.get(0);
 		Role firstRole = rolesList.get(0);
 		
+		
+		
 		//checks to ensure roles have been created before users can be uploaded or created
 		if(rolesList.size() < MIN_ROLES_SIZE && firstRole.getName().equals("COMPANYSUPERUSER")) {
 			showUserScreen = false;

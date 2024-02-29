@@ -225,20 +225,24 @@ public class GroupController {
 	}
 	
 	@GetMapping("/usergroups/{id}")
-	public Object userGroups(@PathVariable("id") long id, Model model,Authentication auth) {
+	public Object userGroups(RedirectAttributes redirect, @PathVariable("id") long id, Model model,Authentication auth) {
 		User user = userRepo.findByid(id);
 		String userRole=user.getRole().getName();
 		List<Group> groups = groupRepository.findByCompany(user.getCompany());
-		List<Group> removeG = new ArrayList<Group>();
+		List<Group> userGroups = new ArrayList<Group>();
 		List<Reviewee> revs = revieweeRepository.findByUser_Id(id);
 		
 		for(Group g : groups) {
-			if(!g.getUsers().contains(user)) {
-				removeG.add(g);
+			if(g.getUsers().contains(user)) {
+				userGroups.add(g);
 			}
 		}
+		if(userGroups.isEmpty()) {
+			redirect.addFlashAttribute("groupWarning", "This user does not belong to any group.");
+			return "redirect:/home/";
+		}
 		
-		groups.removeAll(removeG);
+		// groups.removeAll(removeG);
 		
 		groups.sort(Comparator.comparing(Group::getGroupName));
 		revs.sort(Comparator.comparing(reviewee -> reviewee.getGroup().getGroupName()));
@@ -247,7 +251,6 @@ public class GroupController {
 		model.addAttribute("UserRole",userRole);
 		model.addAttribute("User", user);
 		model.addAttribute("groups", groups);
-		
 		
 		return "userGroups";
 	}
