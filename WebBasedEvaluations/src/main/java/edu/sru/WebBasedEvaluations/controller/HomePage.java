@@ -118,17 +118,7 @@ public class HomePage {
 		log.info("User logged in- ID:" + user2.getId() + " | First Name: " + user2.getFirstName() + " | Last Name: " +user2.getLastName() );
 		
 		log.info("Date:" + LocalDate.now());
-		Calendar calendar = Calendar.getInstance();
-		Date lastLogin = calendar.getTime();;
 		
-		
-		user2.setLastLogin(lastLogin);
-		userRepository.save(user2);
-		
-		
-		Date userTwoDate = user2.getLastLogin();
-		model = AdminMethodsService.pageNavbarPermissions(user2, model, evaluatorRepository, evalFormRepo);
-		model.addAttribute("date", userTwoDate);
 		return "redirect:/home";
 	}	
 
