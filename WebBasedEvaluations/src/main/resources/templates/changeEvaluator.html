@@ -45,18 +45,12 @@
 	<!-- Include DataTables CSS and JS -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-	
-<style>
-	body {
-		padding-top: 20px;
-	}
-</style>
 </head>
 
 <body>
-	<nav class="navbar navbar-light bg-light  justify-content-center ">
+	<nav class="navbar navbar-dark bg-secondary justify-content-center ">
 		<div class="btn-group ">
-			<a th:href="@{/editgroup/{id} (id=${group.id})}"><button class="btn btn-outline-success " type="button">Back</button></a>
+			<a th:href="@{/editgroup/{id} (id=${group.id})}"><button class="btn btn-outline-danger" type="button">Back</button></a>
 		</div>
 	</nav>
 
@@ -110,33 +104,6 @@
 							</div>
 						</div>
 						
-						<button class="btn btn-primary"
-								style="margin-top: 50px; margin-left: 120px; padding: 5px 10px; font-size: 12px;"
-								type="button" data-bs-toggle="collapse"
-								data-bs-target="#collapseExample" aria-expanded="false"
-								aria-controls="collapseExample">Legend</button>
-								
-						<div class="col">
-
-							<div class="collapse" id="collapseExample">
-								<div class="card card-body" style="margin-left: 120px;">
-									<div class="status-item">
-										<p>
-											<strong>Synchronous:</strong> Evaluation must be conducted
-											concurrently with other evaluations.
-										</p>
-										<p>
-											<strong>Asynchronous:</strong> Evaluation can be conducted
-											independently of other evaluations.
-										</p>
-										<p>
-											<strong>Preview:</strong> Users have the capability to
-											preview the evaluation before completing it.
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
 						<br><br>
 						<hr>
 
