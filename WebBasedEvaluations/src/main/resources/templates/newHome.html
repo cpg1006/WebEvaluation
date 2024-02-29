@@ -30,6 +30,11 @@
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 	
+	<div th:if="${groupWarning}" class="container mt-4">
+		<div class="alert alert-info" role="alert" style="margin-top: 65px;"
+			 th:text="${groupWarning}"></div>
+	</div>
+	
 	<div class="container  mt-5">
 		<div th:switch="${error}">
 			<h2 th:case="null"></h2>
