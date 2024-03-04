@@ -26,9 +26,9 @@ public class EvaluatorService {
 	    
 	
 
-	 @Scheduled(cron = "0 30 8 * * *")
+	 @Scheduled(cron = "0 0 8 * * *")
 	    @Transactional
-	    public void sendEvaluationReminders() {
+	    public void setDeadlines() {
 	    	 Calendar calendar = Calendar.getInstance();
 	    	  calendar.add(Calendar.MONTH, 1);
 	    	  Date newDeadline = calendar.getTime();
@@ -39,7 +39,6 @@ public class EvaluatorService {
 	        	 if (evaluator.getDeadline() == null) {
 	        		 evaluator.setDeadline(newDeadline);
 	        		 evaluatorRepository.save(evaluator);
-	        		 System.out.println("CHANGED DEADLINE OF EVALUATOR");
 	        	 }		 
 	         }
 	 }
