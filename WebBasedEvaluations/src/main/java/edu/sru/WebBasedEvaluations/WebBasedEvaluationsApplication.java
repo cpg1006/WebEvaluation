@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import edu.sru.WebBasedEvaluations.company.City;
 import edu.sru.WebBasedEvaluations.company.Company;
@@ -32,6 +33,7 @@ import edu.sru.WebBasedEvaluations.repository.UserRepository;
 import edu.sru.WebBasedEvaluations.repository.WorldRepository;
 
 @SpringBootApplication
+@EnableScheduling
 //@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 public class WebBasedEvaluationsApplication  extends SpringBootServletInitializer{
 //adding a comment to test merge. 
