@@ -20,8 +20,8 @@ public class ReminderService {
     @Autowired
     private EmailService emailService;
 
-    // This method will be executed every day at 8 AM (customize the cron expression as needed)
-    @Scheduled(cron = "0 0 8 * * ?")
+    // This method will be executed every day at 8 AM
+    @Scheduled(cron = "0 0 8 * * *")
     public void sendEvaluationReminders() {
     	 Calendar calendar = Calendar.getInstance();
          Date today = calendar.getTime();
