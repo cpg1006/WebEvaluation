@@ -54,10 +54,7 @@ public class EmailService {
 		default:
 			break;
 		
-		}
-		
-		
+		}		
 		mailSender.send(message);
 	}
-
 }
