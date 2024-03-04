@@ -12,14 +12,15 @@ public class EmailService {
 	private JavaMailSender mailSender;
 	public static String selfEvaluationReviewEmailBody = "A self-Evaluation has been requested.";
 	public static String selfEvaluationReviewEmailSubject = "Self-Evaluation";
+	public static String deadlineReminderBody = "A deadline you are a reminder of is due soon! Check your evaluations";
+	public static String deadlineReminderSubject="Evaluation Due Soon! Check Evaluations!";
 	
 	public static String devFromEmail = "";
 	public static String devToEmail = "";
 	
 	public static enum EmailType{
-		SELFEVALUATION
+		SELFEVALUATION, DEADLINEREMINDER
 	}
-	
 	public void sendEmail(String toEmail, String ccEmail, EmailType type) {
 		
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -38,6 +39,16 @@ public class EmailService {
 			
 			message.setText(selfEvaluationReviewEmailBody);
 			message.setSubject(selfEvaluationReviewEmailSubject);
+			break;
+		
+		case DEADLINEREMINDER:
+			message.setTo(toEmail);
+			message.setCc(ccEmail);
+			
+			message.setText(deadlineReminderBody);
+			message.setSubject(deadlineReminderSubject);
+			break;
+			
 			
 		default:
 			break;
