@@ -48,6 +48,7 @@ public interface EvaluatorRepository extends CrudRepository<Evaluator, Long> {
 	@Query("DELETE FROM Evaluator WHERE id = :eid and group_id = :gid")
 	void deleteByIdAndGroupId(long eid, long gid);
 	
+	@Query("SELECT e FROM Evaluator e JOIN FETCH e.user WHERE e.deadline BETWEEN :startDate AND :endDate")
 	List<Evaluator> findByDeadlineBetween(Date startDate, Date endDate);
 	
 	
