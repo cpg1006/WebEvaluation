@@ -42,6 +42,7 @@ public class EmailService {
 			break;
 		
 		case DEADLINEREMINDER:
+			message.setFrom("admine@gmail.com");
 			message.setTo(toEmail);
 			message.setCc(ccEmail);
 			
