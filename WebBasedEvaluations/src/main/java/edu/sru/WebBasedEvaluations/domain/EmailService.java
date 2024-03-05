@@ -12,7 +12,7 @@ public class EmailService {
 	private JavaMailSender mailSender;
 	public static String selfEvaluationReviewEmailBody = "A self-Evaluation has been requested.";
 	public static String selfEvaluationReviewEmailSubject = "Self-Evaluation";
-	public static String deadlineReminderBody = "A deadline you are a reminder of is due soon! Check your evaluations";
+	public static String deadlineReminderBody = "A deadline you are a reviewer of is due soon! Check your evaluations";
 	public static String deadlineReminderSubject="Evaluation Due Soon! Check Evaluations!";
 	
 	public static String devFromEmail = "";
