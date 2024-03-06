@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.sru.WebBasedEvaluations.domain.EmailService;
+import edu.sru.WebBasedEvaluations.domain.EmailService.EmailType;
 import edu.sru.WebBasedEvaluations.domain.EvalRole;
 import edu.sru.WebBasedEvaluations.domain.EvalTemplates;
 import edu.sru.WebBasedEvaluations.domain.EvaluationLog;
@@ -429,6 +430,8 @@ public class EvaluatorController {
 		User user = userRepository.findByid(userid);
     	Evaluation evall;
     	
+    	
+    	
     	//Deserialize
 		EvalTemplates evalTemp = rev.getGroup().getEvalTemplates();
 		//evalFormRepo.findById(reviewee.getGroup().getEvalTemplates().getId()).orElse(null);
@@ -449,7 +452,7 @@ public class EvaluatorController {
 	
 		selfEvalRepo.save(selfEval);
 
-		emailService.sendEmail(user.getEmail(), "A self-Evaluation has been requested.", "Self-Evaluation");
+		emailService.sendEmail(rev.getUser().getEmail(), user.getEmail(), EmailType.SELFEVALUATION);
 		
     	return "redirect:/Evaluationgroups";
 
