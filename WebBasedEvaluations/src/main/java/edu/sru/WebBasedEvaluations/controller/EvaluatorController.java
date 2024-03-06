@@ -452,7 +452,7 @@ public class EvaluatorController {
 	
 		selfEvalRepo.save(selfEval);
 
-		emailService.sendEmail(rev.getUser().getEmail(), user.getEmail(), EmailType.SELFEVALUATION);
+		emailService.sendEmail(user.getEmail(), "", EmailService.EmailType.SELFEVALUATION);
 		
     	return "redirect:/Evaluationgroups";
 

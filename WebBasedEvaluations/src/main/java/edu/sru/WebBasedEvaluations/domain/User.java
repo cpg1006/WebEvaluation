@@ -1,9 +1,12 @@
 package edu.sru.WebBasedEvaluations.domain;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -120,7 +123,8 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private Set<Evaluator> evaluator = new HashSet<Evaluator>();
 	
-    @Temporal(TemporalType.DATE)
+	@Column(name = "lastLogin")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date lastLogin;
 	
 	@ManyToOne()
@@ -845,13 +849,15 @@ public class User {
 		this.deactivated = deactivated;
 	}
 	
-	public Date getLastLogin()
+	public Date getLastLoginDateTime()
 	{
-		return this.lastLogin;
+		return lastLogin;
 	}
 	
-	public void setLastLogin(Date lastLogin2)
+	public void setLastLoginDateTime(Date lastLogin)
 	{
-		this.lastLogin = lastLogin2;
+		this.lastLogin = lastLogin;
 	}
+	
+	
 }

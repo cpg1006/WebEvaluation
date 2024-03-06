@@ -24,7 +24,7 @@
 	.status-item {
 		display: flex;
 		align-items: center;
-		gap: 4px;s
+		gap: 4px;
 	}
 </style>
 </head>
@@ -164,7 +164,7 @@
 												<i class="bi bi-x-circle-fill" style="color:red; margin-left:15px;"></i>
 											</td>
 										</div>
-										<div><td th:text="${#dates.format(evaluator.user.lastLogin, 'yyyy-MM-dd')}">N/A</td></div>
+										<div><td th:text="${#dates.format(evaluator.user.lastLoginDateTime, 'yyyy-MM-dd HH:mm:ss')}">N/A</td></div>
 										
 											
 		 							</tr>

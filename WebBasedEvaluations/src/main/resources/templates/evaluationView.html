@@ -11,23 +11,17 @@
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 	<title>Evaluation</title>
-	
-	<style>
-		body {
-			padding-top: 20px;
-		}
-	</style>
 </head>
 
 <body>
 
 	<!--  NAVBAR -->
-	<nav class="navbar navbar-light bg-light justify-content-center">
+	<nav class="navbar navbar-dark bg-secondary justify-content-center">
 		<a class="navbar-brand" th:text=${companyName}></a>
 		<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-			<div class="navbar navbar-light bg-light justify-content-center">
+			<div class="navbar navbar-dark bg-secondary justify-content-center">
 				<span style="padding-right:5px">
-					<a th:href="@{/home}" class="btn btn-outline-success" type="button"> Home </a>
+					<a th:href="@{/home}" class="btn btn-outline-light btn-sm" type="button"> Home </a>
 				</span>
 				<nav th:if="${ADMIN == true}" class="navbar navbar-light bg-light justify-content-center">
 					<th:block th:switch="${showUserScreen}">
@@ -122,12 +116,12 @@
 						<a th:href="@{/usergroups/{id} (id =${id})}" class="btn btn-outline-success" type="button">My Evaluations</a>
 					</span>-->
 				</nav>
-				<div class="navbar navbar-light bg-light justify-content-center">
+				<div class="navbar navbar-dark bg-secondary justify-content-center">
 					<span style="padding-right:5px">
 						<a th:href="@{/userSettings/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage=${perPage},keyword=${keyword},sort=${sort},currPage=${currPage}, sortOr=${sortOr})}"
-							class="btn btn-outline-success" type="button">My Account</a>
+							class="btn btn-outline-light btn-sm" type="button">My Account</a>
 					</span>
-					<a th:href="@{/logout}" class="btn btn-outline-danger d-flex" type="button"> Logout </a>
+					<a th:href="@{/logout}" class="btn btn-danger d-flex btn-sm" type="button"> Logout </a>
 				</div>
 			</div>
 		</div>

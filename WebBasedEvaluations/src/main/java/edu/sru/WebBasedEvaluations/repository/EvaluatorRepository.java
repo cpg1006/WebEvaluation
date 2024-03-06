@@ -1,5 +1,6 @@
 package edu.sru.WebBasedEvaluations.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,10 @@ public interface EvaluatorRepository extends CrudRepository<Evaluator, Long> {
 	@Modifying
 	@Query("DELETE FROM Evaluator WHERE id = :eid and group_id = :gid")
 	void deleteByIdAndGroupId(long eid, long gid);
+	
+	@Query("SELECT e FROM Evaluator e JOIN FETCH e.user WHERE e.deadline BETWEEN :startDate AND :endDate")
+	List<Evaluator> findByDeadlineBetween(Date startDate, Date endDate);
+	
 	
 //	@Query("Select Distinct user_id from Evaluator where 'company' = :companyE ")
 //	List<Long> findDistinctByCompanyId(Company companyE);
