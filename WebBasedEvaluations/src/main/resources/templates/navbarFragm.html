@@ -76,14 +76,14 @@
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 10px;"
 								th:href="@{/adminEvaluations}">
-								Evaluations
+								Manage Evaluations
 						</a>
 					</li>
 					<li th:if="${User != null and UserRole.equalsIgnoreCase('USER') and User.isReviewee==true and User.isReviewer==false}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
-								style="margin-top: 6px; margin-right: 785px;"
+								style="margin-top: 6px; margin-right: 10px;"
 								th:href="@{/usergroups/{id} (id=${User.id})}">
-								Groups
+								View Groups
 						</a>
 					</li>
 
@@ -92,7 +92,7 @@
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 10px;"
 								th:href="@{/usergroups/{id} (id=${User.id})}">
-								Groups
+								View Groups
 						</a>
 					</li>
 				<!--<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==false and User.isReviewer==true}" class="nav-item active">
@@ -108,9 +108,19 @@
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 10px;"
 								th:href="@{/Evaluationgroups/}">
-								Evaluations
+								View Evaluations
 						</a>
 					</li>
+					
+					<li th:if="${User != null and UserRole.equalsIgnoreCase('EVALUATOR_ADMIN') and User.isReviewer==true}" class="nav-item active">
+
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 10px;"
+								th:href="@{/Evaluationgroups/}">
+								View Evaluations
+						</a>
+					</li>
+					
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle"
 				   		   id="navbarDropdown"
