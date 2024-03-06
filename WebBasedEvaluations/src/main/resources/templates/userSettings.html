@@ -195,6 +195,10 @@
         		<div class="accordion" id="accordionExample">
             		<div class="accordion-item" style="border-color: transparent;">
                 		<form action="#" th:action="@{/change/{id}(id=${user.id})}" th:object="${user}" method="post">
+                			<div class="mb-3">
+                        		<label for="Role" class="form-label">Role</label>
+                        		<span th:text="${user.roleName}" id="role" class="form-control"></span>
+                    		</div>
                     		<div class="mb-3">
                         		<label for="lastName" class="form-label">Last Name</label>
                         		<input type="text" th:field="*{lastName}" id="lastName" class="form-control" placeholder="Last Name">
@@ -227,7 +231,7 @@
 
                     		<div class="mb-3">
                         		<input type="submit" class="btn btn-outline-success me-3" value="Update User">
-                        		<a th:href="@{/home}" class="btn btn-outline-danger" type="button">Cancel</a>
+                        		<a th:href="@{/home}" class="btn btn-outline-danger" type="button">Back</a>
                     		</div>
                 		</form>
             		</div>
