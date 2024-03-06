@@ -46,7 +46,7 @@
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('ADMIN')}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
-								style="margin-top: 6px; margin-right: 750px; white-space: nowrap;"
+								style="margin-top: 6px; margin-right: 10px; white-space: nowrap;"
 								th:href="@{/adminUsers/?keyword={keyword}&perPage={perPage}&sort={sort}&currPage={currPage}&sortOr={sortOr}(perPage= 0,keyword='',sort='id',currPage=1,sortOr=1)}">
 								Manage Users
 						</a>
@@ -60,7 +60,7 @@
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('SUPERUSER')}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
-								style="margin-top: 6px; margin-right: 600px; white-space: nowrap;"
+								style="margin-top: 6px; margin-right: 10px; white-space: nowrap;"
 								th:href="@{/adminRoles}">
 								Manage Roles
 						</a>
@@ -74,7 +74,7 @@
 					</li>
 					<li th:if="${UserRole.equalsIgnoreCase('EVALUATOR_ADMIN')}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
-								style="margin-top: 6px; margin-right: 635px;"
+								style="margin-top: 6px; margin-right: 10px;"
 								th:href="@{/adminEvaluations}">
 								Evaluations
 						</a>
@@ -106,7 +106,7 @@
 					<li th:if="${User != null and UserRole.equalsIgnoreCase('USER') and User.isReviewer==true}" class="nav-item active">
 
 						<a type="button" class="btn btn-outline-light btn-sm"
-								style="margin-top: 6px; margin-right: 700px;"
+								style="margin-top: 6px; margin-right: 10px;"
 								th:href="@{/Evaluationgroups/}">
 								Evaluations
 						</a>
