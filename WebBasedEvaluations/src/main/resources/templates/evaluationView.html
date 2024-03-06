@@ -155,7 +155,7 @@
 
 							<button class="accordion-button " type="button" data-bs-toggle="collapse"
 								th:attr="data-bs-target='#collapse'+ ${group.Id },aria-controls='#collapse'+ ${group.Id }"
-								aria-expanded="false" th:text="'Group '+ ${group.number }">
+								aria-expanded="false" th:text="${group.groupName }">
 
 							</button>
 
@@ -181,7 +181,7 @@
 											</div>
 										</tr>
 									</thead>
-									<tbody th:each="rev : ${group.reviewee}">
+									<tbody th:each="rev : ${group.reviewees}">
 										<tr>
 											<td scope="row" th:text=${rev.name}></td>
 											<td>
