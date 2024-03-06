@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import edu.sru.WebBasedEvaluations.service.GroupService;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
@@ -134,7 +135,7 @@ public class GroupController {
 			@RequestParam(value = "lone", required = false) long lone,
 			@RequestParam(value = "ltwo", required = false) long ltwo,
 			@RequestParam(value = "facetoface", required = false) long facetoface, BindingResult bindingResult,
-			Model model) {
+			Model model, Authentication auth) {
 		if (rev != null) {
 
 			Reviewee reviewee = null;
@@ -170,6 +171,8 @@ public class GroupController {
 			}
 
 		}
+		
+		
 
 		return "home";
 
@@ -1566,7 +1569,7 @@ public class GroupController {
 	 * @return admingroup page 
 	 */
 	@RequestMapping(value = "/uploadgroup", method = RequestMethod.POST)
-	public Object uploadgroup(@RequestParam("file") MultipartFile reapExcelDataFile, RedirectAttributes redir, Authentication auth) {
+	public Object uploadgroup(@RequestParam("file") MultipartFile reapExcelDataFile, RedirectAttributes redir, Authentication auth, Model model) {
 
 		User currentUser;
 		Company currentCompany;
@@ -1967,6 +1970,37 @@ public class GroupController {
 
 
 		}
+		
+		
+		Iterable<User> allUsersIterable = userRepository.findAll();
+		List<User> allUsers = StreamSupport.stream(allUsersIterable.spliterator(), false)
+                .collect(Collectors.toList());
+		
+		for (User user2 : allUsers) {
+		    Calendar calendar = Calendar.getInstance();
+		    Date currentDate = calendar.getTime();
+		    
+		    user2.setStartingDate(currentDate);
+		    userRepository.save(user2);
+		    
+		    calendar.add(Calendar.MONTH, 1);
+		    Date newDate = calendar.getTime();
+		    
+		    user2.setEndingDate(newDate);
+		    userRepository.save(user2);
+		}
+		
+		if (!allUsers.isEmpty()) {
+		    User user2 = allUsers.get(0); 
+		    Date userStarting = user2.getStartingDate();
+		    Date userEnding = user2.getEndingDate();
+		    
+		    model = AdminMethodsService.pageNavbarPermissions(user2, model, evaluatorRepository, evalFormRepo);
+		    model.addAttribute("startDate", userStarting);
+		    model.addAttribute("endDate", userEnding);
+		}
+		
+		
 
 
 		redir.addFlashAttribute("completed", true);
