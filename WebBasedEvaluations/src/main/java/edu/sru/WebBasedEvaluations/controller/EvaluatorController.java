@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.sru.WebBasedEvaluations.domain.EmailService;
+import edu.sru.WebBasedEvaluations.domain.EmailService.EmailType;
 import edu.sru.WebBasedEvaluations.domain.EvalRole;
 import edu.sru.WebBasedEvaluations.domain.EvalTemplates;
 import edu.sru.WebBasedEvaluations.domain.EvaluationLog;
@@ -428,6 +429,8 @@ public class EvaluatorController {
 		Long userid = userD.getID() ;
 		User user = userRepository.findByid(userid);
     	Evaluation evall;
+    	
+    	
     	
     	//Deserialize
 		EvalTemplates evalTemp = rev.getGroup().getEvalTemplates();
