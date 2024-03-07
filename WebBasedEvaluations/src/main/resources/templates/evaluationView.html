@@ -176,6 +176,7 @@
 										<tr>
 											<th scope="col">Name</th>
 											<th scope="col">Self evaluation</th>
+											<th scope="col">Date requested</th>
 											<div th:each="role : ${roles}">
 												<th scope="col" th:text=${role.name}></th>
 											</div>
@@ -198,9 +199,16 @@
 													class="btn btn-outline-success " type="button"
 													th:onclick="|window.location.href='@{/viewselfeval/{id}/(id = ${rev.Id})}'|"
 													disabled>Requested</button>
-
-
 											</td>
+
+											<td>
+												<a th:if="${rev.selfEvaluation != null and rev.selfEvaluation.dateRequested == null}"
+													scope="col" text=N/A></a>
+												<a th:if="${rev.selfEvaluation != null and rev.selfEvaluation.dateRequested != null}"
+													scope="col" th:text="${rev.selfEvaluation.dateRequested}"></a>
+											
+											</td>
+
 
 											<td th:each="role,stats : ${roles}">
 												<div th:each="logs : ${rev.evalutationLog}"
