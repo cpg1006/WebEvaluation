@@ -37,7 +37,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.sru.WebBasedEvaluations.domain.EmailService;
-import edu.sru.WebBasedEvaluations.domain.EmailService.EmailType;
 import edu.sru.WebBasedEvaluations.domain.EvalRole;
 import edu.sru.WebBasedEvaluations.domain.EvalTemplates;
 import edu.sru.WebBasedEvaluations.domain.EvaluationLog;
@@ -424,13 +423,12 @@ public class EvaluatorController {
     @GetMapping({"/requestSelfEval/{id}"})
     public Object requestEval(@PathVariable("id") long revId, Authentication authentication, Model model) {
     	
+    	Date requestDate = new Date();
     	Reviewee rev = revieweeRepository.findById(revId);
     	MyUserDetails userD = (MyUserDetails) authentication.getPrincipal();
 		Long userid = userD.getID() ;
 		User user = userRepository.findByid(userid);
     	Evaluation evall;
-    	
-    	
     	
     	//Deserialize
 		EvalTemplates evalTemp = rev.getGroup().getEvalTemplates();
@@ -448,6 +446,8 @@ public class EvaluatorController {
 		//save to database
 		SelfEvaluation selfEval = new SelfEvaluation(rev);
 		selfEval.setPath(data);
+		selfEval.setDateRequested(requestDate);
+		
 		log.info("Submitted Self Evaluation (ID:" + evall.getEvalID() + ") for " + user.getName() + " (ID:" + user.getId() + ")");
 	
 		selfEvalRepo.save(selfEval);

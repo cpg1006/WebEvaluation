@@ -27,6 +27,7 @@ public class SelfEvaluation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 	private Date dateEdited;
+	private Date dateRequested;
 	@OneToOne
 	private Reviewee reviewee;
 	@Lob
@@ -84,6 +85,12 @@ public void setReviewee (Reviewee reviewee) {
 		this.synchronous = synchronous;
 	}
 	
+	public Date getDateRequested() {
+		return dateRequested;
+	}
 	
-
+	public void setDateRequested(Date date) {
+		this.dateRequested = date;
+	}
+	
 }
