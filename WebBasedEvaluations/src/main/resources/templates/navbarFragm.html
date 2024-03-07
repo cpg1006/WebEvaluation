@@ -95,6 +95,15 @@
 								View Groups
 						</a>
 					</li>
+										<li th:if="${User != null and UserRole.equalsIgnoreCase('EVALUATOR_ADMIN') and User.isReviewee==true}" class="nav-item active">
+
+						<a type="button" class="btn btn-outline-light btn-sm"
+								style="margin-top: 6px; margin-right: 10px;"
+								th:href="@{/usergroups/{id} (id=${User.id})}">
+								View Groups
+						</a>
+					</li>
+					
 				<!--<li th:if="${UserRole.equalsIgnoreCase('USER') and User.isReviewee==false and User.isReviewer==true}" class="nav-item active">
 						<a type="button" class="btn btn-outline-light btn-sm"
 								style="margin-top: 6px; margin-right: 760px;"

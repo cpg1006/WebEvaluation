@@ -101,7 +101,7 @@ public class GroupController {
 	private EvaluationRepository evalFormRepo;
 	private ArchiveRepository archiveRepository ;
 	private CompanyRepository companyRepo;
-	private UserRepository	userRepo;
+	private UserRepository userRepo;
 
 	@Autowired
 	private AdminMethodsService adminMethodsService;
@@ -235,6 +235,8 @@ public class GroupController {
 		List<Group> groups = groupRepository.findByCompany(user.getCompany());
 		List<Group> userGroups = new ArrayList<Group>();
 		List<Reviewee> revs = revieweeRepository.findByUser_Id(id);
+		Company currentCompany = user.getCompany();
+		List<EvalRole> roles = (List<EvalRole>) evalRoleRepository.findByCompany(currentCompany);
 		
 		for(Group g : groups) {
 			if(g.getUsers().contains(user)) {
@@ -248,13 +250,14 @@ public class GroupController {
 		
 		// groups.removeAll(removeG);
 		
-		groups.sort(Comparator.comparing(Group::getGroupName));
-		revs.sort(Comparator.comparing(reviewee -> reviewee.getGroup().getGroupName()));
+		//groups.sort(Comparator.comparing(Group::getGroupName));
+		//revs.sort(Comparator.comparing(reviewee -> reviewee.getGroup().getGroupName()));
 		
 		model.addAttribute("revs",revs);
 		model.addAttribute("UserRole",userRole);
 		model.addAttribute("User", user);
-		model.addAttribute("groups", groups);
+	    model.addAttribute("groups", userGroups);
+	    model.addAttribute("roles", roles);
 		
 		return "userGroups";
 	}
