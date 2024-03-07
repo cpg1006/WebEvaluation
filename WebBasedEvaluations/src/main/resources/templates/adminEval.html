@@ -163,21 +163,32 @@
 		 			</div>
 		 			
 		 			<div style="flex: 50%;">
-		 				<table class="table" align="center">
+		 				<table class="table" align="center" >
 		 					<tr>
 		 						<th th:text="${rev.group.groupName}" style="font-size: 20px;"></th>
 		 					</tr>
 		 				</table>
 		 				
-		 				<table class="table" align="center">
+		 				<table class="table" align="center" style="table-layout: fixed; width: 100%;">
+		 					<col style="width: 15%;">
+						    <col style="width: 12.5%;">
+						    <col style="width: 12.5%;">
+						    <col style="width: 20%;">
+						    <col style="width: 20%;">
+						    <col style="width: 20%;">
 		 					<thead>
 		 						<tr>
 		 							<th>Step</th>
 		 							<th>Reviewer</th>
+
+		 							<th>Last Access</th>
+		 							<th>Starting Date</th>
+		 							<th>Ending Date</th>
+
 		 							<th><button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#legendModal">
   										Status
 										</button></th>
-		 							<th>Last Login</th>
+
 		 						</tr>
 		 					</thead>
 		 					<tbody>
@@ -216,6 +227,8 @@
 											</td>
 										</div>
 										<div><td th:text="${#dates.format(evaluator.user.lastLoginDateTime, 'yyyy-MM-dd HH:mm:ss')}">N/A</td></div>
+										<div><td th:text="${#dates.format(evaluator.user.startingDate, 'yyyy-MM-dd')}">N/A</td></div>
+										<div><td th:text="${#dates.format(evaluator.user.endingDate, 'yyyy-MM-dd')}">N/A</td></div>
 										
 											
 		 							</tr>
