@@ -102,7 +102,7 @@ public class GroupController {
 	private EvaluationRepository evalFormRepo;
 	private ArchiveRepository archiveRepository ;
 	private CompanyRepository companyRepo;
-	private UserRepository	userRepo;
+	private UserRepository userRepo;
 
 	@Autowired
 	private AdminMethodsService adminMethodsService;
@@ -238,6 +238,8 @@ public class GroupController {
 		List<Group> groups = groupRepository.findByCompany(user.getCompany());
 		List<Group> userGroups = new ArrayList<Group>();
 		List<Reviewee> revs = revieweeRepository.findByUser_Id(id);
+		Company currentCompany = user.getCompany();
+		List<EvalRole> roles = (List<EvalRole>) evalRoleRepository.findByCompany(currentCompany);
 		
 		for(Group g : groups) {
 			if(g.getUsers().contains(user)) {
@@ -251,13 +253,14 @@ public class GroupController {
 		
 		// groups.removeAll(removeG);
 		
-		groups.sort(Comparator.comparing(Group::getGroupName));
-		revs.sort(Comparator.comparing(reviewee -> reviewee.getGroup().getGroupName()));
+		//groups.sort(Comparator.comparing(Group::getGroupName));
+		//revs.sort(Comparator.comparing(reviewee -> reviewee.getGroup().getGroupName()));
 		
 		model.addAttribute("revs",revs);
 		model.addAttribute("UserRole",userRole);
 		model.addAttribute("User", user);
-		model.addAttribute("groups", groups);
+	    model.addAttribute("groups", userGroups);
+	    model.addAttribute("roles", roles);
 		
 		return "userGroups";
 	}
@@ -611,22 +614,20 @@ public class GroupController {
 		 @GetMapping("/editgroup/{id}/{uid}")
 		 public Object addUserGroup(@PathVariable("id") long groupId, 
 				 @PathVariable("uid") long userId, Model model, Authentication auth) {
-
-
-				 Group group = groupRepository.findById(groupId);
-				 User revUser = userRepository.findByid(userId);
-				 
-				 String name = revUser.getFirstName() + " " + revUser.getLastName();
-				 
-
-				 Reviewee newRev = new Reviewee(group, name, revUser);
-				 
-				 newRev.setGroup(group);
 				
 
-				 
-				 groupRepository.save(group);
+			 	 Group group = groupRepository.findById(groupId);
+				 User revUser = userRepository.findByid(userId);
+				 Reviewee newRev = new Reviewee(group, revUser.getName(), revUser);
+				 newRev.setGroup(group);
 				 revieweeRepository.save(newRev);
+				 
+				 List<Evaluator> evaluators = evaluatorRepository.findByGroupId(groupId);
+				    for (Evaluator evaluator : evaluators) {
+				        EvaluationLog log = new EvaluationLog(evaluator, newRev);
+				        log.setAuth(evaluator.getLevel().getLevel() == 1); // Set auth based on level, adjust as needed
+				        evaluationLogRepository.save(log);
+				    }
 
 
 				 return"redirect:/editgroup/{id}";
@@ -906,6 +907,14 @@ public class GroupController {
 	    eval.setPreview(preview); 
 	    eval.setDeadline(deadline);
 	    gevals.add(eval);
+	    
+	    
+	    List<Reviewee> reviewees = revieweeRepository.findBygroup(group);
+	    for (Reviewee reviewee : reviewees) {
+	        EvaluationLog log = new EvaluationLog(eval, reviewee);
+	        log.setAuth(eval.getLevel().getLevel() == 1); // Set auth based on level, adjust as needed
+	        evaluationLogRepository.save(log);
+	    }
 		
 		
 		group.setEvaluator(gevals);
