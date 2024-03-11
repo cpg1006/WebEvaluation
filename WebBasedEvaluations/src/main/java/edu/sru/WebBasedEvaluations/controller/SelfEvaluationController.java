@@ -85,7 +85,6 @@ public class SelfEvaluationController {
 //		Reviewee reviewee = revieweeRepository.findByNameAndCompany(user.getName(), user.getCompany());
 
 		
-		System.out.println(id);
 		List<Reviewee> revieweeOpt = revieweeRepository.findByUser_Id(id);
 		Evaluation evall;
 
@@ -108,6 +107,7 @@ public class SelfEvaluationController {
 
 			//Populate preload
 			Group group = reviewee.getGroup();
+			System.out.println(group);
 			evall.populatePreload(user, group);	
 
 			//Serialize
@@ -152,8 +152,8 @@ public class SelfEvaluationController {
 	public Object viewselfeval(@PathVariable("id") long id,@PathVariable("type") String type,Authentication authentication, Model model) {
 
 
-
-		Reviewee reviewee = revieweeRepository.findById(id);
+		List<Reviewee> revieweeOpt = revieweeRepository.findByUser_Id(id);
+		Reviewee reviewee = revieweeOpt.get(0);
 		Evaluation evall;
 
 		SelfEvaluation selfEvaluation = selfEvaluationRepository.findByReviewee(reviewee);
@@ -213,7 +213,11 @@ public class SelfEvaluationController {
 		
 		System.out.println(id);
 		
-		Reviewee reviewee	= revieweeRepository.findById(id);
+		List<Reviewee> revieweeOpt = revieweeRepository.findByUser_Id(id);
+		
+		
+		Reviewee reviewee = revieweeOpt.get(0);
+		
 		EvalTemplates evalTemp = reviewee.getGroup().getEvalTemplates();
 //		evalFormRepo.findById(reviewee.getGroup().getEvalTemplates().getId()  .getName()).orElse(null);
 		System.out.println(id);
