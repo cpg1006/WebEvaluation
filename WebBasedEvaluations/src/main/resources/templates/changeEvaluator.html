@@ -175,6 +175,10 @@
 														<input type="text" id="deadlineOld" name="deadlineOld"
 														 th:value="${#dates.format(currentEval.deadline, 'yyyy-MM-dd')}"  th:readonly="${true}"
 														disabled></input>
+													<label for="name" title="Select the number of days before the deadline when emails should start being sent to the evaluator as reminders.">Current Deadline Reminder:</label>
+														<input type="text" id="deadlineReminderOld" name="deadlineReminderOld"
+														 th:value="${currentEval.deadlineReminderDays}"  th:readonly="${true}"
+														disabled></input>
 													
 													<br><br><br>
 													
@@ -201,8 +205,13 @@
 												<div>
    												<input type="date" name="newDeadline" id="datePicker">
 												</div>
-													
 													<br><br>
+													<label for="deadlineReminder" title="Select the number of days before the deadline when emails should start being sent to the evaluator as reminders.">Deadline Reminder:</label> 
+												<select
+													name="newDeadlineReminder" id="deadlineReminderSelect">
+													<option th:each="day : ${#numbers.sequence(0, 30)}"
+														th:value="${day}" th:text="${day}"></option>
+												</select> <br> <br>
 													<input type="submit" value="Submit" class="btn btn-outline-primary">
 												</form>
 										

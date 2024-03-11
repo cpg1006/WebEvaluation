@@ -350,6 +350,7 @@ public class GroupController {
             @RequestParam("newSync") boolean sync,
             @RequestParam("newPreview") boolean preview, 
             @RequestParam("newDeadline") @DateTimeFormat(pattern = "yyyy-MM-dd") Date deadline,
+            @RequestParam("newDeadlineReminder") int deadlineReminderDays,
             Model model) {
 		
 		Group group = groupRepository.findById(groupId);
@@ -361,6 +362,7 @@ public class GroupController {
 		eval.setSync(sync);
 	    eval.setPreview(preview); 
 	    eval.setDeadline(deadline);
+	    eval.setDeadlineReminderDays(deadlineReminderDays);
 	    gevals.add(eval);
 		
 		
@@ -892,7 +894,8 @@ public class GroupController {
 	@PostMapping("/addEvaluator/{id}")
 	public String addEvaluator(@PathVariable("id") long groupId, @RequestParam("newE") long userId, 
 	        @RequestParam("newLevel") long levelId, @RequestParam("sync") boolean sync,
-	        @RequestParam("preview") boolean preview, @RequestParam("deadline") @DateTimeFormat(pattern = "yyyy-MM-dd") Date deadline ,Model model) {
+	        @RequestParam("preview") boolean preview, @RequestParam("deadline") @DateTimeFormat(pattern = "yyyy-MM-dd") Date deadline , 
+	        @RequestParam("deadlineReminder") int deadlineReminderDays, Model model) {
 		
 		Group group = groupRepository.findById(groupId);
 		Company company = group.getCompany();
@@ -906,6 +909,7 @@ public class GroupController {
 		eval.setSync(sync);
 	    eval.setPreview(preview); 
 	    eval.setDeadline(deadline);
+	    eval.setDeadlineReminderDays(deadlineReminderDays);
 	    gevals.add(eval);
 	    
 	    
