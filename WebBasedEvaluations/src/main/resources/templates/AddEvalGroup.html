@@ -157,15 +157,24 @@
 													name="sync" id="syncSelect">
 													<option value="true">Synchronous</option>
 													<option value="false">Asynchronous</option>
-												</select> <br> <label for="preview">Preview Available:</label> <select
-													name="preview" id="previewSelect">
+												</select> <br> <label for="preview">Preview
+													Available:</label> <select name="preview"
+													id="previewSelect">
 													<option value="true">Yes</option>
 													<option value="false">No</option>
 												</select> <br> <br> <label for="datePicker">Deadline:</label>
 												<div>
 													<input type="date" name="deadline" id="datePicker">
 												</div>
-												<br> <br> <label for="evaluator">Evaluator:</label>
+
+												<label for="deadlineReminder" title="Select the number of days before the deadline when emails should start being sent to the evaluator as reminders.">Deadline Reminder:</label> 
+												<select
+													name="deadlineReminder" id="deadlineReminderSelect">
+													<option th:each="day : ${#numbers.sequence(0, 30)}"
+														th:value="${day}" th:text="${day}"></option>
+												</select> <br> <br> 
+												
+												<label for="evaluator">Evaluator:</label>
 												<div class="dropdown">
 													<select id="newE" name="newE">
 														<option th:each="newEval : ${newEvals}"

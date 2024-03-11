@@ -31,31 +31,35 @@ public class ReminderService {
     @Scheduled(cron = "0 0 8 * * *")
     @Transactional
     public void sendEvaluationReminders() {
-    	 Calendar calendar = Calendar.getInstance();
-         Date today = calendar.getTime();
-
-
-         calendar.add(Calendar.DAY_OF_YEAR, 7); // Setting as reminder for one week before deadline
-         Date nextWeek = calendar.getTime();
-
-         List<Evaluator> evaluators = evaluatorRepository.findByDeadlineBetween(today, nextWeek);
+    	Date today = new Date(); 
+        List<Evaluator> evaluators = (List<Evaluator>) evaluatorRepository.findAll();
+         
          for (Evaluator evaluator : evaluators) {
-        	 
-        	 if (evaluator.getDeadline() != null && evaluator.getUser() != null) {
-        		 String ccEmail ="admine@gmail.com";
-        		 String supervisorName = evaluator.getUser().getSupervisor();
-        		 
-        		 if (supervisorName != null) {
-                     // Attempt to find the supervisor by name and get their email
-                     User supervisor = userRepository.findByName(supervisorName);
+             if (evaluator.getDeadline() != null && evaluator.getUser() != null) {
+                 Calendar deadlineCalendar = Calendar.getInstance();
+                 deadlineCalendar.setTime(evaluator.getDeadline());
+                 deadlineCalendar.add(Calendar.DAY_OF_YEAR, -evaluator.getDeadlineReminderDays());
+
+                 Date reminderDate = deadlineCalendar.getTime();
+
+                 // Check if today is the reminder date or after it but before the deadline
+                 if (!today.before(reminderDate) && today.before(evaluator.getDeadline())) {
+                     String ccEmail ="admine@gmail.com";
+                     String supervisorName = evaluator.getUser().getSupervisor();
                      
-                     if (supervisor != null) {
-                         ccEmail = supervisor.getEmail();
+                     if (supervisorName != null) {
+                         // Attempt to find the supervisor by name and get their email
+                         User supervisor = userRepository.findByName(supervisorName);
+                         
+                         if (supervisor != null) {
+                             ccEmail = supervisor.getEmail();
+                         }
                      }
+                     
+                     emailService.sendEmail(evaluator.getUser().getEmail(), ccEmail, EmailService.EmailType.DEADLINEREMINDER);
                  }
-        	    emailService.sendEmail(evaluator.getUser().getEmail(), ccEmail, EmailService.EmailType.DEADLINEREMINDER);
-        	 }
+             }
          }
-     }
- }
+    }
+}
    
