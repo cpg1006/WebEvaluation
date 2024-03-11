@@ -82,18 +82,21 @@ public class SelfEvaluationController {
 		MyUserDetails userD = (MyUserDetails) authentication.getPrincipal();
 		Long userid = userD.getID() ;
 		User user = userRepository.findByid(userid);
-		System.out.println(id);
 //		Reviewee reviewee = revieweeRepository.findByNameAndCompany(user.getName(), user.getCompany());
-		Reviewee reviewee = revieweeRepository.findById(id);
+
+		
+		System.out.println(id);
+		List<Reviewee> revieweeOpt = revieweeRepository.findByUser_Id(id);
 		Evaluation evall;
 
-		if(reviewee == null) {
+		if(revieweeOpt == null) {
 			RedirectView redirectView = new RedirectView("/home", true);
 			System.out.println("user not being evaluated ");
 			redir.addFlashAttribute("error","user not being evaluated ");
 			return redirectView;
 		}
-
+		
+		Reviewee reviewee = revieweeOpt.get(0);
 		SelfEvaluation selfEvaluation = selfEvaluationRepository.findByReviewee(reviewee);
 
 		if(selfEvaluation == null) {
