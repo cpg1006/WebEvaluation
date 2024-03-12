@@ -62,7 +62,8 @@ public class WebBasedEvaluationsApplication  extends SpringBootServletInitialize
 			System.out.println("\nDATABASE LOADED USING SCHEMA");
 		}
 		
-		log.info("Link: https://localhost:8443/");
+		System.out.println("USE PORT 8443 FOR ACCESS");		
+		System.out.println("Link: https://localhost:8443/");
 	}
 	
 }
