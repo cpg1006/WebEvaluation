@@ -44,6 +44,7 @@ public class WebBasedEvaluationsApplication  extends SpringBootServletInitialize
 	public static void main(String[] args) {
 		//set to true if application properties is set to 'create-drop', false if set to 'none'
 		final Boolean CREATE_FRESH_DATABASE = true;
+		final Logger log = LoggerFactory.getLogger(WebBasedEvaluationsApplication.class);
 		
 		System.setProperty("spring.devtools.restart.enabled", "false");
 		
@@ -60,6 +61,9 @@ public class WebBasedEvaluationsApplication  extends SpringBootServletInitialize
 		} else {
 			System.out.println("\nDATABASE LOADED USING SCHEMA");
 		}
+		
+		System.out.println("USE PORT 8443 FOR ACCESS");		
+		System.out.println("Link: https://localhost:8443/");
 	}
 	
 }
