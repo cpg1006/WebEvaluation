@@ -20,7 +20,6 @@
 	body {
 		padding-top: 20px;
 	}
-	
 	.status-item {
 		display: flex;
 		align-items: center;
@@ -170,25 +169,22 @@
 		 				</table>
 		 				
 		 				<table class="table" align="center" style="table-layout: fixed; width: 100%;">
-		 					<col style="width: 15%;">
-						    <col style="width: 12.5%;">
-						    <col style="width: 12.5%;">
+		 					<col style="width: 20%;">
 						    <col style="width: 20%;">
-						    <col style="width: 20%;">
-						    <col style="width: 20%;">
+						    <col style="width: 15%;">
+						    <col style="width: 15%;">
+						    <col style="width: 15%;">
+						    <col style="width: 15%;">
 		 					<thead>
 		 						<tr>
 		 							<th>Step</th>
 		 							<th>Reviewer</th>
-
-		 							<th>Last Access</th>
-		 							<th>Starting Date</th>
-		 							<th>Ending Date</th>
-
-		 							<th><button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#legendModal">
+		 							<th><button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#legendModal">
   										Status
 										</button></th>
-
+		 							<th>Accessed</th>
+		 							<th>Start</th>
+		 							<th>End</th>
 		 						</tr>
 		 					</thead>
 		 					<tbody>
@@ -207,10 +203,7 @@
 		 							<td th:if="${rev.selfEvaluation == null}">
 		 								<i class="bi bi-x-circle-fill" style="color:orange; margin-left:20px;"></i>
 		 							</td>
-		 							
-		 						
-		 							
-								</tr>
+		 						</tr>
 								<div th:each="role : ${role}">
 									<tr th:each="evaluator : ${rev.group.evaluator}" th:if="${role == evaluator.level}">
 										<td th:text=${role.name}></td>
