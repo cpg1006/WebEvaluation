@@ -9,23 +9,19 @@
 	crossorigin="anonymous">
 <title th:text="'Edit '+${role.name}"></title>
 
-<style>
-	body {
-		padding-top: 20px;
-	}
-</style>
-
 <body>
-	<nav class="navbar navbar-light bg-light  justify-content-center ">
+	<nav class="navbar navbar-dark bg-secondary justify-content-center">
 		<div class="btn-group ">
 			<span style= "padding-right:5px">
 				<a th:href="@{/adminRoles}">	
-					<button class="btn btn-outline-success " type="button">Manage Roles</button>
+					<button class="btn btn-danger btn-sm" type="button">Back</button>
 				</a>
 			</span>
+			<!--
 			<span style= "padding-right:5px">	
 				<a th:href="@{/logout}" class="btn btn-outline-danger " type="button"> Logout </a>
 			</span>
+			-->
 		</div>
 	</nav>
 	

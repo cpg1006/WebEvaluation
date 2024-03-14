@@ -14,28 +14,18 @@
 
 <title>Companies</title>
 
-<style>
-	body {
-		padding-top: 20px;
-	}
-</style>
 </head>
 <body>
 
 
-	<nav class="navbar navbar-light bg-light  justify-content-center ">
+	<nav class="navbar navbar-dark bg-secondary  justify-content-center ">
 
 		<div class="btn-group ">
 			<a th:href="@{/adminCompanies/}">
 			<button
-					class="btn btn-outline-success " type="button">Back</button></a>
+					class="btn btn-danger btn-sm" type="button">Back</button></a>
 		</div>
 	</nav>
-
-
-
-
-
 
 	<div class="container  mt-5">
 
@@ -53,9 +43,6 @@
 									aria-label="Close"></button>
 							</div>
 						</div>
-
-
-
 
 					</div>
 					<div th:case="pass">
@@ -78,9 +65,6 @@
 			<div class="col">
 				<nav class="navbar navbar-light bg-light ">
 					<div>Company Settings</div>
-
-
-
 				</nav>
 			</div>
 		</div>
@@ -133,11 +117,11 @@
 											<p th:if="${comp.companyName} == ${company.parentCompanyName}" th:text="${comp.companyName}"></p>
 											</div>
 											</div>
-											&nbsp
+										
 										</div>
 										
-										<input type="submit" class="btn btn-outline-success"
-									value="Update Company" >
+										<input type="submit" class="btn btn-outline-success btn-sm"
+											   value="Update Company" >
 									
 									</div>
 								</div>
@@ -194,11 +178,12 @@
 												th:if="${#fields.hasErrors('name')}"
 												th:errors="*{name}"></span>
 										</div>
-										&nbsp
+										
 										<div>
 											<div>
-												<input type="submit" class="btn btn-outline-success "
-													value="Add Department">
+												<br>
+												<input type="submit" class="btn btn-outline-success btn-sm"
+													   value="Add Department">
 											</div>
 										</div>
 					
@@ -221,8 +206,8 @@
 															<p th:text="${dept.name}"></p> 
 													</td>
 													<td align="center">
-														<button class="btn btn-outline-danger " type="button"
-														th:onclick="|window.location.href='@{/company_remove_department/{id}/{deptid}/{locid}/  (id=${location.company.id},deptid=${dept.id},locid=${location.id})}'|">Deactivate
+														<button class="btn btn-danger btn-sm" type="button"
+														        th:onclick="|window.location.href='@{/company_remove_department/{id}/{deptid}/{locid}/  (id=${location.company.id},deptid=${dept.id},locid=${location.id})}'|">Deactivate
 														</button>
 													</td>
 												</div>	
@@ -245,7 +230,7 @@
 															<p th:text="${user.name}"></p> 
 													</td>
 													<td align="center">
-														<button class="btn btn-outline-danger " type="button"
+														<button class="btn btn-danger btn-sm" type="button"
 														th:onclick="|window.location.href='@{/company_remove_user/{id}/{userid}/{locid}/ (id=${company.id},userid=${user.id},locid=${location.id})}'|">Deactivate
 															
 														</button>
@@ -357,9 +342,6 @@
 								<!-- 	<a
 									th:href="@{/adminCompanyUpdateReactivate/}"
 									class="btn btn-outline-success" type="button">Reactivate Stuff</a> -->
-									<a
-									th:href="@{/adminCompanies/}"
-									class="btn btn-outline-success" type="button">Back</a>
 									
 						</form>
 
