@@ -123,9 +123,9 @@ class InitUsers{
 		locGroup.setCompany(co);
 		locGroup2.setCompany(co2);
 		
-		Location loc = new Location("none", city, co, locGroup);
-		Location loc2 = new Location("testLocation2", city, co2, locGroup2);
-		Location loc3 = new Location("testLocation2", city, co2, locGroup3);
+		Location loc = new Location("Wexford, PA", city, co, locGroup);
+		Location loc2 = new Location("Butler, PA", city, co2, locGroup2);
+		Location loc3 = new Location("Grove City, PA", city, co2, locGroup3);
 //		locationRepo.save(loc);
 			
 		
