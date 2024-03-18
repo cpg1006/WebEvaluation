@@ -198,6 +198,7 @@ public class EvalFormController {
 				depts.addAll(currentUser.getRole().readableDepartments());
 				depts.addAll(currentUser.getDepartments());
 			}
+			
 			List <Evaluation> evalList = new ArrayList<Evaluation>();
 
 			for (int i = 0; i < evalTempList.size(); i++) {
