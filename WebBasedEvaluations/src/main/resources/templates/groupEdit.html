@@ -102,10 +102,6 @@
 									<input type="text" th:field="*{groupName}" id="groupName1" placeholder="Group Name">
 									<span th:if="${#fields.hasErrors('groupName')}" th:errors="*{groupName}"></span>
 
-									<label for="groupNumber">Number:</label>
-									<input type="text" th:field="*{number}" id="groupNumber" placeholder="Group Number">
-									<span th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
-
 									<label for="groupYear1">Year:</label>
 									<input type="text" th:field="*{year}" id="groupYear1" placeholder="Group Year">
 									<span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>

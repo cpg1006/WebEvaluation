@@ -829,19 +829,6 @@ public class GroupController {
 				check = true;
 			}
 		}
-		//changing group number
-		if (true) {
-			if (group.getNumber() == 0) {
-				group.setNumber(group2.getNumber());
-				log.info("Group Number was 0");
-			} 
-			else if (group.getNumber() == group2.getNumber()) {
-				group2.setNumber(group.getNumber());
-			} else {
-				group2.setNumber(group.getNumber());
-				check = true;
-			}
-		}
 		//changing group year
 		if (true) {
 			if (group.getYear() == 0) {
