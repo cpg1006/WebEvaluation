@@ -145,7 +145,7 @@
 										
 										<label for="evalTemplate1">Evaluation Used:</label>
 										<select name="evalTemplateId" id="evalTemplate1">
-										<option value="">Select Evaluation Template</option>
+
 										<option th:each="template : ${evalTemplates}"
 											th:value="${template.id}" th:text="${template.name}"
 											th:selected="${group.evalTemplates != null and group.evalTemplates.id == template.id}">
