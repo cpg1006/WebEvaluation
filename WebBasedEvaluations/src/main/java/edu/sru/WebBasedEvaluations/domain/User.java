@@ -127,6 +127,12 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date lastLogin;
 	
+	@Temporal(TemporalType.DATE)
+    private Date startingD;
+	
+	@Temporal(TemporalType.DATE)
+    private Date endingD;
+	
 	@ManyToOne()
 	@JoinColumn(name = "company_id")
 	private Company company;
@@ -858,6 +864,27 @@ public class User {
 	{
 		this.lastLogin = lastLogin;
 	}
+	
+	public Date getStartingDate()
+	{
+		return startingD;
+	}
+	
+	public void setStartingDate(Date startingD)
+	{
+		this.startingD = startingD;
+	}
+	
+	public Date getEndingDate()
+	{
+		return endingD;
+	}
+	
+	public void setEndingDate(Date endingD)
+	{
+		this.endingD = endingD;
+	}
+	
 	
 	
 }

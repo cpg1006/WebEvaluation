@@ -52,6 +52,8 @@ public class Evaluator {
     @Temporal(TemporalType.DATE)
     private Date deadline;
     
+    private int deadlineReminderDays;
+    
 	public Evaluator() {
 		
 	}
@@ -130,6 +132,12 @@ public class Evaluator {
 	}
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
+	}
+	public int getDeadlineReminderDays() {
+		return deadlineReminderDays;
+	}
+	public void setDeadlineReminderDays(int deadlineReminderDays) {
+		this.deadlineReminderDays = deadlineReminderDays;
 	}
 	
 	

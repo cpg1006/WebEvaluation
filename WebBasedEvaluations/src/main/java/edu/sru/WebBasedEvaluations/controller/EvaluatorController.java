@@ -423,6 +423,7 @@ public class EvaluatorController {
     @GetMapping({"/requestSelfEval/{id}"})
     public Object requestEval(@PathVariable("id") long revId, Authentication authentication, Model model) {
     	
+    	Date requestDate = new Date();
     	Reviewee rev = revieweeRepository.findById(revId);
     	MyUserDetails userD = (MyUserDetails) authentication.getPrincipal();
 		Long userid = userD.getID() ;
@@ -445,6 +446,8 @@ public class EvaluatorController {
 		//save to database
 		SelfEvaluation selfEval = new SelfEvaluation(rev);
 		selfEval.setPath(data);
+		selfEval.setDateRequested(requestDate);
+		
 		log.info("Submitted Self Evaluation (ID:" + evall.getEvalID() + ") for " + user.getName() + " (ID:" + user.getId() + ")");
 	
 		selfEvalRepo.save(selfEval);
