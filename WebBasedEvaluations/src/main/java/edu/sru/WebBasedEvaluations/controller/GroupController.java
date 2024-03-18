@@ -771,7 +771,7 @@ public class GroupController {
 		model.addAttribute("revedit", revid);
 		model.addAttribute("evaluators", evaluatorsList);
 		model.addAttribute("roles", roles);
-		model.addAttribute("forms", evalFormRepo.findAll());
+		model.addAttribute("evalTemplates", evalFormRepo.findAll());
 		model.addAttribute("userlist", userList);
 		model.addAttribute("reviewees", reviewees);
 		model.addAttribute("deptList", depts);
@@ -789,7 +789,7 @@ public class GroupController {
 	 * @return user to the group edit page
 	 */
 	@RequestMapping(value= "/changegroup{id}", method = RequestMethod.POST)
-	public String change(@PathVariable("id") long id, RedirectAttributes redir, @Validated Group group, Model model, Authentication auth) {
+	public String change(@PathVariable("id") long id,@RequestParam("evalTemplateId") String evalTemplateIdStr, RedirectAttributes redir, @Validated Group group, Model model, Authentication auth) {
 		User currentUser;
 		Company currentCompany;
 		
@@ -806,9 +806,9 @@ public class GroupController {
 		Group group2 = groupRepository.findById(id);
 		//check for values being set
 		boolean check = false;
-		log.info("User Pre Changes- Group Name: " + group2.getGroupName() + "Group Number: " + group2.getGroupNumber() + "Year: " + 
+		log.info("User Pre Changes- Group Name: " + group2.getGroupName() + "Year: " + 
 				group2.getYear());
-		log.info("User Post Changes- Group Name: " + group.getGroupName() + "Group Number: " + group.getGroupNumber() + "Year: " + 
+		log.info("User Post Changes- Group Name: " + group.getGroupName() + "Year: " + 
 				group.getYear());
 		
 		//changing group name
@@ -829,6 +829,23 @@ public class GroupController {
 				check = true;
 			}
 		}
+		//changing eval template
+		
+		 if (true) {
+		        Long evalTemplateId = Long.parseLong(evalTemplateIdStr); // Convert ID from String to Long
+		        EvalTemplates evalTemplate = evalFormRepo.findById(evalTemplateId);
+		        if (evalTemplate != null) {
+		        group2.setEvalTemplates(evalTemplate); 
+		        check = true;
+		        }
+		        else {
+		        	log.info("Eval Template Not Found");
+		        }
+		   
+
+		    }
+
+		
 		//changing group year
 		if (true) {
 			if (group.getYear() == 0) {
@@ -850,7 +867,8 @@ public class GroupController {
 			//save changes to the repository
 			try {
 				mess = "Changes have been made successfully";
-				ansr = "pass";
+				ansr = "pass"
+						;
 				redir.addFlashAttribute("mess", mess);
 				redir.addFlashAttribute("ansr", ansr);
 				groupRepository.save(group2);

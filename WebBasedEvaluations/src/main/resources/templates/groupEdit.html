@@ -92,21 +92,37 @@
 						<div class="row">
 							<div class="col">
 								<nav class="navbar navbar-light bg-light">
-									<h4 th:text="'Manage: '+${group.groupName} + ' (' + ${group.year} + ')'"><b></b>
+									<h4
+										th:text="'Manage: '+${group.groupName} + ' (' + ${group.year} + ')'">
+										<b></b>
 									</h4>
 								</nav>
-								<form action='#' th:action="@{/changegroup{id}(id=${group.id})}" th:object="${group}"
-									method="post">
+								<form action='#' th:action="@{/changegroup{id}(id=${group.id})}"
+									th:object="${group}" method="post">
 
-									<label for="groupName1">Group Name:</label>
-									<input type="text" th:field="*{groupName}" id="groupName1" placeholder="Group Name">
-									<span th:if="${#fields.hasErrors('groupName')}" th:errors="*{groupName}"></span>
-
-									<label for="groupYear1">Year:</label>
-									<input type="text" th:field="*{year}" id="groupYear1" placeholder="Group Year">
+									<label for="groupName1">Group Name:</label> <input type="text"
+										th:field="*{groupName}" id="groupName1"
+										placeholder="Group Name"> <span
+										th:if="${#fields.hasErrors('groupName')}"
+										th:errors="*{groupName}"></span> 
+										
+										<label for="evalTemplate1">Evaluation Used:</label>
+										<select name="evalTemplateId" id="evalTemplate1">
+										<option value="">Select Evaluation Template</option>
+										<option th:each="template : ${evalTemplates}"
+											th:value="${template.id}" th:text="${template.name}"
+											th:selected="${group.evalTemplates != null and group.evalTemplates.id == template.id}">
+										</option>
+									</select> 
+									
+										
+										<label
+										for="groupYear1">Year:</label> <input type="text"
+										th:field="*{year}" id="groupYear1" placeholder="Group Year">
 									<span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
 
-									<input type="submit" class="btn btn-outline-success btn-sm" value="Update Group">
+									<input type="submit" class="btn btn-outline-success btn-sm"
+										value="Update Group">
 								</form>
 							</div>
 						</div>
@@ -114,7 +130,7 @@
 
 						<div class="row">
 							<div class="col">
-<!-- 
+								<!-- 
 								<form th:action="@{/editgroupsearch/{id}(id=${group.id})}" method="get">
 									&nbsp
 									<div align="left">
@@ -134,7 +150,8 @@
 								-->
 							</div>
 
-							<div class="container  mt-5" style="margin: 0px; width: max-content;">
+							<div class="container  mt-5"
+								style="margin: 0px; width: max-content;">
 								<div>
 									<div style="display: flex; justify-content: space-between;">
 										<div
@@ -212,111 +229,125 @@
 													</tbody>
 												</table>
 											</div>
+										</div>
+									</div>
+
+									<button class="btn btn-primary"
+										style="margin-top: 10px; margin-left: 0px; font-size: 14px;"
+										type="button" data-bs-toggle="collapse"
+										data-bs-target="#collapseExample" aria-expanded="false"
+										aria-controls="collapseExample">Legend</button>
+
+									<div class="collapse" id="collapseExample">
+										<div class="card card-body" style="margin-left: 0px;">
+											<div class="status-item">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16"
+													height="16" fill="currentColor"
+													class="bi bi-check-circle-fill" viewBox="0 0 16 16"
+													style="color: green">
+  					 											 <path
+														d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+															</svg>
+												: <i>Sync</i>, evaluation cannot be conducted independently
+												of other evaluations.
 											</div>
+											<div class="status-item">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16"
+													height="16" fill="currentColor" class="bi bi-x-circle-fill"
+													viewBox="0 0 16 16" style="color: red;">
+  					 											 <path
+														d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+															</svg>
+												: <i>Async</i>, evaluation can be conducted independently of
+												other evaluations.
 											</div>
-											
-											<button class="btn btn-primary"
-													style="margin-top: 10px; margin-left: 0px; font-size: 14px;"
-													type="button" data-bs-toggle="collapse"
-													data-bs-target="#collapseExample" aria-expanded="false"
-													aria-controls="collapseExample">Legend</button>
+											<p>
+												<strong>Preview:</strong> Users have the capability to
+												preview the evaluation before completing it.
+											</p>
+										</div>
+									</div>
 
-												<div class="collapse" id="collapseExample">
-													<div class="card card-body" style="margin-left: 0px;">
-														<div class="status-item">
-															<svg xmlns="http://www.w3.org/2000/svg" width="16"
-						 										 height="16" fill="currentColor" class="bi bi-check-circle-fill"
-					 	 									 	 viewBox="0 0 16 16" style="color: green">
-  					 											 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-															</svg> : <i>Sync</i>, evaluation cannot be conducted independently of other evaluations.
-														</div>
-														<div class="status-item">
-															<svg xmlns="http://www.w3.org/2000/svg" width="16"
-						 										 height="16" fill="currentColor" class="bi bi-x-circle-fill"
-					 	 										 viewBox="0 0 16 16" style="color: red;">
-  					 											 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-															</svg> : <i>Async</i>, evaluation can be conducted independently of other evaluations.
-														</div>
-														<p>
-															<strong>Preview:</strong> Users have the capability to preview the evaluation before completing it.
-														</p>
-													</div>
-												</div>
-											
-											<div
-												style="flex: 1; padding-top:20px; margin-right: 120px; white-space: nowrap; width: 100%; ">
-												<h4>
-													<b>Group Evaluators</b>
-												</h4>
-												<hr>
-												<table style="border: 1px solid black;"
-													id="groupEvaluatorsTable" class="table" align="center">
-													<thead>
-														<tr>
-															<th>Name</th>
-															<th>Level</th>
-															<th>Synchronicity</th>
-															<th>Preview Available</th>
-															<th>Deadline</th>
-															<th>Edit</th>
-															<th>Remove</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr th:each="eval : ${evalList}"
-															style="vertical-align: baseline; height: 30px">
-															<td th:text="${eval.user.name}"></td>
-															<td th:text="${eval.level.name}"></td>
-
-															
-															<td th:if="${eval.sync == true}">
-																<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16" style="color: green; margin-left: 45px;">
-  																	<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-																</svg>
-															</td>
-															
-															<td th:if="${eval.sync == false}">
-																<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16" style="color: red; margin-left: 45px;">
-  																	<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-																</svg>
-															</td>
-															
-															<td>
-																<div th:text="${eval.preview ? 'Yes' : 'No'}" style="margin-left: 65px;"></div>
-															</td>
+									<div
+										style="flex: 1; padding-top: 20px; margin-right: 120px; white-space: nowrap; width: 100%;">
+										<h4>
+											<b>Group Evaluators</b>
+										</h4>
+										<hr>
+										<table style="border: 1px solid black;"
+											id="groupEvaluatorsTable" class="table" align="center">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Level</th>
+													<th>Synchronicity</th>
+													<th>Preview Available</th>
+													<th>Deadline</th>
+													<th>Edit</th>
+													<th>Remove</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="eval : ${evalList}"
+													style="vertical-align: baseline; height: 30px">
+													<td th:text="${eval.user.name}"></td>
+													<td th:text="${eval.level.name}"></td>
 
 
-															<td
-																th:text="${#dates.format(eval.deadline, 'yyyy-MM-dd')}">
-															</td>
+													<td th:if="${eval.sync == true}"><svg
+															xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+															fill="currentColor" class="bi bi-check-circle-fill"
+															viewBox="0 0 16 16"
+															style="color: green; margin-left: 45px;">
+  																	<path
+																d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+																</svg></td>
+
+													<td th:if="${eval.sync == false}"><svg
+															xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+															fill="currentColor" class="bi bi-x-circle-fill"
+															viewBox="0 0 16 16"
+															style="color: red; margin-left: 45px;">
+  																	<path
+																d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+																</svg></td>
+
+													<td>
+														<div th:text="${eval.preview ? 'Yes' : 'No'}"
+															style="margin-left: 65px;"></div>
+													</td>
+
+
+													<td th:text="${#dates.format(eval.deadline, 'yyyy-MM-dd')}">
+													</td>
 
 
 
-															<td><span style="padding-right: 2px">
-																	<button class="btn btn-outline-success" type="button"
-																		th:onclick="|window.location.href='@{/getchangeEvaluator/{id}/{eid} (id=${group.id} , eid=${eval.id})}'|">Edit</button>
+													<td><span style="padding-right: 2px">
+															<button class="btn btn-outline-success" type="button"
+																th:onclick="|window.location.href='@{/getchangeEvaluator/{id}/{eid} (id=${group.id} , eid=${eval.id})}'|">Edit</button>
 
-															</span></td>
-															<td><span style="padding-right: 2px">
-																	<button class="btn btn-outline-danger" type="button"
-																		th:onclick="|window.location.href='@{/removeEvaluator/{id}/{eid} (id=${group.id} , eid=${eval.id})}'|">Remove</button>
+													</span></td>
+													<td><span style="padding-right: 2px">
+															<button class="btn btn-outline-danger" type="button"
+																th:onclick="|window.location.href='@{/removeEvaluator/{id}/{eid} (id=${group.id} , eid=${eval.id})}'|">Remove</button>
 
-															</span></td>
+													</span></td>
 
-														</tr>
+												</tr>
 
-													</tbody>
-												</table>
-												<div th:if="${#lists.size(evalList)< 4}">
-													<button class="btn btn-outline-success" type="button"
-														th:onclick="|window.location.href='@{/getAddEvaluator/{id} (id=${group.id})}'|">Add
-														Evaluator</button>
-												</div>
-											</div>
+											</tbody>
+										</table>
+										<div th:if="${#lists.size(evalList)< 4}">
+											<button class="btn btn-outline-success" type="button"
+												th:onclick="|window.location.href='@{/getAddEvaluator/{id} (id=${group.id})}'|">Add
+												Evaluator</button>
 										</div>
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
 							<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 								integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 								crossorigin="anonymous"></script>

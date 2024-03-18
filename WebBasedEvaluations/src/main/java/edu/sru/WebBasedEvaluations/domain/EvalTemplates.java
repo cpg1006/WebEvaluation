@@ -171,5 +171,6 @@ public class EvalTemplates {
 	public void setActivated(boolean activated) {
 		this.activated = activated;
 	}
+
 	
 }
